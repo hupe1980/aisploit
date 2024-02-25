@@ -39,7 +39,7 @@ class PoisonGen:
         self._embeddings = embeddings
         self._max_ierations = max_iterations
 
-    def generate(
+    def __call__(
         self, question: str, answer: str, max_words: int = 30
     ) -> Generator[Poison, Any, None]:
         question_embedding = self._embeddings.embed_query(question)
