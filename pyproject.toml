@@ -1,10 +1,26 @@
 [tool.poetry]
 name = "aisploit"
-version = "0.0.1"
+version = "0.0.2"
 description = "Tiny package designed to support red teams and penetration testers in exploiting large language model AI solutions."
 authors = ["hupe1980"]
+repository = "https://github.com/hupe1980/aisploit"
+homepage = "https://github.com/hupe1980/aisploit"
 license = "MIT"
 readme = "README.md"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+]
+keywords = [
+    "redteam",
+    "genai",
+    "llm",
+    "ai",
+    "pentest",
+    "cybersecurity",
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
