@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "aisploit"
+version = "0.0.1"
+description = "Tiny package designed to support red teams and penetration testers in exploiting large language model AI solutions."
+authors = ["hupe1980"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.6.2"
+requests = "^2.31.0"
+langchain-openai = "^0.0.7"
+langchain-core = "^0.1.26"
+langchain-community = "^0.0.24"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.1"
+jupyter = "^1.0.0"
+types-pyyaml = "^6.0.12.12"
+types-requests = "^2.31.0.20240218"
+black = "^24.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
