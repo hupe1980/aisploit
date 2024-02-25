@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aisploit"
-version = "0.0.2"
+version = "0.0.3"
 description = "Tiny package designed to support red teams and penetration testers in exploiting large language model AI solutions."
 authors = ["hupe1980"]
 repository = "https://github.com/hupe1980/aisploit"
@@ -30,6 +30,7 @@ langchain-openai = "^0.0.7"
 langchain-core = "^0.1.26"
 langchain-community = "^0.0.24"
 python-dotenv = "^1.0.1"
+numpy = "^1.26.4"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
