@@ -1,6 +1,6 @@
 # 🤖🛡️🔍🔒🔑 aisploit
 
-Aisploit is a Python package designed to support red teams and penetration testers in exploiting large language model AI solutions. It provides tools and utilities to automate tasks related to AI-based security testing.
+AISploit is a Python package designed to support red teams and penetration testers in exploiting large language model AI solutions. It provides tools and utilities to automate tasks related to AI-based security testing.
 
 ## Features
 
