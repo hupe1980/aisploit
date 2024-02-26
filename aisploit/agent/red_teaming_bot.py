@@ -33,6 +33,11 @@ RED_TEAM_CHATBOT_WITH_OBJECTIVE_PROMPT = ChatPromptTemplate.from_messages(
 
 
 class RedTeamingBot:
+    """
+    Red Teaming Bot for conducting conversations aimed at persuading the Defender AI
+    to perform a specific objective.
+    """
+
     _history: BaseChatMessageHistory
 
     def __init__(
@@ -44,6 +49,16 @@ class RedTeamingBot:
         history: Optional[BaseChatMessageHistory] = None,
         conversation_id: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the Red Teaming Bot.
+
+        Parameters:
+        - conversation_objective (str): The objective of the conversation.
+        - chat_model (BaseChatModel): The chat model to use for conversation.
+        - prompt (ChatPromptTemplate): The prompt template for the conversation.
+        - history (Optional[BaseChatMessageHistory]): The chat message history.
+        - conversation_id (Optional[str]): The ID of the conversation.
+        """
         if len(conversation_objective) == 0:
             raise ValueError("Conversation objective cannot be empty.")
 
@@ -62,12 +77,27 @@ class RedTeamingBot:
         )
 
     def invoke(self, message: str) -> str:
+        """
+        Invoke the Red Teaming Bot with a message.
+
+        Parameters:
+        - message (str): The message to process.
+
+        Returns:
+        - str: The response from the bot.
+        """
         return self._chain.invoke(
             {"conversation_objective": self._conversation_objective, "input": message},
             config={"configurable": {"session_id": self._conversation_id}},
         )
 
     def is_conversation_complete(self) -> bool:
+        """
+        Check if the conversation is complete.
+
+        Returns:
+        - bool: True if the conversation is complete, False otherwise.
+        """
         current_messages = self._history.messages
 
         # If there are no messages, then the conversation is not complete
@@ -81,19 +111,46 @@ class RedTeamingBot:
         return False
 
     def clear_history(self) -> None:
+        """
+        Clear the conversation history.
+        """
         self._history.clear()
 
     @property
     def history(self) -> List[BaseMessage]:
+        """
+        Get the conversation history.
+
+        Returns:
+        - List[BaseMessage]: The list of messages in the conversation history.
+        """
         return self._history.messages
 
     @property
     def conversation_id(self) -> str:
+        """
+        Get the conversation ID.
+
+        Returns:
+        - str: The conversation ID.
+        """
         return self._conversation_id
 
     @property
     def conversation_objective(self) -> str:
+        """
+        Get the conversation objective.
+
+        Returns:
+        - str: The conversation objective.
+        """
         return self._conversation_objective
 
     def __str__(self):
+        """
+        Get a string representation of the Red Teaming Bot.
+
+        Returns:
+        - str: The string representation.
+        """
         return f"Red Team Bot ID {self._conversation_id}"

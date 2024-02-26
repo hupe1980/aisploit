@@ -9,6 +9,10 @@ from aisploit.utils import cosine_distance
 
 @dataclass
 class Poison:
+    """
+    Represents a piece of poisoning data used to exploit AI models.
+    """
+
     question: str = ""
     question_embedding: List[float] = field(default_factory=list)
     target_answer: str = ""
@@ -27,6 +31,10 @@ POISON_PROMPT = PromptTemplate.from_template(_template)
 
 
 class PoisonGen:
+    """
+    Generates poisoning data to exploit AI models.
+    """
+
     def __init__(
         self,
         *,
@@ -35,6 +43,15 @@ class PoisonGen:
         prompt: PromptTemplate = POISON_PROMPT,
         max_iterations=10,
     ) -> None:
+        """
+        Initialize the PoisonGen instance.
+
+        Parameters:
+        - model (BaseModel): The AI model to generate poisoning data for.
+        - embeddings (BaseEmbeddings): The embeddings model used to embed queries and texts.
+        - prompt (PromptTemplate): The template for generating poisoning prompts.
+        - max_iterations (int): The maximum number of iterations to attempt generating poisoning data.
+        """
         self._chain = prompt | model | StrOutputParser()
         self._embeddings = embeddings
         self._max_ierations = max_iterations
@@ -42,6 +59,17 @@ class PoisonGen:
     def __call__(
         self, question: str, answer: str, max_words: int = 30
     ) -> Generator[Poison, Any, None]:
+        """
+        Generate poisoning data.
+
+        Parameters:
+        - question (str): The question to use as part of the poisoning prompt.
+        - answer (str): The target answer to generate poisoning data for.
+        - max_words (int): The maximum number of words in the generated poisoning text.
+
+        Yields:
+        - Poison: A Poison object representing generated poisoning data.
+        """
         question_embedding = self._embeddings.embed_query(question)
 
         for _ in range(self._max_ierations):
