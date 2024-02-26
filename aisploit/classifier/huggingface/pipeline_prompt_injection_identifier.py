@@ -6,7 +6,7 @@ from transformers import (
 from aisploit.core import BaseTextClassification, Score
 
 
-class PromptIjectionIdentifierPipeline(BaseTextClassification):
+class PipelinePromptIjectionIdentifier(BaseTextClassification):
     def __init__(
         self,
         *,

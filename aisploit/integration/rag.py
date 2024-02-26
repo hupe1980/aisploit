@@ -1,10 +1,9 @@
 import textwrap
-from typing import List
-from langchain_community.vectorstores.chroma import Chroma
+from typing import List, Any
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableSerializable
 from langchain_core.prompts import PromptTemplate
-from aisploit.core import BaseModel, BaseEmbeddings
+from aisploit.core import BaseModel, BaseVectorStore
 
 _template = textwrap.dedent(
     """
@@ -20,28 +19,25 @@ _template = textwrap.dedent(
     """
 )
 
-GENERIC_RAG_PROMPT = PromptTemplate.from_template(_template)
+VECTOR_STORE_RAG_PROMPT = PromptTemplate.from_template(_template)
 
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 
-class GenericRAG:
+class VectorStoreRAG:
     def __init__(
         self,
         *,
         model: BaseModel,
-        embeddings: BaseEmbeddings,
-        prompt: PromptTemplate = GENERIC_RAG_PROMPT,
+        vectorstore: BaseVectorStore,
+        prompt: PromptTemplate = VECTOR_STORE_RAG_PROMPT,
     ) -> None:
-        self._vectorstore = Chroma(
-            embedding_function=embeddings,
-        )
-
+        self._vectorstore = vectorstore
         self._retriever = self._vectorstore.as_retriever()
 
-        self._chain = (
+        self._chain: RunnableSerializable[Any, str] = (
             {
                 "context": self._retriever | format_docs,
                 "question": RunnablePassthrough(),

@@ -69,7 +69,7 @@ class RedTeamingBot:
         runnable = prompt | chat_model | StrOutputParser()
 
         self._chain = RunnableWithMessageHistory(
-            runnable,
+            runnable,  # type: ignore[arg-type]
             lambda session_id: self._history,
             input_messages_key="input",
             output_messages_key="output",

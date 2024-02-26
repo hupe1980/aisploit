@@ -19,5 +19,5 @@ jobs:
         cache: 'poetry'
     - run: poetry install
     - run: poetry run black aisploit --check
-    #- run: poetry run mypy aisploit
+    - run: poetry run mypy aisploit
     - run: poetry run pytest

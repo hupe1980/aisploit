@@ -1,5 +1,6 @@
 from .model import BaseLLM, BaseChatModel, BaseModel, BaseEmbeddings
 from .score import Score, BaseTextClassification
+from .vectorstore import BaseVectorStore
 
 __all__ = [
     "BaseLLM",
@@ -8,4 +9,5 @@ __all__ = [
     "BaseEmbeddings",
     "Score",
     "BaseTextClassification",
+    "BaseVectorStore",
 ]
