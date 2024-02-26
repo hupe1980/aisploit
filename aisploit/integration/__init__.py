@@ -1,3 +1,9 @@
-from .gandalf import GandalfCompletionEngine, GandalfScorer, GandalfLevel
+from .gandalf import GandalfBot, GandalfScorer, GandalfLevel
+from .rag import GenericRAG
 
-__all__ = ["GandalfCompletionEngine", "GandalfScorer", "GandalfLevel"]
+__all__ = [
+    "GandalfBot",
+    "GandalfScorer",
+    "GandalfLevel",
+    "GenericRAG",
+]

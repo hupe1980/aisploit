@@ -6,7 +6,7 @@ from transformers import (
 from aisploit.core import BaseTextClassification, Score
 
 
-class PromptIjectionIdentifier(BaseTextClassification):
+class PromptIjectionIdentifierPipeline(BaseTextClassification):
     def __init__(
         self,
         *,
@@ -30,8 +30,6 @@ class PromptIjectionIdentifier(BaseTextClassification):
 
     def score_text(self, text: str) -> Score:
         result = self._model(text)
-
-        print(result)
 
         score = (
             result[0]["score"]

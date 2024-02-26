@@ -1,9 +1,9 @@
 from typing import Optional
 from langchain_core.utils.utils import convert_to_secret_str
-import langchain_openai
+from langchain_openai import OpenAIEmbeddings as LangchainOpenAIEmbeddings
 
 
-class OpenAIEmbeddings(langchain_openai.OpenAIEmbeddings):
+class OpenAIEmbeddings(LangchainOpenAIEmbeddings):
     def __init__(
         self,
         *,

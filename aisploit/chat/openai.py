@@ -1,9 +1,9 @@
 from typing import Optional
 from langchain_core.utils.utils import convert_to_secret_str
-import langchain_openai
+from langchain_openai import ChatOpenAI as LangchainChatOpenAI
 
 
-class ChatOpenAI(langchain_openai.ChatOpenAI):
+class ChatOpenAI(LangchainChatOpenAI):
     """
     Wrapper class for interacting with the OpenAI API for chat-based models.
     """
