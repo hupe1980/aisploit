@@ -3,10 +3,10 @@ from transformers import (
     AutoTokenizer,
     pipeline,
 )
-from aisploit.core import BaseTextClassification, Score
 
+from ...core import BaseClassifier, Score
 
-class PipelinePromptIjectionIdentifier(BaseTextClassification):
+class PipelinePromptInjectionIdentifier(BaseClassifier):
     def __init__(
         self,
         *,

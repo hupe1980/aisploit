@@ -2,8 +2,9 @@ from typing import Optional
 from langchain_core.utils.utils import convert_to_secret_str
 from langchain_openai import ChatOpenAI as LangchainChatOpenAI
 
+from ..core import BaseChatModel
 
-class ChatOpenAI(LangchainChatOpenAI):
+class ChatOpenAI(LangchainChatOpenAI, BaseChatModel):
     """
     Wrapper class for interacting with the OpenAI API for chat-based models.
     """
@@ -34,3 +35,6 @@ class ChatOpenAI(LangchainChatOpenAI):
             temperature=temperature,
             **kwargs,
         )
+
+    def supports_functions(self) -> bool:
+        return True

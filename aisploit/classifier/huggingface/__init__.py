@@ -1,3 +1,3 @@
-from .pipeline_prompt_injection_identifier import PipelinePromptIjectionIdentifier
+from .pipeline_prompt_injection_identifier import PipelinePromptInjectionIdentifier
 
-__all__ = ["PipelinePromptIjectionIdentifier"]
+__all__ = ["PipelinePromptInjectionIdentifier"]

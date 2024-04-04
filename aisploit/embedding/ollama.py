@@ -1,7 +1,10 @@
 from langchain_community.embeddings import OllamaEmbeddings as LangchainOllamaEmbeddings
 
 
-class OllamaEmbeddings(LangchainOllamaEmbeddings):
+from ..core import BaseEmbeddings
+
+
+class OllamaEmbeddings(LangchainOllamaEmbeddings, BaseEmbeddings):
     def __init__(
         self,
         *,

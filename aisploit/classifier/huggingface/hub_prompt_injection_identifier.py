@@ -1,5 +1,4 @@
-from aisploit.core import BaseTextClassification, Score
+from ...core import BaseClassifier
 
-
-class HubPromptIjectionIdentifier(BaseTextClassification):
+class HubPromptIjectionIdentifier(BaseClassifier):
     pass

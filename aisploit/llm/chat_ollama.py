@@ -1,7 +1,9 @@
 from langchain_community.chat_models import ChatOllama as LangchainChatOllama
 
+from ..core import BaseChatModel
 
-class ChatOllama(LangchainChatOllama):
+
+class ChatOllama(LangchainChatOllama, BaseChatModel):
     """
     Wrapper class for interacting with the ChatOllama model.
     """
@@ -26,3 +28,6 @@ class ChatOllama(LangchainChatOllama):
             temperature=temperature,
             **kwargs,
         )
+
+    def supports_functions(self) -> bool:
+        return True

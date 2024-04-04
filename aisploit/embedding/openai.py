@@ -3,7 +3,10 @@ from langchain_core.utils.utils import convert_to_secret_str
 from langchain_openai import OpenAIEmbeddings as LangchainOpenAIEmbeddings
 
 
-class OpenAIEmbeddings(LangchainOpenAIEmbeddings):
+from ..core import BaseEmbeddings
+
+
+class OpenAIEmbeddings(LangchainOpenAIEmbeddings, BaseEmbeddings):
     def __init__(
         self,
         *,

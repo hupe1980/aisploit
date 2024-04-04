@@ -26,12 +26,13 @@ keywords = [
 python = "^3.12"
 pydantic = "^2.6.2"
 requests = "^2.31.0"
-langchain-openai = "^0.0.7"
-langchain-core = "^0.1.26"
-langchain-community = "^0.0.24"
+langchain-openai = ">=0.1.1"
+langchain-core = ">=0.1.26"
+langchain-community = ">=0.0.24"
 python-dotenv = "^1.0.1"
 numpy = "^1.26.4"
 transformers = "^4.38.1"
+torch = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
 chromadb = "^0.4.23"

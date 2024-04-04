@@ -70,7 +70,7 @@ class RedTeamingBot:
 
         self._chain = RunnableWithMessageHistory(
             runnable,  # type: ignore[arg-type]
-            lambda session_id: self._history,
+            get_session_history=lambda session_id: self._history,
             input_messages_key="input",
             output_messages_key="output",
             history_messages_key="chat_history",
@@ -153,4 +153,4 @@ class RedTeamingBot:
         Returns:
         - str: The string representation.
         """
-        return f"Red Team Bot ID {self._conversation_id}"
+        return f"Red Teaming Bot ID {self._conversation_id}"

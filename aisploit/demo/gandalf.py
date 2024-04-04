@@ -6,7 +6,9 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.language_models import LLM
 from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 from langchain_core.messages import SystemMessage, HumanMessage
-from aisploit.core import BaseChatModel, BaseTextClassification, Score
+
+from aisploit.core import BaseChatModel
+from aisploit.classifier import BaseClassifier, Score
 
 GANDALF_API_ENDPOINT = "https://gandalf.lakera.ai/api"
 
@@ -97,7 +99,7 @@ class GandalfBot(LLM):
         return {"level": self.level}
 
 
-class GandalfScorer(BaseTextClassification):
+class GandalfScorer(BaseClassifier):
     def __init__(self, level: GandalfLevel, chat_model: BaseChatModel) -> None:
         self._defender = level.value
         self._endpoint = f"{GANDALF_API_ENDPOINT}/guess-password"
