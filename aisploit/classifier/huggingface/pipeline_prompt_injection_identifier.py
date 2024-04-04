@@ -6,6 +6,7 @@ from transformers import (
 
 from ...core import BaseClassifier, Score
 
+
 class PipelinePromptInjectionIdentifier(BaseClassifier):
     def __init__(
         self,

@@ -4,6 +4,7 @@ from langchain_openai import ChatOpenAI as LangchainChatOpenAI
 
 from ..core import BaseChatModel
 
+
 class ChatOpenAI(LangchainChatOpenAI, BaseChatModel):
     """
     Wrapper class for interacting with the OpenAI API for chat-based models.

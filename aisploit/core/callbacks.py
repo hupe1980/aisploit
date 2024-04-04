@@ -8,11 +8,13 @@ class BaseCallbackHandler:
     def on_redteam_attempt_response(self, attempt: int, response: str):
         pass
 
+
 Callbacks = List[BaseCallbackHandler]
+
 
 class CallbackManager:
     def __init__(
-        self, 
+        self,
         *,
         id: str,
         callbacks: List[BaseCallbackHandler] = [],

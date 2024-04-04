@@ -2,12 +2,14 @@ from abc import ABC, abstractmethod
 from typing import Literal
 from dataclasses import dataclass
 
+
 @dataclass
 class Score:
     score_type: Literal["int", "float", "str", "bool"]
     score_value: int | float | str | bool
     score_description: str = ""
     score_explanation: str = ""
+
 
 class BaseClassifier(ABC):
     @abstractmethod

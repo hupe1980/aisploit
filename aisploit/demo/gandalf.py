@@ -7,8 +7,7 @@ from langchain_core.language_models import LLM
 from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 from langchain_core.messages import SystemMessage, HumanMessage
 
-from aisploit.core import BaseChatModel
-from aisploit.classifier import BaseClassifier, Score
+from aisploit.core import BaseChatModel, BaseClassifier, Score
 
 GANDALF_API_ENDPOINT = "https://gandalf.lakera.ai/api"
 

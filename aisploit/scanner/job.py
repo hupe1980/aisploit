@@ -18,7 +18,7 @@ class ScannerJob(BaseJob):
         super().__init__(verbose=verbose)
         self.scan_id = str(uuid4())
         self._target = target
-        
+
         self._callback_manager = CallbackManager(
             id=self.scan_id,
             callbacks=callbacks,

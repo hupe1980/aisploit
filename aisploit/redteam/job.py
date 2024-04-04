@@ -1,12 +1,18 @@
 from typing import List
 
 from .bot import RedTeamingBot
-from ..core import BaseJob, BaseTarget, BaseCallbackHandler, CallbackManager
-from ..classifier import BaseClassifier
+from ..core import (
+    BaseClassifier,
+    BaseJob,
+    BaseTarget,
+    BaseCallbackHandler,
+    CallbackManager,
+)
+
 
 class RedTeamJob(BaseJob):
     def __init__(
-        self, 
+        self,
         *,
         bot: RedTeamingBot,
         target: BaseTarget,
@@ -16,7 +22,7 @@ class RedTeamJob(BaseJob):
         verbose=False,
     ) -> None:
         super().__init__(verbose=verbose)
-        
+
         self._bot = bot
         self._target = target
         self._classifier = classifier
@@ -29,24 +35,24 @@ class RedTeamJob(BaseJob):
     @property
     def conversation_id(self):
         return self._bot.conversation_id
-    
+
     def execute(self, max_attempt=5, clear_history=True):
         if clear_history:
             self._bot.clear_history()
 
         current_prompt = self._initial_prompt
-        
-        for attempt in range(1, max_attempt+1):
+
+        for attempt in range(1, max_attempt + 1):
             current_prompt = self._bot.invoke(current_prompt)
-            
+
             self._callback_manager.on_redteam_attempt(attempt, current_prompt)
-            
+
             response = self._target.send_prompt(current_prompt)
             score = self._classifier.score_text(text=response)
 
             self._callback_manager.on_redteam_attempt_response(attempt, response)
-            
+
+            current_prompt = response
+
             if score.score_value:
                 return score
-
-    
