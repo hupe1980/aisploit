@@ -28,7 +28,7 @@ class RedTeamJob(BaseJob):
         self._classifier = classifier
         self._initial_prompt = initial_prompt
         self._callback_manager = CallbackManager(
-            id=self.conversation_id,
+            id=bot.conversation_id,
             callbacks=callbacks,
         )
 
@@ -38,7 +38,7 @@ class RedTeamJob(BaseJob):
 
     def execute(self, max_attempt=5, clear_history=True):
         if clear_history:
-            self._bot.clear_history()
+            self._bot.clear_history(self.conversation_id)
 
         current_prompt = self._initial_prompt
 

@@ -70,7 +70,7 @@ class RedTeamingBot:
 
         self._chain = RunnableWithMessageHistory(
             runnable,  # type: ignore[arg-type]
-            get_session_history=lambda session_id: self._history,
+            get_session_history=self.get_session_history,
             input_messages_key="input",
             output_messages_key="output",
             history_messages_key="chat_history",
@@ -87,8 +87,8 @@ class RedTeamingBot:
         - str: The response from the bot.
         """
         return self._chain.invoke(
-            {"conversation_objective": self._conversation_objective, "input": message},
-            config={"configurable": {"session_id": self._conversation_id}},
+            {"conversation_objective": self.conversation_objective, "input": message},
+            config={"configurable": {"session_id": self.conversation_id}},
         )
 
     def is_conversation_complete(self) -> bool:
@@ -98,7 +98,7 @@ class RedTeamingBot:
         Returns:
         - bool: True if the conversation is complete, False otherwise.
         """
-        current_messages = self._history.messages
+        current_messages = self.get_session_history(self.conversation_id).messages
 
         # If there are no messages, then the conversation is not complete
         if not current_messages or len(current_messages) == 0:
@@ -110,21 +110,11 @@ class RedTeamingBot:
 
         return False
 
-    def clear_history(self) -> None:
-        """
-        Clear the conversation history.
-        """
-        self._history.clear()
+    def get_session_history(self, conversation_id: str) -> BaseChatMessageHistory:
+        return self._history
 
-    @property
-    def history(self) -> List[BaseMessage]:
-        """
-        Get the conversation history.
-
-        Returns:
-        - List[BaseMessage]: The list of messages in the conversation history.
-        """
-        return self._history.messages
+    def clear_history(self, conversation_id: str) -> None:
+        self.get_session_history(conversation_id).clear()
 
     @property
     def conversation_id(self) -> str:
@@ -153,4 +143,4 @@ class RedTeamingBot:
         Returns:
         - str: The string representation.
         """
-        return f"Red Teaming Bot ID {self._conversation_id}"
+        return f"Red Teaming Bot ID {self.conversation_id}"
