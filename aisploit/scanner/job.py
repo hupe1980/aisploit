@@ -27,7 +27,9 @@ class ScannerJob(BaseJob):
         self._plugin_params = plugin_params
         self._callbacks = callbacks
 
-    def execute(self, run_id: Optional[str] = None) -> ScanReport:
+    def execute(
+        self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None
+    ) -> ScanReport:
         if not run_id:
             run_id = self._create_run_id()
 
@@ -37,20 +39,22 @@ class ScannerJob(BaseJob):
         )
 
         issues: List[Issue] = []
-        for plugin in self.get_plugin():
+        for name, plugin in self.get_plugin(tags=tags).items():
+            callback_manager.on_scanner_plugin_start(name)
             plugin_issues = plugin.run(self._target)
+            callback_manager.on_scanner_plugin_end(name)
             issues.extend(plugin_issues)
 
         return ScanReport(
             issues=issues,
         )
 
-    def get_plugin(self, tags: Optional[Sequence[str]] = None) -> Sequence[Plugin]:
-        plugins = []
+    def get_plugin(self, tags: Optional[Sequence[str]] = None) -> Dict[str, Plugin]:
+        plugins = {}
         classes = PluginRegistry.get_plugin_classes(tags=tags)
 
         for name, plugin_cls in classes.items():
             kwargs = self._plugin_params.get(name, {})
-            plugins.append(plugin_cls(**kwargs))
+            plugins[name] = plugin_cls(**kwargs)
 
         return plugins

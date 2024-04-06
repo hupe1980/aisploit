@@ -2,10 +2,16 @@ from typing import Sequence
 
 
 class BaseCallbackHandler:
-    def on_redteam_attempt_start(self, attempt: int, prompt: str):
+    def on_redteam_attempt_start(self, attempt: int, prompt: str, *, run_id: str):
         pass
 
-    def on_redteam_attempt_end(self, attempt: int, response: str):
+    def on_redteam_attempt_end(self, attempt: int, response: str, *, run_id: str):
+        pass
+
+    def on_scanner_plugin_start(self, name: str, *, run_id: str):
+        pass
+
+    def on_scanner_plugin_end(self, name: str, *, run_id: str):
         pass
 
 
@@ -24,8 +30,20 @@ class CallbackManager:
 
     def on_redteam_attempt_start(self, attempt: int, prompt: str):
         for cb in self._callbacks:
-            cb.on_redteam_attempt_start(attempt, prompt)
+            cb.on_redteam_attempt_start(
+                attempt=attempt, prompt=prompt, run_id=self.run_id
+            )
 
     def on_redteam_attempt_end(self, attempt: int, response: str):
         for cb in self._callbacks:
-            cb.on_redteam_attempt_end(attempt, response)
+            cb.on_redteam_attempt_end(
+                attempt=attempt, response=response, run_id=self.run_id
+            )
+
+    def on_scanner_plugin_start(self, name: str):
+        for cb in self._callbacks:
+            cb.on_scanner_plugin_start(name=name, run_id=self.run_id)
+
+    def on_scanner_plugin_end(self, name: str):
+        for cb in self._callbacks:
+            cb.on_scanner_plugin_end(name=name, run_id=self.run_id)

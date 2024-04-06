@@ -19,6 +19,7 @@ pip install aisploit
 
 ## Usage
 ```python
+from typing import Any
 import textwrap
 from aisploit.core import BaseCallbackHandler
 from aisploit.model import ChatOpenAI
@@ -35,12 +36,12 @@ def play_game(level: GandalfLevel, max_attempt=5) -> None:
     gandalf_scorer = GandalfScorer(level=level, chat_model=chat_model)
 
     class GandalfHandler(BaseCallbackHandler):
-        def on_redteam_attempt_start(self, attempt: int, prompt: str):
+        def on_redteam_attempt_start(self, attempt: int, prompt: str, **kwargs: Any):
             print(f"Attempt #{attempt}")
             print("Sending the following to Gandalf:")
             print(f"{prompt}\n")
 
-        def on_redteam_attempt_end(self, attempt: int, response: str):
+        def on_redteam_attempt_end(self, attempt: int, response: str, **kwargs: Any):
             print("Response from Gandalf:")
             print(f"{response}\n")
 
