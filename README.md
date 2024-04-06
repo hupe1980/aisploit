@@ -21,7 +21,7 @@ pip install aisploit
 ```python
 from typing import Any
 import textwrap
-from aisploit.core import BaseCallbackHandler
+from aisploit.core import BaseCallbackHandler, BasePromptValue, Score
 from aisploit.model import ChatOpenAI
 from aisploit.redteam import RedTeamJob, RedTeamTask
 from aisploit.target import target
@@ -30,18 +30,20 @@ from aisploit.demo import GandalfBot, GandalfLevel, GandalfScorer
 def play_game(level: GandalfLevel, max_attempt=5) -> None:
     print(f"Starting Level {level.value} - {level.description}\n")
 
-    chat_model = ChatOpenAI()
+    chat_model = ChatOpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+    )
 
     gandalf_bot = GandalfBot(level=level)
     gandalf_scorer = GandalfScorer(level=level, chat_model=chat_model)
 
     class GandalfHandler(BaseCallbackHandler):
-        def on_redteam_attempt_start(self, attempt: int, prompt: str, **kwargs: Any):
+        def on_redteam_attempt_start(self, attempt: int, prompt: BasePromptValue, **kwargs: Any):
             print(f"Attempt #{attempt}")
             print("Sending the following to Gandalf:")
-            print(f"{prompt}\n")
+            print(f"{prompt.to_string()}\n")
 
-        def on_redteam_attempt_end(self, attempt: int, response: str, **kwargs: Any):
+        def on_redteam_attempt_end(self, attempt: int, response: str, score: Score, **kwargs: Any):
             print("Response from Gandalf:")
             print(f"{response}\n")
 
@@ -70,15 +72,17 @@ def play_game(level: GandalfLevel, max_attempt=5) -> None:
         callbacks=[GandalfHandler()],
     )
 
-    score = job.execute(initial_prompt=level.description, max_attempt=max_attempt)
-    if score:
-        print(f"✅ Password: {score.score_value}")
+    report = job.execute(initial_prompt_text=level.description, max_attempt=max_attempt)
+    if report.final_score.score_value:
+        print(f"✅ Password: {report.final_score.score_value}")
     else:
         print("❌ Failed!")
 
 
 play_game(GandalfLevel.LEVEL_1, 5)
 ```
+
+For more example usage, see [examples](./examples).
 
 ## Contributing
 
