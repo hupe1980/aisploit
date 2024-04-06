@@ -35,7 +35,9 @@ class SenderJob(BaseJob):
             if isinstance(prompt, str):
                 prompt = StringPromptValue(text=prompt)
 
-            if self._include_original_prompt:
+            if self._include_original_prompt and not any(
+                isinstance(c, NoOpConverter) for c in self._converters
+            ):
                 self._target.send_prompt(prompt)
 
             for converter in self._converters:

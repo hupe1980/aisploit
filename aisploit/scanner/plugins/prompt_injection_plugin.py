@@ -1,20 +1,30 @@
 from typing import Sequence, List
 from langchain_core.prompts import PromptTemplate
-from langchain_core.prompt_values import StringPromptValue
 
-from ...core import BaseTarget
+from ...core import BaseTarget, BaseConverter
 from ...dataset import JailbreakDataset
 from ...sender import SenderJob
+from ...converter import NoOpConverter
 from ..plugin import Plugin
 from ..issue import Issue, IssueCategory
 
 
 class PromptInjectionPlugin(Plugin):
-    def __init__(self, *, dataset=JailbreakDataset()) -> None:
+    def __init__(
+        self,
+        *,
+        dataset=JailbreakDataset(),
+        converters: Sequence[BaseConverter] = [NoOpConverter()],
+    ) -> None:
         self.dataset = dataset
+        self.converters = converters
 
     def run(self, target: BaseTarget) -> Sequence[Issue]:
-        sender = SenderJob(target=target)
+        sender = SenderJob(
+            target=target,
+            converters=self.converters,
+            include_original_prompt=True,
+        )
 
         issues: List[Issue] = []
         for prompt in self.dataset:
