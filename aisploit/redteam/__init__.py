@@ -1,7 +1,7 @@
-from .bot import RedTeamingBot
 from .job import RedTeamJob
+from .task import RedTeamTask
 
 __all__ = [
-    "RedTeamingBot",
     "RedTeamJob",
+    "RedTeamTask",
 ]

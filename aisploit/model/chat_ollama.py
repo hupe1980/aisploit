@@ -30,4 +30,4 @@ class ChatOllama(LangchainChatOllama, BaseChatModel):
         )
 
     def supports_functions(self) -> bool:
-        return True
+        return False

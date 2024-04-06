@@ -1,31 +1,31 @@
-from typing import List
+from typing import Sequence
 
 
 class BaseCallbackHandler:
-    def on_redteam_attempt(self, attempt: int, prompt: str):
+    def on_redteam_attempt_start(self, attempt: int, prompt: str):
         pass
 
-    def on_redteam_attempt_response(self, attempt: int, response: str):
+    def on_redteam_attempt_end(self, attempt: int, response: str):
         pass
 
 
-Callbacks = List[BaseCallbackHandler]
+Callbacks = Sequence[BaseCallbackHandler]
 
 
 class CallbackManager:
     def __init__(
         self,
         *,
-        id: str,
-        callbacks: List[BaseCallbackHandler] = [],
+        run_id: str,
+        callbacks: Sequence[BaseCallbackHandler] = [],
     ) -> None:
-        self.id = id
+        self.run_id = run_id
         self._callbacks = callbacks
 
-    def on_redteam_attempt(self, attempt: int, prompt: str):
+    def on_redteam_attempt_start(self, attempt: int, prompt: str):
         for cb in self._callbacks:
-            cb.on_redteam_attempt(attempt, prompt)
+            cb.on_redteam_attempt_start(attempt, prompt)
 
-    def on_redteam_attempt_response(self, attempt: int, response: str):
+    def on_redteam_attempt_end(self, attempt: int, response: str):
         for cb in self._callbacks:
-            cb.on_redteam_attempt_response(attempt, response)
+            cb.on_redteam_attempt_end(attempt, response)

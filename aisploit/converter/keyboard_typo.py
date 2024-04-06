@@ -73,24 +73,20 @@ class KeyboardTypoConverter(BaseConverter):
         if random_state is not None:
             random.seed(random_state)
 
-    def convert(self, prompts: list[str]) -> list[str]:
-        typoPrompts = []
-        for prompt in prompts:
-            typoPrompt = ""
-            for char in prompt:
-                if (
-                    random.random() < self._typo_probability
-                    and char.lower() in self._keyboard_neighbors
-                ):
-                    # Replace the character with a random neighboring key
-                    neighbor_keys = self._keyboard_neighbors[char.lower()]
-                    typo_char = random.choice(neighbor_keys)
-                    # Preserve the original case
-                    if char.isupper():
-                        typo_char = typo_char.upper()
-                    char = typo_char
-                typoPrompt += char
+    def _convert(self, prompt: str) -> str:
+        typoPrompt = ""
+        for char in prompt:
+            if (
+                random.random() < self._typo_probability
+                and char.lower() in self._keyboard_neighbors
+            ):
+                # Replace the character with a random neighboring key
+                neighbor_keys = self._keyboard_neighbors[char.lower()]
+                typo_char = random.choice(neighbor_keys)
+                # Preserve the original case
+                if char.isupper():
+                    typo_char = typo_char.upper()
+                char = typo_char
+            typoPrompt += char
 
-            typoPrompts.append(typoPrompt)
-
-        return typoPrompts
+        return typoPrompt

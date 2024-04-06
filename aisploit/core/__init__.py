@@ -3,6 +3,7 @@ from .classifier import BaseClassifier, Score
 from .converter import BaseConverter
 from .job import BaseJob
 from .model import BaseLLM, BaseChatModel, BaseModel, BaseEmbeddings
+from .prompt import BasePromptValue
 from .target import BaseTarget
 from .vectorstore import BaseVectorStore
 
@@ -18,6 +19,7 @@ __all__ = [
     "BaseChatModel",
     "BaseModel",
     "BaseEmbeddings",
+    "BasePromptValue",
     "BaseTarget",
     "BaseVectorStore",
 ]

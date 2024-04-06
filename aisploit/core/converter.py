@@ -1,7 +1,15 @@
 from abc import ABC, abstractmethod
+from langchain_core.prompt_values import StringPromptValue
+from .prompt import BasePromptValue
 
 
 class BaseConverter(ABC):
     @abstractmethod
-    def convert(self, prompts: list[str]) -> list[str]:
+    def _convert(self, prompt: str) -> str:
         pass
+
+    def convert(self, prompt: BasePromptValue) -> BasePromptValue:
+        if isinstance(prompt, StringPromptValue):
+            prompt = StringPromptValue(text=self._convert(prompt.text))
+
+        return prompt
