@@ -46,6 +46,7 @@ class ScannerJob(BaseJob):
             issues.extend(plugin_issues)
 
         return ScanReport(
+            run_id=run_id,
             issues=issues,
         )
 

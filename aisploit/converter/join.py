@@ -5,9 +5,11 @@ class JoinConverter(BaseConverter):
     def __init__(
         self,
         *,
-        join_value: str = "-",
+        separator: str = "-",
     ) -> None:
-        self.join_value = join_value
+        self.separator = separator
 
     def _convert(self, prompt: str) -> str:
-        return self.join_value.join(prompt)
+        words = prompt.split()
+        joined_words = [self.separator.join(word) for word in words]
+        return " ".join(joined_words)
