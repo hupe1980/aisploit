@@ -27,8 +27,7 @@ class SenderJob(BaseJob):
         run_id: Optional[str] = None,
         prompts: Sequence[Union[str, BasePromptValue]],
     ) -> SendReport:
-        if not run_id:
-            run_id = self._create_run_id()
+        run_id = run_id or self._create_run_id()
 
         report = SendReport(run_id=run_id)
 

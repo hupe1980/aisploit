@@ -30,8 +30,7 @@ class ScannerJob(BaseJob):
     def execute(
         self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None
     ) -> ScanReport:
-        if not run_id:
-            run_id = self._create_run_id()
+        run_id = run_id or self._create_run_id()
 
         callback_manager = CallbackManager(
             run_id=run_id,

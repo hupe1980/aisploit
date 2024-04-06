@@ -1,4 +1,5 @@
 from typing import Optional
+from langchain_core.prompt_values import StringPromptValue
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import (
@@ -15,6 +16,7 @@ from ..core import (
     CallbackManager,
 )
 from .task import RedTeamTask
+from .report import RedTeamReport, RedTeamReportEntry
 
 
 class RedTeamJob(BaseJob):
@@ -46,11 +48,10 @@ class RedTeamJob(BaseJob):
         self,
         *,
         run_id: Optional[str] = None,
-        initial_prompt="Begin Conversation",
+        initial_prompt_text="Begin Conversation",
         max_attempt=5,
-    ):
-        if not run_id:
-            run_id = self._create_run_id()
+    ) -> RedTeamReport:
+        run_id = run_id or self._create_run_id()
 
         callback_manager = CallbackManager(
             run_id=run_id,
@@ -66,13 +67,17 @@ class RedTeamJob(BaseJob):
             history_messages_key=self._task.history_messages_key,
         )
 
-        current_prompt = initial_prompt
+        report = RedTeamReport(run_id=run_id)
+
+        current_prompt_text = initial_prompt_text
 
         for attempt in range(1, max_attempt + 1):
-            current_prompt = chain.invoke(
-                input={self._task.input_messages_key: current_prompt},
+            current_prompt_text = chain.invoke(
+                input={self._task.input_messages_key: current_prompt_text},
                 config={"configurable": {"session_id": run_id}},
             )
+
+            current_prompt = StringPromptValue(text=current_prompt_text)
 
             callback_manager.on_redteam_attempt_start(attempt, current_prompt)
 
@@ -80,9 +85,20 @@ class RedTeamJob(BaseJob):
 
             score = self._classifier.score_text(text=response)
 
-            callback_manager.on_redteam_attempt_end(attempt, response)
+            callback_manager.on_redteam_attempt_end(attempt, response, score)
 
-            current_prompt = response
+            report.add_entry(
+                RedTeamReportEntry(
+                    attempt=attempt,
+                    prompt=current_prompt,
+                    response=response,
+                    score=score,
+                )
+            )
 
             if score.score_value:
-                return score
+                break
+
+            current_prompt_text = response
+
+        return report
