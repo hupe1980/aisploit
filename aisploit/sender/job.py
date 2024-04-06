@@ -44,6 +44,7 @@ class SenderJob(BaseJob):
                 report.add_entry(
                     SendReportEntry(
                         prompt=prompt,
+                        converter=converter,
                         response=response,
                     )
                 )

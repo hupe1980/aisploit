@@ -1,12 +1,13 @@
 from typing import List
 from dataclasses import dataclass
 
-from ..core import BasePromptValue, BaseReport
+from ..core import BasePromptValue, BaseReport, BaseConverter
 
 
 @dataclass
 class SendReportEntry:
     prompt: BasePromptValue
+    converter: BaseConverter
     response: str
 
 

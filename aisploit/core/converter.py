@@ -13,3 +13,6 @@ class BaseConverter(ABC):
             prompt = StringPromptValue(text=self._convert(prompt.text))
 
         return prompt
+
+    def __repr__(self) -> str:
+        return f"<{self.__module__}.{self.__class__.__name__}()>"

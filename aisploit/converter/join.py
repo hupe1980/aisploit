@@ -13,3 +13,8 @@ class JoinConverter(BaseConverter):
         words = prompt.split()
         joined_words = [self.separator.join(word) for word in words]
         return " ".join(joined_words)
+
+    def __repr__(self) -> str:
+        return (
+            f"<{self.__module__}.{self.__class__.__name__}(separator={self.separator})>"
+        )
