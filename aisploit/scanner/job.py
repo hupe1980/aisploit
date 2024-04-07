@@ -3,11 +3,11 @@ from uuid import uuid4
 
 
 from ..core import BaseJob, BaseTarget, Callbacks, CallbackManager
-from .plugins import PromptInjectionPlugin
+from .plugins import ManyShotPlugin, PromptInjectionPlugin
 from .plugin import Plugin, PluginRegistry
-from .issue import Issue
-from .report import ScanReport
+from .report import ScanReport, Issue
 
+#PluginRegistry.register("many_shot", ManyShotPlugin, tags=["jailbreak"])
 PluginRegistry.register("prompt_injection", PromptInjectionPlugin, tags=["jailbreak"])
 
 
@@ -40,7 +40,7 @@ class ScannerJob(BaseJob):
         issues: List[Issue] = []
         for name, plugin in self.get_plugin(tags=tags).items():
             callback_manager.on_scanner_plugin_start(name)
-            plugin_issues = plugin.run(self._target)
+            plugin_issues = plugin.run(run_id=run_id, target=self._target)
             callback_manager.on_scanner_plugin_end(name)
             issues.extend(plugin_issues)
 

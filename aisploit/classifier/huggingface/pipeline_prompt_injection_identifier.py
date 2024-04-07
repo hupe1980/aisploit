@@ -45,6 +45,7 @@ class PipelinePromptInjectionIdentifier(BaseClassifier):
         )
 
         return Score(
+            flagged=score > self._threshold,
             score_type="float",
             score_value=score,
             score_description="Prompt injection detection score",

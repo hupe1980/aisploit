@@ -1,7 +1,12 @@
-from .dataset import Dataset, JailbreakDataset, Prompt
+from .dataset import Dataset
+from .prompt import PromptDataset, Prompt, JailbreakPromptDataset
+from .sample import SampleDataset, Sample
 
 __all__ = [
     "Dataset",
-    "JailbreakDataset",
+    "PromptDataset",
     "Prompt",
+    "JailbreakPromptDataset",
+    "SampleDataset",
+    "Sample",
 ]

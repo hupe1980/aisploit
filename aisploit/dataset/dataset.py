@@ -1,14 +1,24 @@
-import abc
-import os
+from abc import ABC
 import yaml
 from pathlib import Path
 from typing import Generic, Type, TypeVar, Sequence
-from dataclasses import dataclass
 
 T = TypeVar("T")
 
 
-class YamlDeserializable(abc.ABC):
+class Dataset(Generic[T]):
+    """Generic dataset class."""
+
+    _prompts: Sequence[T]
+
+    def __iter__(self):
+        return iter(self._prompts)
+
+    def __len__(self):
+        return len(self._prompts)
+
+
+class YamlDeserializable(ABC):
     """Abstract base class for objects that can be deserialized from YAML."""
 
     @classmethod
@@ -37,51 +47,3 @@ class YamlDeserializable(abc.ABC):
                 raise ValueError(f"Invalid YAML file '{file}': {exc}")
 
         return cls(**yaml_data)
-
-
-@dataclass
-class Prompt(YamlDeserializable):
-    """A prompt configuration."""
-
-    name: str
-    skip: bool
-    source: str
-    language: str
-    tags: Sequence[str]
-    parameters: Sequence[str]
-    template: str
-
-
-JAILBREAK_PROMPTS_PATH = Path(__file__, "..", "jailbreak").resolve()
-
-
-class Dataset(Generic[T]):
-    """Generic dataset class."""
-
-    _prompts: Sequence[T]
-
-    def __iter__(self):
-        return iter(self._prompts)
-
-    def __len__(self):
-        return len(self._prompts)
-
-
-class JailbreakDataset(Dataset[Prompt]):
-    """Dataset for jailbreak prompts."""
-
-    def __init__(
-        self,
-        *,
-        path=JAILBREAK_PROMPTS_PATH,
-    ) -> None:
-        """Initialize the JailbreakDataset.
-
-        Args:
-            path (str): The path to the directory containing prompt YAML files.
-        """
-        self._prompts = []
-        for file_name in os.listdir(path):
-            prompt = Prompt.from_yaml_file(path / file_name)
-            if not prompt.skip:
-                self._prompts.append(prompt)

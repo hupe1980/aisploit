@@ -1,4 +1,5 @@
 from typing import Union, Sequence, Optional
+from datetime import datetime
 from langchain_core.prompt_values import StringPromptValue
 
 from ..core import BaseJob, BaseConverter, BaseTarget, BasePromptValue
@@ -38,17 +39,27 @@ class SenderJob(BaseJob):
             if self._include_original_prompt and not any(
                 isinstance(c, NoOpConverter) for c in self._converters
             ):
-                self._target.send_prompt(prompt)
+                entry = self._send_prompt(prompt)
+                report.add_entry(entry)
 
             for converter in self._converters:
                 converted_prompt = converter.convert(prompt)
-                response = self._target.send_prompt(converted_prompt)
-                report.add_entry(
-                    SendReportEntry(
-                        prompt=prompt,
-                        converter=converter,
-                        response=response,
-                    )
-                )
+                entry = self._send_prompt(converted_prompt, converter)
+                report.add_entry(entry)
 
         return report
+
+    def _send_prompt(
+        self, prompt: BasePromptValue, converter: Optional[BaseConverter] = None
+    ) -> SendReportEntry:
+        start_time = datetime.now()
+        response = self._target.send_prompt(prompt)
+        end_time = datetime.now()
+
+        return SendReportEntry(
+            prompt=prompt,
+            converter=converter,
+            response=response,
+            start_time=start_time,
+            end_time=end_time,
+        )

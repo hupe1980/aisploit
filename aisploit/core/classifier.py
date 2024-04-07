@@ -3,8 +3,9 @@ from typing import Literal
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Score:
+    flagged: bool
     score_type: Literal["int", "float", "str", "bool"]
     score_value: int | float | str | bool
     score_description: str = ""

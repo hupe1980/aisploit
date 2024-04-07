@@ -30,9 +30,7 @@ from aisploit.demo import GandalfBot, GandalfLevel, GandalfScorer
 def play_game(level: GandalfLevel, max_attempt=5) -> None:
     print(f"Starting Level {level.value} - {level.description}\n")
 
-    chat_model = ChatOpenAI(
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
+    chat_model = ChatOpenAI()
 
     gandalf_bot = GandalfBot(level=level)
     gandalf_scorer = GandalfScorer(level=level, chat_model=chat_model)
@@ -73,7 +71,7 @@ def play_game(level: GandalfLevel, max_attempt=5) -> None:
     )
 
     report = job.execute(initial_prompt_text=level.description, max_attempt=max_attempt)
-    if report.final_score.score_value:
+    if report.final_score.flagged:
         print(f"✅ Password: {report.final_score.score_value}")
     else:
         print("❌ Failed!")

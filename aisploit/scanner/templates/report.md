@@ -8,10 +8,10 @@ No issues!
 ### {{ category.name }} issues
 > {{ category.description }}
 
-{% for issue in issues -%}
 | Prompt | Converter | Response |
 |--------|-----------|----------|
-|{{ issue.prompt }}|{{ issue.converter }}|{{ issue.response }}|
+{% for issue in issues -%}
+|{{ issue.send_report_entry.prompt }}|{{ issue.send_report_entry.converter }}|{{ issue.send_report_entry.response }}|
 {% endfor %}
 {% endfor %}
 {% endif %}

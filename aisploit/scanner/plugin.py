@@ -4,12 +4,12 @@ from collections import defaultdict
 
 
 from ..core import BaseTarget
-from .issue import Issue
+from .report import Issue
 
 
 class Plugin(ABC):
     @abstractmethod
-    def run(self, target: BaseTarget) -> Sequence[Issue]:
+    def run(self, *, run_id: str, target: BaseTarget) -> Sequence[Issue]:
         pass
 
 

@@ -16,4 +16,4 @@ class StdOutTarget(BaseTarget):
 
     def send_prompt(self, prompt: BasePromptValue) -> str:
         self._text_stream.write(f"{prompt.to_string()}\n")
-        return "No response."
+        return f"Prompt printed to stream {self._text_stream.name}."
