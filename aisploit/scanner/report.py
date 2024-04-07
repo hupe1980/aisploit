@@ -45,7 +45,7 @@ class ScanReport(BaseReport[Issue]):
         return self._render_template(
             template_path=template_path,
             run_id=self.run_id,
-            report=self,
+            created_at=self.created_at,
             issues_by_category=issues_by_category,
         )
 

@@ -1,4 +1,5 @@
 from .base64 import Base64Converter
+from .gender import GenderConverter
 from .join import JoinConverter
 from .keyboard_typo import (
     KeyboardTypoConverter,
@@ -10,6 +11,7 @@ from .sequence import SequenceConverter
 
 __all__ = [
     "Base64Converter",
+    "GenderConverter",
     "JoinConverter",
     "KeyboardTypoConverter",
     "KEYBOARD_NEIGHBORS_QWERTY",

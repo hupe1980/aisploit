@@ -1,6 +1,7 @@
 from .callbacks import BaseCallbackHandler, Callbacks, CallbackManager
 from .classifier import BaseClassifier, Score
 from .converter import BaseConverter
+from .dataset import BaseDataset, YamlDeserializable
 from .job import BaseJob
 from .model import BaseLLM, BaseChatModel, BaseModel, BaseEmbeddings
 from .prompt import BasePromptValue
@@ -15,7 +16,9 @@ __all__ = [
     "BaseClassifier",
     "Score",
     "BaseConverter",
-    "BaseJob",
+    "BaseDataset",
+    "YamlDeserializable",
+    "Dataset" "BaseJob",
     "BaseLLM",
     "BaseChatModel",
     "BaseModel",

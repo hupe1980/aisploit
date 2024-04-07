@@ -1,3 +1,4 @@
+from typing import Union
 from abc import ABC, abstractmethod
 from langchain_core.prompt_values import StringPromptValue
 from .prompt import BasePromptValue
@@ -18,7 +19,7 @@ class BaseConverter(ABC):
         """
         pass
 
-    def convert(self, prompt: BasePromptValue) -> BasePromptValue:
+    def convert(self, prompt: Union[str, BasePromptValue]) -> BasePromptValue:
         """Converts the prompt value.
 
         Args:
@@ -27,8 +28,11 @@ class BaseConverter(ABC):
         Returns:
             BasePromptValue: The converted prompt value.
         """
+        if isinstance(prompt, str):
+            return StringPromptValue(text=self._convert(prompt))
+
         if isinstance(prompt, StringPromptValue):
-            prompt = StringPromptValue(text=self._convert(prompt.text))
+            return StringPromptValue(text=self._convert(prompt.text))
 
         return prompt
 

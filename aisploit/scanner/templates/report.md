@@ -1,5 +1,7 @@
-## ScanReport 
-> RunID: {{ run_id }}
+## ScanReport
+| RunID | CreatedAt |
+|-------|-----------| 
+|{{ run_id }}|{{ created_at }}|
 
 {% if issues_by_category|length == 0 %}
 No issues!
@@ -8,10 +10,10 @@ No issues!
 ### {{ category.name }} issues
 > {{ category.description }}
 
-| Prompt | Converter | Response |
-|--------|-----------|----------|
+| Prompt | Converter | Response | RTT (seconds) |
+|--------|-----------|----------|---------------|
 {% for issue in issues -%}
-|{{ issue.send_report_entry.prompt }}|{{ issue.send_report_entry.converter }}|{{ issue.send_report_entry.response }}|
+|{{ issue.send_report_entry.prompt }}|{{ issue.send_report_entry.converter }}|{{ issue.send_report_entry.response }}| {{ issue.send_report_entry.round_trip_time }} |
 {% endfor %}
 {% endfor %}
 {% endif %}

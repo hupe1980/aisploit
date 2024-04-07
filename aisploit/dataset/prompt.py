@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Sequence, Optional
 from dataclasses import dataclass
 
-from .dataset import Dataset, YamlDeserializable
+from ..core.dataset import BaseDataset, YamlDeserializable
 
 
 @dataclass
@@ -19,7 +19,7 @@ class Prompt(YamlDeserializable):
     template: str
 
 
-class PromptDataset(Dataset[Prompt]):
+class PromptDataset(BaseDataset[Prompt]):
     """Dataset for prompts."""
 
     def __init__(self, prompts: Sequence[Prompt]) -> None:

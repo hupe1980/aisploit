@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -12,6 +12,10 @@ class SendReportEntry:
     response: str
     start_time: datetime
     end_time: datetime
+
+    @property
+    def round_trip_time(self) -> float:
+        return (self.end_time - self.start_time).total_seconds()
 
 
 class SendReport(BaseReport[SendReportEntry]):

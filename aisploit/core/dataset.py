@@ -6,7 +6,7 @@ from typing import Generic, Type, TypeVar, Sequence
 T = TypeVar("T")
 
 
-class Dataset(Generic[T]):
+class BaseDataset(Generic[T]):
     """Generic dataset class."""
 
     _prompts: Sequence[T]
