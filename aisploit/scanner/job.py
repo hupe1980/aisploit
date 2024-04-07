@@ -7,7 +7,7 @@ from .plugins import ManyShotPlugin, PromptInjectionPlugin
 from .plugin import Plugin, PluginRegistry
 from .report import ScanReport, Issue
 
-#PluginRegistry.register("many_shot", ManyShotPlugin, tags=["jailbreak"])
+# PluginRegistry.register("many_shot", ManyShotPlugin, tags=["jailbreak"])
 PluginRegistry.register("prompt_injection", PromptInjectionPlugin, tags=["jailbreak"])
 
 
