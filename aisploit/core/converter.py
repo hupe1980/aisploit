@@ -38,4 +38,8 @@ class BaseConverter(ABC):
         Returns:
             str: A string representation of the converter.
         """
-        return f"<{self.__module__}.{self.__class__.__name__}()>"
+        prefix = "aisploit"
+        if not self.__module__.startswith(prefix):
+            prefix = "custom"
+
+        return f"<{prefix}.{self.__class__.__name__}>"

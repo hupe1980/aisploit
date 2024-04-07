@@ -7,7 +7,7 @@ from transformers import (
 from ...core import BaseClassifier, Score
 
 
-class PipelinePromptInjectionIdentifier(BaseClassifier):
+class PipelinePromptInjectionIdentifier(BaseClassifier[float]):
     def __init__(
         self,
         *,
@@ -29,7 +29,7 @@ class PipelinePromptInjectionIdentifier(BaseClassifier):
         self._injection_label = injection_label
         self._threshold = threshold
 
-    def score_text(self, text: str) -> Score:
+    def score_text(self, text: str) -> Score[float]:
         result = self._model(text)
 
         score = (
@@ -44,10 +44,9 @@ class PipelinePromptInjectionIdentifier(BaseClassifier):
             else "No prompt injection"
         )
 
-        return Score(
+        return Score[float](
             flagged=score > self._threshold,
-            score_type="float",
-            score_value=score,
-            score_description="Prompt injection detection score",
-            score_explanation=explanation,
+            value=score,
+            description="Prompt injection detection score",
+            explanation=explanation,
         )

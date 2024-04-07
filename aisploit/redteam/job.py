@@ -96,7 +96,7 @@ class RedTeamJob(BaseJob):
                 )
             )
 
-            if score.score_value:
+            if score.flagged:
                 break
 
             current_prompt_text = response

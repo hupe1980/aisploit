@@ -1,19 +1,21 @@
+from typing import TypeVar, Generic
 from abc import ABC, abstractmethod
-from typing import Literal
 from dataclasses import dataclass
 
 
+T = TypeVar("T", int, float, str, bool)
+
+
 @dataclass(frozen=True)
-class Score:
+class Score(Generic[T]):
     flagged: bool
-    score_type: Literal["int", "float", "str", "bool"]
-    score_value: int | float | str | bool
-    score_description: str = ""
-    score_explanation: str = ""
+    value: T
+    description: str = ""
+    explanation: str = ""
 
 
-class BaseClassifier(ABC):
+class BaseClassifier(ABC, Generic[T]):
     @abstractmethod
-    def score_text(self, text: str) -> Score:
+    def score_text(self, text: str) -> Score[T]:
         """Score the text and return a Score object."""
-        raise NotImplementedError("score_text method not implemented")
+        pass
