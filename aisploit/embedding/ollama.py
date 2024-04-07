@@ -13,4 +13,5 @@ class OllamaEmbeddings(LangchainOllamaEmbeddings, BaseEmbeddings):
     ) -> None:
         super().__init__(
             model=model,
+            **kwargs,
         )
