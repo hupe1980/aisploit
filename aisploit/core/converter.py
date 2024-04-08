@@ -1,6 +1,7 @@
 from typing import Union
 from abc import ABC, abstractmethod
 from langchain_core.prompt_values import StringPromptValue
+from .model import BaseChatModel
 from .prompt import BasePromptValue
 
 
@@ -47,3 +48,20 @@ class BaseConverter(ABC):
             prefix = "custom"
 
         return f"<{prefix}.{self.__class__.__name__}>"
+
+
+class BaseChatModelConverter(BaseConverter, ABC):
+    def __init__(self, chat_model: BaseChatModel) -> None:
+        self._chat_model = chat_model
+
+    def __repr__(self) -> str:
+        """Return a string representation of the converter.
+
+        Returns:
+            str: A string representation of the converter.
+        """
+        prefix = "aisploit"
+        if not self.__module__.startswith(prefix):
+            prefix = "custom"
+
+        return f"<{prefix}.{self.__class__.__name__}(chat_model={self._chat_model.get_name()})>"

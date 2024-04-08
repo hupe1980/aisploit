@@ -1,7 +1,7 @@
 import textwrap
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from ..core import BaseConverter, BaseChatModel
+from ..core import BaseChatModelConverter, BaseChatModel
 
 _template = ChatPromptTemplate.from_template(
     textwrap.dedent(
@@ -22,8 +22,9 @@ _template = ChatPromptTemplate.from_template(
 )
 
 
-class GenderConverter(BaseConverter):
+class GenderConverter(BaseChatModelConverter):
     def __init__(self, *, chat_model: BaseChatModel, prompt=_template) -> None:
+        super().__init__(chat_model)
         self._chain = prompt | chat_model | StrOutputParser()
 
     def _convert(self, prompt: str) -> str:
