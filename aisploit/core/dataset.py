@@ -9,13 +9,13 @@ T = TypeVar("T")
 class BaseDataset(Generic[T]):
     """Generic dataset class."""
 
-    _prompts: Sequence[T]
+    _entries: Sequence[T]
 
     def __iter__(self):
-        return iter(self._prompts)
+        return iter(self._entries)
 
     def __len__(self):
-        return len(self._prompts)
+        return len(self._entries)
 
 
 class YamlDeserializable(ABC):

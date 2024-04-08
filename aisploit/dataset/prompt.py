@@ -28,7 +28,7 @@ class PromptDataset(BaseDataset[Prompt]):
         Args:
             prompts (Sequence[Prompt]): The prompts to initialize the dataset with.
         """
-        self._prompts = prompts
+        self._entries = prompts
 
     @classmethod
     def load_from_directory(

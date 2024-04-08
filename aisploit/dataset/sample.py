@@ -26,7 +26,7 @@ class SampleDataset(BaseDataset[Sample]):
         Args:
             samples (Sequence[Sample]): The samples to initialize the dataset with.
         """
-        self._samples = samples
+        self._entries = samples
 
     @classmethod
     def load_from_directory(
