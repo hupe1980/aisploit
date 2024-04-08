@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 
-T = TypeVar("T", int, float, str, bool)
+T = TypeVar("T")
 
 
 @dataclass(frozen=True)

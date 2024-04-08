@@ -15,7 +15,7 @@ class PipelinePromptInjectionIdentifier(BaseClassifier[float]):
         injection_label: str = "INJECTION",
         threshold: float = 0.5,
     ) -> None:
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
         model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
         self._model = pipeline(
