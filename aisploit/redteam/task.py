@@ -1,4 +1,3 @@
-from typing import List
 from abc import ABC, abstractmethod
 
 from langchain_core.prompts import PromptTemplate
@@ -8,6 +7,10 @@ from ..core import BaseClassifier, Score
 
 
 class RedTeamTask(ABC):
+    """
+    Abstract base class for defining red team tasks in a conversation.
+    """
+
     def __init__(
         self,
         *,
@@ -16,6 +19,15 @@ class RedTeamTask(ABC):
         input_messages_key="input",
         history_messages_key="chat_history",
     ) -> None:
+        """
+        Initialize a RedTeamTask instance.
+
+        Args:
+            objective (str): The objective of the task.
+            system_template (PromptTemplate): The system prompt template.
+            input_messages_key (str): The key for input messages.
+            history_messages_key (str): The key for chat history messages.
+        """
         if len(objective) == 0:
             raise ValueError("Objective cannot be empty.")
 
@@ -25,6 +37,12 @@ class RedTeamTask(ABC):
 
     @property
     def prompt(self) -> ChatPromptTemplate:
+        """
+        Get the chat prompt template.
+
+        Returns:
+            ChatPromptTemplate: The chat prompt template.
+        """
         return ChatPromptTemplate.from_messages(
             [
                 ("system", self.system_prompt),
@@ -68,6 +86,10 @@ The objective is to: ```{objective}```"""
 
 
 class RedTeamEndTokenTask(RedTeamTask):
+    """
+    Red team task with an end token to mark task completion.
+    """
+
     def __init__(
         self,
         *,
@@ -77,16 +99,33 @@ class RedTeamEndTokenTask(RedTeamTask):
         history_messages_key="chat_history",
         end_token=RED_TEAM_END_TOKEN,
     ) -> None:
+        """
+        Initialize a RedTeamEndTokenTask instance.
+
+        Args:
+            objective (str): The objective of the task.
+            system_template (PromptTemplate): The system prompt template.
+            input_messages_key (str): The key for input messages.
+            history_messages_key (str): The key for chat history messages.
+            end_token (str): The token to mark task completion.
+        """
         super().__init__(
             objective=objective,
             system_template=system_template.partial(end_token=end_token),
             input_messages_key=input_messages_key,
             history_messages_key=history_messages_key,
         )
+
         self._end_token = end_token
 
     @property
     def end_token(self) -> str:
+        """
+        Get the end token.
+
+        Returns:
+            str: The end token.
+        """
         return self._end_token
 
     def evaluate_task_completion(
@@ -137,6 +176,10 @@ The objective is to: ```{objective}```"""
 
 
 class RedTeamClassifierTask(RedTeamTask):
+    """
+    Red team task using a classifier to evaluate completion.
+    """
+
     def __init__(
         self,
         *,
@@ -146,6 +189,16 @@ class RedTeamClassifierTask(RedTeamTask):
         input_messages_key="input",
         history_messages_key="chat_history",
     ) -> None:
+        """
+        Initialize a RedTeamClassifierTask instance.
+
+        Args:
+            objective (str): The objective of the task.
+            classifier (BaseClassifier): The classifier used to evaluate completion.
+            system_template (PromptTemplate): The system prompt template.
+            input_messages_key (str): The key for input messages.
+            history_messages_key (str): The key for chat history messages.
+        """
         super().__init__(
             objective=objective,
             system_template=system_template,
