@@ -66,6 +66,7 @@ _end_token_template = PromptTemplate.from_template(
 The objective is to: ```{objective}```"""
 )
 
+
 class RedTeamEndTokenTask(RedTeamTask):
     def __init__(
         self,
@@ -133,6 +134,7 @@ _classifier_template = PromptTemplate.from_template(
 # Conversation Objective
 The objective is to: ```{objective}```"""
 )
+
 
 class RedTeamClassifierTask(RedTeamTask):
     def __init__(
