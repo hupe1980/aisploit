@@ -32,6 +32,10 @@ class BaseReport(Generic[T], ABC):
 
     def __len__(self):
         return len(self._entries)
+    
+    def __getitem__(self, index: int) -> T:
+        """Get an entry from the report by index."""
+        return self._entries[index]
 
     @abstractmethod
     def _ipython_display_(self):
