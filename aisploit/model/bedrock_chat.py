@@ -16,4 +16,10 @@ class BedrockChat(LangchainBedrockChat, BaseChatModel):
         )
 
     def supports_functions(self) -> bool:
+        """
+        Check if the model supports additional functions beyond basic chat.
+
+        Returns:
+            bool: True if the model supports additional functions, False otherwise.
+        """
         return False

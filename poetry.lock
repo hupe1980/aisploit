@@ -121,6 +121,30 @@ files = [
 ]
 
 [[package]]
+name = "anthropic"
+version = "0.25.0"
+description = "The official Python library for the anthropic API"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "anthropic-0.25.0-py3-none-any.whl", hash = "sha256:b5dfe4dfebace1641a02cfda939cd6dffac0152ab305ca1ef0c11023043a51a2"},
+    {file = "anthropic-0.25.0.tar.gz", hash = "sha256:63372443e699da7ffb467b2d0eb5ee7740acf877368b364a1137d795ae4e4c16"},
+]
+
+[package.dependencies]
+anyio = ">=3.5.0,<5"
+distro = ">=1.7.0,<2"
+httpx = ">=0.23.0,<1"
+pydantic = ">=1.9.0,<3"
+sniffio = "*"
+tokenizers = ">=0.13.0"
+typing-extensions = ">=4.7,<5"
+
+[package.extras]
+bedrock = ["boto3 (>=1.28.57)", "botocore (>=1.31.57)"]
+vertex = ["google-auth (>=2,<3)"]
+
+[[package]]
 name = "anyio"
 version = "4.3.0"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
@@ -1985,6 +2009,22 @@ websocket-client = ">=0.32.0,<0.40.0 || >0.40.0,<0.41.dev0 || >=0.43.dev0"
 
 [package.extras]
 adal = ["adal (>=1.0.2)"]
+
+[[package]]
+name = "langchain-anthropic"
+version = "0.1.6"
+description = "An integration package connecting AnthropicMessages and LangChain"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langchain_anthropic-0.1.6-py3-none-any.whl", hash = "sha256:5626f9f2f0d3cc1665a2f5817ea1856dbfa4c745bc6f95b7043c56b6ab85e0c1"},
+    {file = "langchain_anthropic-0.1.6.tar.gz", hash = "sha256:544e5c8c365964c594b80eb1db994e67d90722be9efde460229e5888524545de"},
+]
+
+[package.dependencies]
+anthropic = ">=0.23.0,<1"
+defusedxml = ">=0.7.1,<0.8.0"
+langchain-core = ">=0.1.33,<0.2.0"
 
 [[package]]
 name = "langchain-community"
@@ -5587,4 +5627,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "7217142ebf4dd86262bb9161091ea39148cc89ac7a71290c98dfc5515392bbb4"
+content-hash = "24c6e4eaaad9b04171d93c2871146a8f801f494159622402d9ad5343d9ce39cf"

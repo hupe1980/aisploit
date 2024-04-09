@@ -13,6 +13,12 @@ class BaseLLM(Runnable[LanguageModelInput, str]):
 class BaseChatModel(Runnable[LanguageModelInput, BaseMessage]):
     @abstractmethod
     def supports_functions(self) -> bool:
+        """
+        Check if the model supports additional functions beyond basic chat.
+
+        Returns:
+            bool: True if the model supports additional functions, False otherwise.
+        """
         pass
 
 
