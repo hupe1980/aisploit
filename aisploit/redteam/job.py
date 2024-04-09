@@ -1,6 +1,7 @@
 from typing import Optional
 from langchain_core.prompt_values import StringPromptValue
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import (
     RunnableWithMessageHistory,
@@ -9,7 +10,6 @@ from langchain_core.runnables.history import (
 
 from ..core import (
     BaseChatModel,
-    BaseClassifier,
     BaseJob,
     BaseTarget,
     Callbacks,
@@ -19,6 +19,15 @@ from .task import RedTeamTask
 from .report import RedTeamReport, RedTeamReportEntry
 
 
+store = {}
+
+
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = ChatMessageHistory()
+    return store[session_id]
+
+
 class RedTeamJob(BaseJob):
     def __init__(
         self,
@@ -26,8 +35,7 @@ class RedTeamJob(BaseJob):
         chat_model: BaseChatModel,
         task: RedTeamTask,
         target: BaseTarget,
-        classifier: BaseClassifier,
-        get_session_history: Optional[GetSessionHistoryCallable] = None,
+        get_session_history: GetSessionHistoryCallable = get_session_history,
         callbacks: Callbacks = [],
         verbose=False,
     ) -> None:
@@ -36,12 +44,7 @@ class RedTeamJob(BaseJob):
         self._chat_model = chat_model
         self._task = task
         self._target = target
-        self._classifier = classifier
-        self._get_session_history = (
-            get_session_history
-            if get_session_history
-            else lambda *args, **kwargs: ChatMessageHistory()
-        )
+        self._get_session_history = get_session_history
         self._callbacks = callbacks
 
     def execute(
@@ -83,7 +86,9 @@ class RedTeamJob(BaseJob):
 
             response = self._target.send_prompt(current_prompt)
 
-            score = self._classifier.score_text(text=response)
+            score = self._task.evaluate_task_completion(
+                response, get_session_history(session_id=run_id)
+            )
 
             callback_manager.on_redteam_attempt_end(attempt, response, score)
 
@@ -96,6 +101,7 @@ class RedTeamJob(BaseJob):
                 )
             )
 
+            # task.is_completed
             if score.flagged:
                 break
 
