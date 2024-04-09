@@ -56,6 +56,7 @@ class PromptInjectionPlugin(Plugin):
                                 "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
                             ],
                             send_report_entry=entry,
+                            score=score,
                         )
                     )
 

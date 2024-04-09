@@ -4,7 +4,7 @@ from collections import defaultdict
 from pathlib import Path
 from IPython.display import display_markdown
 
-from ..core import BaseReport
+from ..core import BaseReport, Score
 from ..sender import SendReportEntry
 
 
@@ -22,6 +22,7 @@ class Issue:
     category: IssueCategory
     references: Sequence[str]
     send_report_entry: SendReportEntry
+    score: Score
 
 
 class ScanReport(BaseReport[Issue]):
