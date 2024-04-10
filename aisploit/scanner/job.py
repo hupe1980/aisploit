@@ -1,6 +1,4 @@
 from typing import Any, Dict, Optional, Sequence, List
-from uuid import uuid4
-
 
 from ..core import BaseJob, BaseTarget, Callbacks, CallbackManager
 from .plugins import ManyShotPlugin, PromptInjectionPlugin
@@ -22,7 +20,6 @@ class ScannerJob(BaseJob):
     ) -> None:
         super().__init__(verbose=verbose)
 
-        self.scan_id = str(uuid4())
         self._target = target
         self._plugin_params = plugin_params
         self._callbacks = callbacks
