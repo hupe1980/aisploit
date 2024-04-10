@@ -53,7 +53,7 @@ class SenderJob(BaseJob):
         self, prompt: BasePromptValue, converter: Optional[BaseConverter] = None
     ) -> SendReportEntry:
         start_time = datetime.now()
-        response = self._target.send_prompt(prompt)
+        response = self._target.send_prompt(prompt).strip()
         end_time = datetime.now()
 
         return SendReportEntry(
