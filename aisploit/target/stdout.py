@@ -3,7 +3,7 @@ import sys
 from typing import IO
 
 
-from ..core import BaseTarget, BasePromptValue
+from ..core import BaseTarget, Response, BasePromptValue
 
 
 class StdOutTarget(BaseTarget):
@@ -14,6 +14,6 @@ class StdOutTarget(BaseTarget):
     ) -> None:
         self._text_stream = text_stream
 
-    def send_prompt(self, prompt: BasePromptValue) -> str:
+    def send_prompt(self, prompt: BasePromptValue) -> Response:
         self._text_stream.write(f"{prompt.to_string()}\n")
-        return f"Prompt printed to stream {self._text_stream.name}."
+        return Response(content=f"Prompt printed to stream {self._text_stream.name}.")

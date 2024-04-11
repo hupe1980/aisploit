@@ -14,7 +14,7 @@ class GoogleGenerativeAIEmbeddings(
     def __init__(
         self,
         *,
-        api_key: Optional[str],
+        api_key: Optional[str] = None,
         model: str = "models/embedding-001",
         **kwargs,
     ) -> None:

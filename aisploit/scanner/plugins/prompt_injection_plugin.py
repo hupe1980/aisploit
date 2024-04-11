@@ -15,7 +15,7 @@ class PromptInjectionPlugin(Plugin):
         self,
         *,
         dataset=JailbreakPromptDataset,
-        converters: Sequence[BaseConverter] = [NoOpConverter()],
+        converters: List[BaseConverter] = [NoOpConverter()],
         classifier=SubstringClassifier(
             substring="aisploit", ignore_case=True, flag_matches=True
         ),
@@ -44,7 +44,7 @@ class PromptInjectionPlugin(Plugin):
             )
 
             for entry in report:
-                score = self._classifier.score_text(entry.response)
+                score = self._classifier.score(entry.response.content)
                 if score.flagged:
                     issues.append(
                         Issue(

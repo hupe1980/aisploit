@@ -2,6 +2,7 @@ from typing import Sequence
 
 from .prompt import BasePromptValue
 from .classifier import Score
+from .target import Response
 
 
 class BaseCallbackHandler:
@@ -20,13 +21,13 @@ class BaseCallbackHandler:
         pass
 
     def on_redteam_attempt_end(
-        self, attempt: int, response: str, score: Score, *, run_id: str
+        self, attempt: int, response: Response, score: Score, *, run_id: str
     ):
         """Called when a red team attempt ends.
 
         Args:
             attempt (int): The attempt number.
-            response (str): The response from the attempt.
+            response (Response): The response from the attempt.
             score (Score): The score of the attempt.
             run_id (str): The ID of the current run.
         """
@@ -48,6 +49,12 @@ class BaseCallbackHandler:
             name (str): The name of the scanner plugin.
             run_id (str): The ID of the current run.
         """
+        pass
+
+    def on_sender_send_prompt_start(self):
+        pass
+
+    def on_sender_send_prompt_end(self):
         pass
 
 
@@ -84,12 +91,12 @@ class CallbackManager:
                 attempt=attempt, prompt=prompt, run_id=self.run_id
             )
 
-    def on_redteam_attempt_end(self, attempt: int, response: str, score: Score):
+    def on_redteam_attempt_end(self, attempt: int, response: Response, score: Score):
         """Notify callback handlers when a red team attempt ends.
 
         Args:
             attempt (int): The attempt number.
-            response (str): The response from the attempt.
+            response (Response): The response from the attempt.
             score (Score): The score of the attempt.
         """
         for cb in self._callbacks:
@@ -114,3 +121,11 @@ class CallbackManager:
         """
         for cb in self._callbacks:
             cb.on_scanner_plugin_end(name=name, run_id=self.run_id)
+
+    def on_sender_send_prompt_start(self):
+        for cb in self._callbacks:
+            cb.on_sender_send_prompt_start()
+
+    def on_sender_send_prompt_end(self):
+        for cb in self._callbacks:
+            cb.on_sender_send_prompt_end()

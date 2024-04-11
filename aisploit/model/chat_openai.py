@@ -13,7 +13,7 @@ class ChatOpenAI(LangchainChatOpenAI, BaseChatModel):
     def __init__(
         self,
         *,
-        api_key: Optional[str],
+        api_key: Optional[str] = None,
         model: str = "gpt-4",
         max_tokens: int = 1024,
         temperature: float = 1.0,

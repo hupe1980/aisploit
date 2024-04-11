@@ -105,6 +105,6 @@ class RedTeamJob(BaseJob):
             if score.flagged:
                 break
 
-            current_prompt_text = response
+            current_prompt_text = response.content
 
         return report

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts.chat import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.chat_history import BaseChatMessageHistory
-from ..core import BaseClassifier, Score
+from ..core import BaseTextClassifier, Score, Response
 
 
 class RedTeamTask(ABC):
@@ -53,18 +53,8 @@ class RedTeamTask(ABC):
 
     @abstractmethod
     def evaluate_task_completion(
-        self, response: str, history: BaseChatMessageHistory
+        self, response: Response, history: BaseChatMessageHistory
     ) -> Score:
-        """
-        Evaluate if a task is completed based on the response and chat message history.
-
-        Args:
-            response (str): The response message.
-            history (BaseChatMessageHistory): The chat message history.
-
-        Returns:
-            Score: A score representing the completion status of the task.
-        """
         pass
 
 
@@ -129,21 +119,11 @@ class RedTeamEndTokenTask(RedTeamTask):
         return self._end_token
 
     def evaluate_task_completion(
-        self, response: str, history: BaseChatMessageHistory
+        self, response: Response, history: BaseChatMessageHistory
     ) -> Score:
-        """
-        Evaluate if a task is completed based on the response and chat message history.
-
-        Args:
-            response (str): The response message.
-            history (BaseChatMessageHistory): The chat message history.
-
-        Returns:
-            Score: A score representing the completion status of the task.
-        """
 
         # Check if the end token is in the response
-        completion_detected = self.end_token in response
+        completion_detected = self.end_token in response.content
 
         # Construct the score based on the result
         description = "Task completion evaluation"
@@ -184,7 +164,7 @@ class RedTeamClassifierTask(RedTeamTask):
         self,
         *,
         objective: str,
-        classifier: BaseClassifier,
+        classifier: BaseTextClassifier,
         system_template=_classifier_template,
         input_messages_key="input",
         history_messages_key="chat_history",
@@ -209,16 +189,6 @@ class RedTeamClassifierTask(RedTeamTask):
         self._classifier = classifier
 
     def evaluate_task_completion(
-        self, response: str, history: BaseChatMessageHistory
+        self, response: Response, history: BaseChatMessageHistory
     ) -> Score:
-        """
-        Evaluate if a task is completed based on the response and chat message history.
-
-        Args:
-            response (str): The response message.
-            history (BaseChatMessageHistory): The chat message history.
-
-        Returns:
-            Score: A score representing the completion status of the task.
-        """
-        return self._classifier.score_text(response)
+        return self._classifier.score(response.content)

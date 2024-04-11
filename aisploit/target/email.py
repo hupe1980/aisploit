@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 from imapclient import IMAPClient
 import ssl as ssl_lib
 
-from ..core import BaseTarget, BasePromptValue
+from ..core import BaseTarget, Response, BasePromptValue
 from ..utils import SMTPClient
 
 
@@ -117,7 +117,7 @@ class EmailTarget(BaseTarget):
         self._from_addr = from_addr
         self._to_addr = to_addr
 
-    def send_prompt(self, prompt: BasePromptValue) -> str:
+    def send_prompt(self, prompt: BasePromptValue) -> Response:
         self._sender.send_email(
             from_addr=self._from_addr,
             to_addr=self._to_addr,
@@ -129,4 +129,4 @@ class EmailTarget(BaseTarget):
             from_addr=self._from_addr, timeout=120
         )
 
-        return "\n".join(emails)
+        return Response(content="\n".join(emails))

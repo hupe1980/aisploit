@@ -3,10 +3,10 @@ import os
 from openai import OpenAI
 from openai.types.moderation import Moderation
 
-from ...core import BaseClassifier, Score
+from ...core import BaseTextClassifier, Score
 
 
-class ModerationClassifier(BaseClassifier[Moderation]):
+class ModerationClassifier(BaseTextClassifier[Moderation]):
     """A classifier that uses the OpenAI Moderations API for scoring."""
 
     def __init__(
@@ -19,14 +19,14 @@ class ModerationClassifier(BaseClassifier[Moderation]):
 
         self._client = OpenAI(api_key=api_key)
 
-    def score_text(self, text: str) -> Score[Moderation]:
-        """Score the text using the OpenAI Moderations API."""
-        response = self._client.moderations.create(input=text)
+    def score(self, input: str) -> Score[Moderation]:
+        """Score the input using the OpenAI Moderations API."""
+        response = self._client.moderations.create(input=input)
         output = response.results[0]
 
         return Score[Moderation](
             flagged=output.flagged,
             value=output,
-            description="Moderation score for the given text",
+            description="Moderation score for the given input",
             explanation="Details about the moderation score",
         )

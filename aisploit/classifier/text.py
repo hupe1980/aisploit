@@ -1,31 +1,56 @@
 import re
-from ..core import BaseClassifier, Score
+from ..core import BaseTextClassifier, Score
 
 
-class RegexClassifier(BaseClassifier[bool]):
+class RegexClassifier(BaseTextClassifier[bool]):
+    """A text classifier based on regular expressions."""
+
     def __init__(self, *, pattern: re.Pattern, flag_matches=True) -> None:
+        """Initialize the RegexClassifier.
+
+        Args:
+            pattern (re.Pattern): The regular expression pattern to match.
+            flag_matches (bool, optional): Flag indicating whether matches should be flagged. Defaults to True.
+        """
         self._pattern = pattern
         self._flag_matches = flag_matches
 
-    def score_text(self, text: str) -> Score[bool]:
-        if re.search(self._pattern, text):
+    def score(self, input: str) -> Score[bool]:
+        """Score the input based on the regular expression pattern.
+
+        Args:
+            input (str): The input text to be scored.
+
+        Returns:
+            Score[bool]: A Score object representing the result of scoring.
+        """
+        if re.search(self._pattern, input):
             return Score[bool](
                 flagged=True if self._flag_matches else False,
                 value=True,
-                description=f"Return True if the pattern {self._pattern.pattern} is found in the text",
-                explanation=f"Found pattern {self._pattern.pattern} in text",
+                description=f"Return True if the pattern {self._pattern.pattern} is found in the input",
+                explanation=f"Found pattern {self._pattern.pattern} in input",
             )
 
         return Score[bool](
             flagged=False if self._flag_matches else True,
             value=False,
-            description=f"Return True if the pattern {self._pattern.pattern} is found in the text",
-            explanation=f"Did not find pattern {self._pattern.pattern} in text",
+            description=f"Return True if the pattern {self._pattern.pattern} is found in the input",
+            explanation=f"Did not find pattern {self._pattern.pattern} in input",
         )
 
 
 class SubstringClassifier(RegexClassifier):
+    """A text classifier based on substring matching."""
+
     def __init__(self, *, substring: str, ignore_case=True, flag_matches=True) -> None:
+        """Initialize the SubstringClassifier.
+
+        Args:
+            substring (str): The substring to match.
+            ignore_case (bool, optional): Flag indicating whether to ignore case when matching substrings. Defaults to True.
+            flag_matches (bool, optional): Flag indicating whether matches should be flagged. Defaults to True.
+        """
         compiled_pattern = (
             re.compile(substring, re.IGNORECASE)
             if ignore_case

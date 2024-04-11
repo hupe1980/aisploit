@@ -4,10 +4,10 @@ from transformers import (
     pipeline,
 )
 
-from ...core import BaseClassifier, Score
+from ...core import BaseTextClassifier, Score
 
 
-class PipelinePromptInjectionIdentifier(BaseClassifier[float]):
+class PipelinePromptInjectionIdentifier(BaseTextClassifier[float]):
     def __init__(
         self,
         *,
@@ -29,8 +29,8 @@ class PipelinePromptInjectionIdentifier(BaseClassifier[float]):
         self._injection_label = injection_label
         self._threshold = threshold
 
-    def score_text(self, text: str) -> Score[float]:
-        result = self._model(text)
+    def score(self, input: str) -> Score[float]:
+        result = self._model(input)
 
         score = (
             result[0]["score"]

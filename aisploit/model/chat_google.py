@@ -17,7 +17,7 @@ class ChatGoogleGenerativeAI(LangchainChatGoogleGenerativeAI, BaseChatModel):
     def __init__(
         self,
         *,
-        api_key: Optional[str],
+        api_key: Optional[str] = None,
         model: str = "gemini-pro",
         max_output_tokens: int = 1024,
         temperature: float = 1.0,

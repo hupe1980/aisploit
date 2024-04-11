@@ -1,13 +1,13 @@
 from typing import Optional
 from dataclasses import dataclass
-from ..core import BaseReport, BasePromptValue, Score
+from ..core import BaseReport, BasePromptValue, Score, Response
 
 
 @dataclass
 class RedTeamReportEntry:
     attempt: int
     prompt: BasePromptValue
-    response: str
+    response: Response
     score: Score
 
 
@@ -47,12 +47,12 @@ class RedTeamReport(BaseReport[RedTeamReportEntry]):
         return self._entries[-1].score
 
     @property
-    def final_response(self) -> Optional[str]:
+    def final_response(self) -> Optional[Response]:
         """
         Get the final response of the report.
 
         Returns:
-            Optional[str]: The final response of the report, or None if no entries exist.
+            Optional[Response]: The final response of the report, or None if no entries exist.
         """
         if len(self._entries) == 0:
             return None

@@ -2,14 +2,14 @@ from typing import Optional
 from dataclasses import dataclass
 from datetime import datetime
 
-from ..core import BasePromptValue, BaseReport, BaseConverter
+from ..core import BasePromptValue, BaseReport, BaseConverter, Response
 
 
-@dataclass
+@dataclass(frozen=True)
 class SendReportEntry:
     prompt: BasePromptValue
     converter: Optional[BaseConverter]
-    response: str
+    response: Response
     start_time: datetime
     end_time: datetime
 

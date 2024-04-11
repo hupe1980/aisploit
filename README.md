@@ -21,7 +21,7 @@ pip install aisploit
 ```python
 from typing import Any
 import textwrap
-from aisploit.core import BaseCallbackHandler, BasePromptValue, Score
+from aisploit.core import BaseCallbackHandler, BasePromptValue, Score, Response
 from aisploit.model import ChatOpenAI
 from aisploit.redteam import RedTeamJob, RedTeamClassifierTask
 from aisploit.target import target
@@ -36,14 +36,18 @@ def play_game(level: GandalfLevel, max_attempt=5) -> None:
     gandalf_scorer = GandalfScorer(level=level, chat_model=chat_model)
 
     class GandalfHandler(BaseCallbackHandler):
-        def on_redteam_attempt_start(self, attempt: int, prompt: BasePromptValue, **kwargs: Any):
+        def on_redteam_attempt_start(
+            self, attempt: int, prompt: BasePromptValue, **kwargs: Any
+        ):
             print(f"Attempt #{attempt}")
             print("Sending the following to Gandalf:")
             print(f"{prompt.to_string()}\n")
 
-        def on_redteam_attempt_end(self, attempt: int, response: str, score: Score, **kwargs: Any):
+        def on_redteam_attempt_end(
+            self, attempt: int, response: Response, score: Score, **kwargs: Any
+        ):
             print("Response from Gandalf:")
-            print(f"{response}\n")
+            print(f"{response.content}\n")
 
     task = RedTeamClassifierTask(
         objective=textwrap.dedent(
@@ -58,7 +62,7 @@ def play_game(level: GandalfLevel, max_attempt=5) -> None:
         ),
         classifier=gandalf_scorer,
     )
-    
+
     @target
     def send_prompt(prompt: str):
         return gandalf_bot.invoke(prompt)

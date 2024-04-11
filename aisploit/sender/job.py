@@ -1,8 +1,15 @@
-from typing import Union, Sequence, Optional
+from typing import Union, Sequence, Optional, List
 from datetime import datetime
 from langchain_core.prompt_values import StringPromptValue
 
-from ..core import BaseJob, BaseConverter, BaseTarget, BasePromptValue
+from ..core import (
+    BaseJob,
+    BaseConverter,
+    BaseTarget,
+    BasePromptValue,
+    Callbacks,
+    CallbackManager,
+)
 from ..converter import NoOpConverter
 from .report import SendReport, SendReportEntry
 
@@ -12,8 +19,9 @@ class SenderJob(BaseJob):
         self,
         *,
         target: BaseTarget,
-        converters: Sequence[BaseConverter] = [NoOpConverter()],
+        converters: List[BaseConverter] = [NoOpConverter()],
         include_original_prompt=False,
+        callbacks: Callbacks = [],
         verbose=False,
     ) -> None:
         super().__init__(verbose=verbose)
@@ -21,6 +29,7 @@ class SenderJob(BaseJob):
         self._target = target
         self._converters = converters
         self._include_original_prompt = include_original_prompt
+        self._callbacks = callbacks
 
     def execute(
         self,
@@ -30,30 +39,50 @@ class SenderJob(BaseJob):
     ) -> SendReport:
         run_id = run_id or self._create_run_id()
 
+        callback_manager = CallbackManager(
+            run_id=run_id,
+            callbacks=self._callbacks,
+        )
+
         report = SendReport(run_id=run_id)
 
         for prompt in prompts:
-            if isinstance(prompt, str):
-                prompt = StringPromptValue(text=prompt)
-
             if self._include_original_prompt and not any(
                 isinstance(c, NoOpConverter) for c in self._converters
             ):
-                entry = self._send_prompt(prompt)
-                report.add_entry(entry)
+                self._converters.append(NoOpConverter())
 
             for converter in self._converters:
+                if isinstance(prompt, str):
+                    prompt = StringPromptValue(text=prompt)
+
                 converted_prompt = converter.convert(prompt)
-                entry = self._send_prompt(converted_prompt, converter)
+
+                entry = self._send_prompt(
+                    prompt=converted_prompt,
+                    converter=converter,
+                    callback_manager=callback_manager,
+                )
+
                 report.add_entry(entry)
 
         return report
 
     def _send_prompt(
-        self, prompt: BasePromptValue, converter: Optional[BaseConverter] = None
+        self,
+        *,
+        prompt: BasePromptValue,
+        converter: BaseConverter,
+        callback_manager: CallbackManager,
     ) -> SendReportEntry:
         start_time = datetime.now()
-        response = self._target.send_prompt(prompt).strip()
+
+        callback_manager.on_sender_send_prompt_start()
+
+        response = self._target.send_prompt(prompt)
+
+        callback_manager.on_sender_send_prompt_end()
+
         end_time = datetime.now()
 
         return SendReportEntry(

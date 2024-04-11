@@ -11,7 +11,7 @@ class ChatAnthropic(LangchainChatAnthropic, BaseChatModel):
     def __init__(
         self,
         *,
-        api_key: Optional[str],
+        api_key: Optional[str] = None,
         model_name: str = "claude-3-opus-20240229",
         temperature: float = 1.0,
         **kwargs,
