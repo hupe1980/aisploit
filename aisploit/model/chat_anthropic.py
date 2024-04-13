@@ -26,7 +26,7 @@ class ChatAnthropic(LangchainChatAnthropic, BaseChatModel):
             **kwargs: Additional keyword arguments to be passed to the base class constructor.
         """
         super().__init__(
-            anthropic_api_key=convert_to_secret_str(api_key) if api_key else None,
+            api_key=convert_to_secret_str(api_key) if api_key else None,
             model_name=model_name,
             temperature=temperature,
             **kwargs,

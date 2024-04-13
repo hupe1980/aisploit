@@ -108,7 +108,7 @@ class RedTeamJob(BaseJob):
                 )
             )
 
-            if score.flagged: # task is completed
+            if score.flagged:  # task is completed
                 break
 
             current_prompt_text = response.content
