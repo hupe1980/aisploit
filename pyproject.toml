@@ -49,6 +49,7 @@ types-pyyaml = "^6.0.12.12"
 types-requests = "^2.31.0.20240218"
 black = "^24.2.0"
 mypy = "^1.8.0"
+sphinx = "^7.2.6"
 
 [tool.mypy]
 ignore_missing_imports = true
