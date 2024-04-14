@@ -2,7 +2,7 @@ from typing import Sequence, List
 from langchain_core.prompts import PromptTemplate
 
 from ...core import BaseTarget, BaseConverter
-from ...dataset import JailbreakPromptDataset
+from ...datasets import JailbreakPromptDataset
 from ...classifier import SubstringClassifier
 from ...sender import SenderJob
 from ...converter import NoOpConverter

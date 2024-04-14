@@ -30,9 +30,9 @@ Here's a simple example of how to use AISploit:
    from typing import Any
    import textwrap
    from aisploit.core import BaseCallbackHandler, BasePromptValue, Score, Response
-   from aisploit.model import ChatOpenAI
+   from aisploit.models import ChatOpenAI
    from aisploit.red_team import RedTeamJob, RedTeamClassifierTask
-   from aisploit.target import target
+   from aisploit.targets import target
    from aisploit.demo import GandalfBot, GandalfLevel, GandalfScorer
 
    def play_game(level: GandalfLevel, max_attempt=5) -> None:

@@ -5,7 +5,7 @@ from langchain_core.prompts import FewShotChatMessagePromptTemplate, ChatPromptT
 from ...core import BaseTarget, BaseConverter, BaseTextClassifier
 from ...sender import SenderJob
 from ...converter import NoOpConverter
-from ...dataset import SampleDataset
+from ...datasets import SampleDataset
 from ..plugin import Plugin
 from ..report import Issue, IssueCategory
 
