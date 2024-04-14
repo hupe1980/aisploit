@@ -818,6 +818,17 @@ traitlets = ">=4"
 test = ["pytest"]
 
 [[package]]
+name = "confusables"
+version = "1.2.0"
+description = "A python package providing functionality for matching words that can be confused for eachother, but contain different characters"
+optional = false
+python-versions = "*"
+files = [
+    {file = "confusables-1.2.0-py3-none-any.whl", hash = "sha256:0c3e4a8ef8a6179f222e8cb6ea65ac5a71fa5c70d2de21950d14e99f933ecf52"},
+    {file = "confusables-1.2.0.tar.gz", hash = "sha256:429caad05333832e1edabb80815704cd26530514369430f913002b2ba548c38e"},
+]
+
+[[package]]
 name = "dataclasses-json"
 version = "0.6.4"
 description = "Easily serialize dataclasses to and from JSON."
@@ -1807,6 +1818,17 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
+
+[[package]]
+name = "joblib"
+version = "1.4.0"
+description = "Lightweight pipelining with Python functions"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "joblib-1.4.0-py3-none-any.whl", hash = "sha256:42942470d4062537be4d54c83511186da1fc14ba354961a2114da91efa9a4ed7"},
+    {file = "joblib-1.4.0.tar.gz", hash = "sha256:1eb0dc091919cd384490de890cb5dfd538410a6d4b3b54eef09fb8c50b409b1c"},
+]
 
 [[package]]
 name = "json5"
@@ -2818,6 +2840,31 @@ developer = ["changelist (==0.5)", "mypy (>=1.1)", "pre-commit (>=3.2)", "rtoml"
 doc = ["myst-nb (>=1.0)", "numpydoc (>=1.7)", "pillow (>=9.4)", "pydata-sphinx-theme (>=0.14)", "sphinx (>=7)", "sphinx-gallery (>=0.14)", "texext (>=0.6.7)"]
 extra = ["lxml (>=4.6)", "pydot (>=2.0)", "pygraphviz (>=1.12)", "sympy (>=1.10)"]
 test = ["pytest (>=7.2)", "pytest-cov (>=4.0)"]
+
+[[package]]
+name = "nltk"
+version = "3.8.1"
+description = "Natural Language Toolkit"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "nltk-3.8.1-py3-none-any.whl", hash = "sha256:fd5c9109f976fa86bcadba8f91e47f5e9293bd034474752e92a520f81c93dda5"},
+    {file = "nltk-3.8.1.zip", hash = "sha256:1834da3d0682cba4f2cede2f9aad6b0fafb6461ba451db0efb6f9c39798d64d3"},
+]
+
+[package.dependencies]
+click = "*"
+joblib = "*"
+regex = ">=2021.8.3"
+tqdm = "*"
+
+[package.extras]
+all = ["matplotlib", "numpy", "pyparsing", "python-crfsuite", "requests", "scikit-learn", "scipy", "twython"]
+corenlp = ["requests"]
+machine-learning = ["numpy", "python-crfsuite", "scikit-learn", "scipy"]
+plot = ["matplotlib"]
+tgrep = ["pyparsing"]
+twitter = ["twython"]
 
 [[package]]
 name = "notebook"
@@ -5988,4 +6035,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "bef5f28c316de03b94c5267d2fd793011830ff146f4489e7e4b55e1022f2186c"
+content-hash = "b48c6ac033eeb144e0bf9e9960fbb51759dd333b02841d504833d441aa2a06e1"

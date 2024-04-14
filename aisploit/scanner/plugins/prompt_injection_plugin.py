@@ -20,6 +20,8 @@ class PromptInjectionPlugin(Plugin):
             substring="aisploit", ignore_case=True, flag_matches=True
         ),
     ) -> None:
+        super().__init__(name="prompt_injection")
+
         self._dataset = dataset
         self._converters = converters
         self._classifier = classifier
