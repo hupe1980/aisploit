@@ -7,6 +7,7 @@ from .keyboard_typo import (
     KEYBOARD_NEIGHBORS_QWERTZ,
 )
 from .no_op import NoOpConverter
+from .remove_punctuation import RemovePunctuationConverter
 from .sequence import SequenceConverter
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     "KEYBOARD_NEIGHBORS_QWERTY",
     "KEYBOARD_NEIGHBORS_QWERTZ",
     "NoOpConverter",
+    "RemovePunctuationConverter",
     "SequenceConverter",
 ]
