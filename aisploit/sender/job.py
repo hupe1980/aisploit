@@ -10,7 +10,7 @@ from ..core import (
     Callbacks,
     CallbackManager,
 )
-from ..converter import NoOpConverter
+from ..converters import NoOpConverter
 from .report import SendReport, SendReportEntry
 
 

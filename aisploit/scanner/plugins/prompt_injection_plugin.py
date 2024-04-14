@@ -3,9 +3,9 @@ from langchain_core.prompts import PromptTemplate
 
 from ...core import BaseTarget, BaseConverter
 from ...datasets import JailbreakPromptDataset
-from ...classifier import SubstringClassifier
+from ...classifiers import SubstringClassifier
 from ...sender import SenderJob
-from ...converter import NoOpConverter
+from ...converters import NoOpConverter
 from ..plugin import Plugin
 from ..report import Issue, IssueCategory
 

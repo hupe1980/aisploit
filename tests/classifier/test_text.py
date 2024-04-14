@@ -1,6 +1,6 @@
 import re
 import pytest
-from aisploit.classifier import RegexClassifier, SubstringClassifier
+from aisploit.classifiers import RegexClassifier, SubstringClassifier
 
 
 @pytest.fixture

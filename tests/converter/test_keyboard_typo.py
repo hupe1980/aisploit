@@ -1,6 +1,6 @@
 import random
 from langchain_core.prompt_values import StringPromptValue
-from aisploit.converter import KeyboardTypoConverter
+from aisploit.converters import KeyboardTypoConverter
 
 
 def test_convert_no_typo():

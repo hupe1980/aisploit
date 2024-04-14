@@ -1,5 +1,5 @@
 from langchain_core.prompt_values import StringPromptValue
-from aisploit.converter import JoinConverter
+from aisploit.converters import JoinConverter
 
 
 def test_join_with_default_value():
