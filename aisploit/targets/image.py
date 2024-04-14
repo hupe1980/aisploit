@@ -4,7 +4,7 @@ from openai import OpenAI
 from ..core import BaseTarget, Response, BasePromptValue
 
 
-class ImageTarget(BaseTarget):
+class OpenAIImageTarget(BaseTarget):
     def __init__(
         self,
         *,

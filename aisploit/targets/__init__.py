@@ -1,5 +1,5 @@
 from .email import EmailTarget, EmailSender, EmailReceiver, UserPasswordAuth
-from .image import ImageTarget
+from .image import OpenAIImageTarget
 from .langchain import LangchainTarget
 from .stdout import StdOutTarget
 from .target import WrapperTarget, target
@@ -9,7 +9,7 @@ __all__ = [
     "EmailSender",
     "EmailReceiver",
     "UserPasswordAuth",
-    "ImageTarget",
+    "OpenAIImageTarget",
     "LangchainTarget",
     "StdOutTarget",
     "WrapperTarget",
