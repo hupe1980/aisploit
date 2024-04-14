@@ -1,7 +1,7 @@
-from abc import ABC
-import yaml
 from pathlib import Path
-from typing import Generic, Type, TypeVar, Sequence
+from typing import Generic, Sequence, Type, TypeVar
+
+import yaml
 
 T = TypeVar("T")
 
@@ -18,8 +18,8 @@ class BaseDataset(Generic[T]):
         return len(self._entries)
 
 
-class YamlDeserializable(ABC):
-    """Abstract base class for objects that can be deserialized from YAML."""
+class YamlDeserializable:
+    """Base class for objects that can be deserialized from YAML."""
 
     @classmethod
     def from_yaml_file(cls: Type[T], file: Path) -> T:
@@ -44,6 +44,6 @@ class YamlDeserializable(ABC):
             try:
                 yaml_data = yaml.safe_load(f)
             except yaml.YAMLError as exc:
-                raise ValueError(f"Invalid YAML file '{file}': {exc}")
+                raise ValueError(f"Invalid YAML file '{file}'") from exc
 
         return cls(**yaml_data)

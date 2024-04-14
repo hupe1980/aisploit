@@ -1,16 +1,14 @@
 from typing import Optional
+
 from langchain_core.utils.utils import convert_to_secret_str
 from langchain_google_genai import (
     GoogleGenerativeAIEmbeddings as LangchainGoogleGenerativeAIEmbeddings,
 )
 
-
 from ..core import BaseEmbeddings
 
 
-class GoogleGenerativeAIEmbeddings(
-    LangchainGoogleGenerativeAIEmbeddings, BaseEmbeddings
-):
+class GoogleGenerativeAIEmbeddings(LangchainGoogleGenerativeAIEmbeddings, BaseEmbeddings):
     def __init__(
         self,
         *,

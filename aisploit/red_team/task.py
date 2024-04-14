@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 
+from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts.chat import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.chat_history import BaseChatMessageHistory
-from ..core import BaseTextClassifier, Score, Response
+
+from ..core import BaseTextClassifier, Response, Score
 
 
 class RedTeamTask(ABC):
@@ -52,9 +53,7 @@ class RedTeamTask(ABC):
         )
 
     @abstractmethod
-    def evaluate_task_completion(
-        self, response: Response, history: BaseChatMessageHistory
-    ) -> Score:
+    def evaluate_task_completion(self, response: Response, history: BaseChatMessageHistory) -> Score:
         pass
 
 
@@ -118,9 +117,7 @@ class RedTeamEndTokenTask(RedTeamTask):
         """
         return self._end_token
 
-    def evaluate_task_completion(
-        self, response: Response, history: BaseChatMessageHistory
-    ) -> Score:
+    def evaluate_task_completion(self, response: Response, history: BaseChatMessageHistory) -> Score:
 
         # Check if the end token is in the response
         completion_detected = self.end_token in response.content
@@ -188,7 +185,5 @@ class RedTeamClassifierTask(RedTeamTask):
 
         self._classifier = classifier
 
-    def evaluate_task_completion(
-        self, response: Response, history: BaseChatMessageHistory
-    ) -> Score:
+    def evaluate_task_completion(self, response: Response, history: BaseChatMessageHistory) -> Score:
         return self._classifier.score(response.content)

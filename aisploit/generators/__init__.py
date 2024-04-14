@@ -1,4 +1,4 @@
-from .poison import PoisonGenerator, Poison, PoisonDataset
+from .poison import Poison, PoisonDataset, PoisonGenerator
 
 __all__ = [
     "PoisonGenerator",

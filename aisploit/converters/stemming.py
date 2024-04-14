@@ -1,6 +1,7 @@
 import nltk
-from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
+from nltk.tokenize import word_tokenize
+
 from ..core import BaseConverter
 
 

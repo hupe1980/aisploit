@@ -1,8 +1,10 @@
 import textwrap
-from typing import List, Any
+from typing import Any, List
+
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough, RunnableSerializable
 from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough, RunnableSerializable
+
 from aisploit.core import BaseModel, BaseVectorStore
 
 _template = textwrap.dedent(

@@ -1,7 +1,9 @@
-from typing import Optional
 import os
+from typing import Optional
+
 from openai import OpenAI
-from ..core import BaseTarget, Response, BasePromptValue
+
+from ..core import BasePromptValue, BaseTarget, Response
 
 
 class OpenAIImageTarget(BaseTarget):

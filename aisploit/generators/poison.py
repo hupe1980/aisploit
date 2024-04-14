@@ -1,9 +1,11 @@
 import textwrap
-from typing import List, Sequence
 from dataclasses import dataclass
-from langchain_core.prompts.prompt import PromptTemplate
+from typing import List, Sequence
+
 from langchain_core.output_parsers import StrOutputParser
-from ..core import BaseChatModel, BaseEmbeddings, BaseGenerator, BaseDataset
+from langchain_core.prompts.prompt import PromptTemplate
+
+from ..core import BaseChatModel, BaseDataset, BaseEmbeddings, BaseGenerator
 from ..utils import cosine_distance
 
 
@@ -75,9 +77,7 @@ class PoisonGenerator(BaseGenerator[Poison]):
                     target_answer=self._answer,
                     adversary_text=adversary_text,
                     adversary_text_embeddings=adversary_text_embeddings,
-                    cosine_distance=cosine_distance(
-                        question_embeddings, adversary_text_embeddings
-                    ),
+                    cosine_distance=cosine_distance(question_embeddings, adversary_text_embeddings),
                 )
             )
 

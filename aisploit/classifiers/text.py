@@ -1,4 +1,5 @@
 import re
+
 from ..core import BaseTextClassifier, Score
 
 
@@ -51,9 +52,5 @@ class SubstringClassifier(RegexClassifier):
             ignore_case (bool, optional): Flag indicating whether to ignore case when matching substrings. Defaults to True.
             flag_matches (bool, optional): Flag indicating whether matches should be flagged. Defaults to True.
         """
-        compiled_pattern = (
-            re.compile(substring, re.IGNORECASE)
-            if ignore_case
-            else re.compile(substring)
-        )
+        compiled_pattern = re.compile(substring, re.IGNORECASE) if ignore_case else re.compile(substring)
         super().__init__(pattern=compiled_pattern, flag_matches=flag_matches)

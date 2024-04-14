@@ -1,5 +1,6 @@
-from typing import Optional
 import os
+from typing import Optional
+
 from openai import OpenAI
 from openai.types.moderation import Moderation
 

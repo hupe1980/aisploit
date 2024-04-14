@@ -1,5 +1,5 @@
-from .prompt import PromptDataset, Prompt, JailbreakPromptDataset
-from .sample import SampleDataset, Sample
+from .prompt import JailbreakPromptDataset, Prompt, PromptDataset
+from .sample import Sample, SampleDataset
 
 __all__ = [
     "PromptDataset",

@@ -1,7 +1,6 @@
 from typing import Callable
 
-
-from ..core import BaseTarget, Response, BasePromptValue
+from ..core import BasePromptValue, BaseTarget, Response
 
 
 class WrapperTarget(BaseTarget):

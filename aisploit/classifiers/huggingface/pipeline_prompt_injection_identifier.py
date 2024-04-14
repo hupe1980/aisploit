@@ -32,17 +32,9 @@ class PipelinePromptInjectionIdentifier(BaseTextClassifier[float]):
     def score(self, input: str) -> Score[float]:
         result = self._model(input)
 
-        score = (
-            result[0]["score"]
-            if result[0]["label"] == self._injection_label
-            else 1 - result[0]["score"]
-        )
+        score = result[0]["score"] if result[0]["label"] == self._injection_label else 1 - result[0]["score"]
 
-        explanation = (
-            "Prompt injection attack detected"
-            if score > self._threshold
-            else "No prompt injection"
-        )
+        explanation = "Prompt injection attack detected" if score > self._threshold else "No prompt injection"
 
         return Score[float](
             flagged=score > self._threshold,

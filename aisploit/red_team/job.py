@@ -1,24 +1,24 @@
 from typing import Optional
-from langchain_core.prompt_values import StringPromptValue
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.chat_history import BaseChatMessageHistory
+
 from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompt_values import StringPromptValue
 from langchain_core.runnables.history import (
-    RunnableWithMessageHistory,
     GetSessionHistoryCallable,
+    RunnableWithMessageHistory,
 )
 
+from .report import RedTeamReport, RedTeamReportEntry
+from .task import RedTeamTask
 from ..core import (
     BaseChatModel,
-    BaseJob,
     BaseConverter,
+    BaseJob,
     BaseTarget,
-    Callbacks,
     CallbackManager,
+    Callbacks,
 )
-from .task import RedTeamTask
-from .report import RedTeamReport, RedTeamReportEntry
-
 
 store = {}
 
@@ -93,9 +93,7 @@ class RedTeamJob(BaseJob):
 
             response = self._target.send_prompt(current_prompt)
 
-            score = self._task.evaluate_task_completion(
-                response, get_session_history(session_id=run_id)
-            )
+            score = self._task.evaluate_task_completion(response, get_session_history(session_id=run_id))
 
             callback_manager.on_redteam_attempt_end(attempt, response, score)
 

@@ -1,8 +1,7 @@
-from abc import ABC
 from uuid import uuid4
 
 
-class BaseJob(ABC):
+class BaseJob:
     def __init__(self, *, verbose=False) -> None:
         self.verbose = verbose
 

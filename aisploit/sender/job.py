@@ -1,17 +1,18 @@
-from typing import Union, Sequence, Optional, List
 from datetime import datetime
+from typing import List, Optional, Sequence, Union
+
 from langchain_core.prompt_values import StringPromptValue
 
-from ..core import (
-    BaseJob,
-    BaseConverter,
-    BaseTarget,
-    BasePromptValue,
-    Callbacks,
-    CallbackManager,
-)
-from ..converters import NoOpConverter
 from .report import SendReport, SendReportEntry
+from ..converters import NoOpConverter
+from ..core import (
+    BaseConverter,
+    BaseJob,
+    BasePromptValue,
+    BaseTarget,
+    CallbackManager,
+    Callbacks,
+)
 
 
 class SenderJob(BaseJob):
@@ -47,9 +48,7 @@ class SenderJob(BaseJob):
         report = SendReport(run_id=run_id)
 
         for prompt in prompts:
-            if self._include_original_prompt and not any(
-                isinstance(c, NoOpConverter) for c in self._converters
-            ):
+            if self._include_original_prompt and not any(isinstance(c, NoOpConverter) for c in self._converters):
                 self._converters.append(NoOpConverter())
 
             for converter in self._converters:

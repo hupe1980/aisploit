@@ -1,12 +1,12 @@
-from typing import List, Sequence
-from dataclasses import dataclass
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
+from typing import List, Optional, Sequence
+
 from IPython.display import display_markdown
 
 from ..core import BaseReport, Score
 from ..sender import SendReportEntry
-
 
 TEMPLATES_PATH = Path(__file__, "..", "templates").resolve()
 
@@ -30,10 +30,10 @@ class ScanReport(BaseReport[Issue]):
         self,
         *,
         run_id: str,
-        issues: List[Issue] = [],
+        issues: Optional[List[Issue]] = None,
     ) -> None:
         super().__init__(run_id=run_id)
-        self._issues = issues
+        self._issues = issues or []
 
     def has_issues(self) -> bool:
         return len(self._issues) > 0

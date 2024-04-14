@@ -1,6 +1,5 @@
 from langchain_community.embeddings import OllamaEmbeddings as LangchainOllamaEmbeddings
 
-
 from ..core import BaseEmbeddings
 
 

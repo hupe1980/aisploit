@@ -1,7 +1,10 @@
 from typing import Optional
+
 from langchain_core.utils.utils import convert_to_secret_str
 from langchain_google_genai import (
     ChatGoogleGenerativeAI as LangchainChatGoogleGenerativeAI,
+)
+from langchain_google_genai import (
     HarmBlockThreshold,
     HarmCategory,
 )

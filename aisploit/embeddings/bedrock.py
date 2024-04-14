@@ -2,7 +2,6 @@ from langchain_community.embeddings import (
     BedrockEmbeddings as LangchainBedrockEmbeddings,
 )
 
-
 from ..core import BaseEmbeddings
 
 

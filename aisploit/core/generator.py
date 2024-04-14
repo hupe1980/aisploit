@@ -1,5 +1,6 @@
-from typing import Generic, TypeVar
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
+
 from .dataset import BaseDataset
 
 T = TypeVar("T")

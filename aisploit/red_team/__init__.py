@@ -1,6 +1,6 @@
 from .job import RedTeamJob
 from .report import RedTeamReport, RedTeamReportEntry
-from .task import RedTeamTask, RedTeamEndTokenTask, RedTeamClassifierTask
+from .task import RedTeamClassifierTask, RedTeamEndTokenTask, RedTeamTask
 
 __all__ = [
     "RedTeamJob",

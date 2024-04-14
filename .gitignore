@@ -161,5 +161,6 @@ cython_debug/
 
 .env
 .DS_Store
+.ruff_cache
 TODO.md
 !aisploit/target

@@ -1,6 +1,6 @@
-from typing import TypeVar, Generic
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Generic, TypeVar
 
 T = TypeVar("T")
 Input = TypeVar("Input")

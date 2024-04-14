@@ -1,7 +1,9 @@
 import textwrap
-from langchain_core.prompts import ChatPromptTemplate
+
 from langchain_core.output_parsers import StrOutputParser
-from ..core import BaseChatModelConverter, BaseChatModel
+from langchain_core.prompts import ChatPromptTemplate
+
+from ..core import BaseChatModel, BaseChatModelConverter
 
 _template = ChatPromptTemplate.from_template(
     textwrap.dedent(

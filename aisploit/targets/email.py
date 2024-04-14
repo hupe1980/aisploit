@@ -1,13 +1,14 @@
-from typing import Optional, List
+import email
+import ssl as ssl_lib
 import time
 from dataclasses import dataclass
-import email
 from email import policy
 from email.mime.text import MIMEText
-from imapclient import IMAPClient
-import ssl as ssl_lib
+from typing import List, Optional
 
-from ..core import BaseTarget, Response, BasePromptValue
+from imapclient import IMAPClient
+
+from ..core import BasePromptValue, BaseTarget, Response
 from ..utils import SMTPClient
 
 
@@ -47,9 +48,7 @@ class EmailReceiver:
 
     def listen_for_emails(self, from_addr: str, timeout=None) -> List[str]:
         start_time = time.time()
-        with IMAPClient(
-            host=self.host, port=self.port, ssl=self.ssl, ssl_context=self.ssl_context
-        ) as client:
+        with IMAPClient(host=self.host, port=self.port, ssl=self.ssl, ssl_context=self.ssl_context) as client:
             client.login(self.auth.user, self.auth.password)
             client.select_folder(self.folder, readonly=True)
             client.idle()
@@ -60,11 +59,7 @@ class EmailReceiver:
                 if timeout is not None and elapsed_time >= timeout:
                     break  # Exit the loop if the timeout has elapsed
 
-                response = client.idle_check(
-                    timeout=(
-                        min(30, timeout - elapsed_time) if timeout is not None else None
-                    )
-                )
+                response = client.idle_check(timeout=(min(30, timeout - elapsed_time) if timeout is not None else None))
 
                 if response:
                     client.idle_done()
@@ -72,9 +67,7 @@ class EmailReceiver:
                     messages = client.search(["UNSEEN", "FROM", from_addr])
 
                     for _, msg_data in client.fetch(messages, "RFC822").items():
-                        msg = email.message_from_bytes(
-                            msg_data[b"RFC822"], policy=policy.default
-                        )
+                        msg = email.message_from_bytes(msg_data[b"RFC822"], policy=policy.default)
 
                         sender = msg["From"]
                         subject = msg["Subject"]
@@ -91,9 +84,7 @@ class EmailReceiver:
                         if isinstance(body, bytes):
                             body = body.decode("utf-8")
 
-                        emails.append(
-                            f"From: {sender}\nSubject: {subject}\nBody: {body}\n"
-                        )
+                        emails.append(f"From: {sender}\nSubject: {subject}\nBody: {body}\n")
 
                     if len(emails) > 0:
                         break
@@ -125,8 +116,6 @@ class EmailTarget(BaseTarget):
             body=prompt.to_string(),
         )
 
-        emails = self._receiver.listen_for_emails(
-            from_addr=self._from_addr, timeout=120
-        )
+        emails = self._receiver.listen_for_emails(from_addr=self._from_addr, timeout=120)
 
         return Response(content="\n".join(emails))

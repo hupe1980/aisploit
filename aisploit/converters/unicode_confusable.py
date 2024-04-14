@@ -1,5 +1,7 @@
 import random
+
 from confusables import confusable_characters
+
 from ..core import BaseConverter
 
 

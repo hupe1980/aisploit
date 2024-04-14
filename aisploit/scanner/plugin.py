@@ -1,9 +1,8 @@
-from typing import Sequence
 from abc import ABC, abstractmethod
+from typing import Sequence
 
-
-from ..core import BaseTarget
 from .report import Issue
+from ..core import BaseTarget
 
 
 class Plugin(ABC):

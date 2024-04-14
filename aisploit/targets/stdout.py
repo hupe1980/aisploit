@@ -1,9 +1,7 @@
 import sys
-
 from typing import IO
 
-
-from ..core import BaseTarget, Response, BasePromptValue
+from ..core import BasePromptValue, BaseTarget, Response
 
 
 class StdOutTarget(BaseTarget):

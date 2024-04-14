@@ -1,8 +1,8 @@
-from typing import Optional
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Optional
 
-from ..core import BasePromptValue, BaseReport, BaseConverter, Response
+from ..core import BaseConverter, BasePromptValue, BaseReport, Response
 
 
 @dataclass(frozen=True)

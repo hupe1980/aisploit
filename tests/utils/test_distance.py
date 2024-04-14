@@ -1,4 +1,5 @@
 import pytest
+
 from aisploit.utils import cosine_distance, euclidean_distance
 
 

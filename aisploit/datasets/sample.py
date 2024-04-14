@@ -1,7 +1,7 @@
 import os
-from typing import Sequence, Optional
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional, Sequence
 
 from ..core.dataset import BaseDataset, YamlDeserializable
 
@@ -29,9 +29,7 @@ class SampleDataset(BaseDataset[Sample]):
         self._entries = samples
 
     @classmethod
-    def load_from_directory(
-        cls, path: Path, tags_filter: Optional[Sequence[str]] = None
-    ) -> "SampleDataset":
+    def load_from_directory(cls, path: Path, tags_filter: Optional[Sequence[str]] = None) -> "SampleDataset":
         """Create a SampleDataset instance by loading samples from a directory.
 
         Args:
@@ -44,8 +42,6 @@ class SampleDataset(BaseDataset[Sample]):
         samples = []
         for file_name in os.listdir(path):
             sample = Sample.from_yaml_file(path / file_name)
-            if not sample.skip and (
-                not tags_filter or set(sample.tags).intersection(tags_filter)
-            ):
+            if not sample.skip and (not tags_filter or set(sample.tags).intersection(tags_filter)):
                 samples.append(sample)
         return cls(samples)

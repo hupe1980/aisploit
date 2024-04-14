@@ -1,9 +1,9 @@
-from typing import Any, Generic, TypeVar, List
-from datetime import datetime
 from abc import ABC, abstractmethod
+from datetime import datetime
 from pathlib import Path
-from jinja2 import Template
+from typing import Any, Generic, List, TypeVar
 
+from jinja2 import Template
 
 T = TypeVar("T")
 

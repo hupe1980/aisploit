@@ -1,6 +1,7 @@
-from typing import Optional
 from dataclasses import dataclass
-from ..core import BaseReport, BasePromptValue, Score, Response
+from typing import Optional
+
+from ..core import BasePromptValue, BaseReport, Response, Score
 
 
 @dataclass

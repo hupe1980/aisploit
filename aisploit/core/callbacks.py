@@ -1,16 +1,14 @@
 from typing import Sequence
 
-from .prompt import BasePromptValue
 from .classifier import Score
+from .prompt import BasePromptValue
 from .target import Response
 
 
 class BaseCallbackHandler:
     """Base class for callback handlers."""
 
-    def on_redteam_attempt_start(
-        self, attempt: int, prompt: BasePromptValue, *, run_id: str
-    ):
+    def on_redteam_attempt_start(self, attempt: int, prompt: BasePromptValue, *, run_id: str):
         """Called when a red team attempt starts.
 
         Args:
@@ -20,9 +18,7 @@ class BaseCallbackHandler:
         """
         pass
 
-    def on_redteam_attempt_end(
-        self, attempt: int, response: Response, score: Score, *, run_id: str
-    ):
+    def on_redteam_attempt_end(self, attempt: int, response: Response, score: Score, *, run_id: str):
         """Called when a red team attempt ends.
 
         Args:
@@ -68,7 +64,7 @@ class CallbackManager:
         self,
         *,
         run_id: str,
-        callbacks: Sequence[BaseCallbackHandler] = [],
+        callbacks: Sequence[BaseCallbackHandler] | None,
     ) -> None:
         """Initialize the CallbackManager.
 
@@ -77,7 +73,7 @@ class CallbackManager:
             callbacks (Sequence[BaseCallbackHandler], optional): The list of callback handlers. Defaults to [].
         """
         self.run_id = run_id
-        self._callbacks = callbacks
+        self._callbacks = callbacks or []
 
     def on_redteam_attempt_start(self, attempt: int, prompt: BasePromptValue):
         """Notify callback handlers when a red team attempt starts.
@@ -87,9 +83,7 @@ class CallbackManager:
             prompt (BasePromptValue): The prompt value.
         """
         for cb in self._callbacks:
-            cb.on_redteam_attempt_start(
-                attempt=attempt, prompt=prompt, run_id=self.run_id
-            )
+            cb.on_redteam_attempt_start(attempt=attempt, prompt=prompt, run_id=self.run_id)
 
     def on_redteam_attempt_end(self, attempt: int, response: Response, score: Score):
         """Notify callback handlers when a red team attempt ends.
@@ -100,9 +94,7 @@ class CallbackManager:
             score (Score): The score of the attempt.
         """
         for cb in self._callbacks:
-            cb.on_redteam_attempt_end(
-                attempt=attempt, response=response, score=score, run_id=self.run_id
-            )
+            cb.on_redteam_attempt_end(attempt=attempt, response=response, score=score, run_id=self.run_id)
 
     def on_scanner_plugin_start(self, name: str):
         """Notify callback handlers when a scanner plugin starts.

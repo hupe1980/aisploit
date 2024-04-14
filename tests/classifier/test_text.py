@@ -1,5 +1,7 @@
 import re
+
 import pytest
+
 from aisploit.classifiers import RegexClassifier, SubstringClassifier
 
 
@@ -21,7 +23,7 @@ def test_regex_classifier_score_text_match(regex_classifier):
     assert score.value is True
     assert (
         score.description
-        == f"Return True if the pattern \\btest\\b is found in the input"
+        == "Return True if the pattern \\btest\\b is found in the input"
     )
 
 
@@ -31,7 +33,7 @@ def test_regex_classifier_score_text_no_match(regex_classifier):
     assert score.value is False
     assert (
         score.description
-        == f"Return True if the pattern \\btest\\b is found in the input"
+        == "Return True if the pattern \\btest\\b is found in the input"
     )
 
 
@@ -39,11 +41,11 @@ def test_substring_finder_classifier_score_text_match(substring_finder_classifie
     text = "This is a test text"
     score = substring_finder_classifier.score(text)
     assert score.value is True
-    assert score.description == f"Return True if the pattern test is found in the input"
+    assert score.description == "Return True if the pattern test is found in the input"
 
 
 def test_substring_finder_classifier_score_text_no_match(substring_finder_classifier):
     text = "This is not a matching text"
     score = substring_finder_classifier.score(text)
     assert score.value is False
-    assert score.description == f"Return True if the pattern test is found in the input"
+    assert score.description == "Return True if the pattern test is found in the input"

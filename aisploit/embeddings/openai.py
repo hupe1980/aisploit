@@ -1,7 +1,7 @@
 from typing import Optional
+
 from langchain_core.utils.utils import convert_to_secret_str
 from langchain_openai import OpenAIEmbeddings as LangchainOpenAIEmbeddings
-
 
 from ..core import BaseEmbeddings
 

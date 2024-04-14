@@ -1,9 +1,9 @@
-from typing import Optional, Sequence, List
+from typing import List, Optional, Sequence
 
-from ..core import BaseJob, BaseTarget, Callbacks, CallbackManager
-from .plugins import PromptInjectionPlugin
 from .plugin import Plugin
-from .report import ScanReport, Issue
+from .plugins import PromptInjectionPlugin
+from .report import Issue, ScanReport
+from ..core import BaseJob, BaseTarget, CallbackManager, Callbacks
 
 
 class ScannerJob(BaseJob):
@@ -21,9 +21,7 @@ class ScannerJob(BaseJob):
         self._plugins = plugins
         self._callbacks = callbacks
 
-    def execute(
-        self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None
-    ) -> ScanReport:
+    def execute(self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None) -> ScanReport:
         run_id = run_id or self._create_run_id()
 
         callback_manager = CallbackManager(

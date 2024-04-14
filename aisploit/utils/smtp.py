@@ -1,6 +1,6 @@
-from typing import Optional, Union, Sequence
 import smtplib
 import ssl as ssl_lib
+from typing import Optional, Sequence, Union
 
 
 class SMTPClient:
@@ -29,9 +29,7 @@ class SMTPClient:
 
     def _create_SMTP(self) -> Union[smtplib.SMTP_SSL, smtplib.SMTP]:
         if self.ssl:
-            return smtplib.SMTP_SSL(
-                host=self.host, port=self.port, context=self.ssl_context
-            )
+            return smtplib.SMTP_SSL(host=self.host, port=self.port, context=self.ssl_context)
         return smtplib.SMTP(host=self.host, port=self.port)
 
     def login(self, user: str, password: str):

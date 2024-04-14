@@ -1,11 +1,11 @@
 from .base64 import Base64Converter
-from .case import LowercaseConverter, UppercaseConverter, TitlecaseConverter
+from .case import LowercaseConverter, TitlecaseConverter, UppercaseConverter
 from .gender import GenderConverter
 from .join import JoinConverter
 from .keyboard_typo import (
-    KeyboardTypoConverter,
     KEYBOARD_NEIGHBORS_QWERTY,
     KEYBOARD_NEIGHBORS_QWERTZ,
+    KeyboardTypoConverter,
 )
 from .no_op import NoOpConverter
 from .remove_punctuation import RemovePunctuationConverter

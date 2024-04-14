@@ -2,7 +2,7 @@ from langchain_core.language_models import BaseLanguageModel
 from langchain_core.messages import BaseMessage
 from langchain_core.output_parsers import StrOutputParser
 
-from ..core import BaseTarget, Response, BasePromptValue
+from ..core import BasePromptValue, BaseTarget, Response
 
 
 class LangchainTarget(BaseTarget):

@@ -1,7 +1,7 @@
 import os
-from pathlib import Path
-from typing import Sequence, Optional
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional, Sequence
 
 from ..core.dataset import BaseDataset, YamlDeserializable
 
@@ -31,9 +31,7 @@ class PromptDataset(BaseDataset[Prompt]):
         self._entries = prompts
 
     @classmethod
-    def load_from_directory(
-        cls, path: Path, tags_filter: Optional[Sequence[str]] = None
-    ) -> "PromptDataset":
+    def load_from_directory(cls, path: Path, tags_filter: Optional[Sequence[str]] = None) -> "PromptDataset":
         """Create a JailbreakDataset instance by loading prompts from a directory.
 
         Args:
@@ -46,9 +44,7 @@ class PromptDataset(BaseDataset[Prompt]):
         prompts = []
         for file_name in os.listdir(path):
             prompt = Prompt.from_yaml_file(path / file_name)
-            if not prompt.skip and (
-                not tags_filter or set(prompt.tags).intersection(tags_filter)
-            ):
+            if not prompt.skip and (not tags_filter or set(prompt.tags).intersection(tags_filter)):
                 prompts.append(prompt)
         return cls(prompts)
 

@@ -76,10 +76,7 @@ class KeyboardTypoConverter(BaseConverter):
     def _convert(self, prompt: str) -> str:
         typoPrompt = ""
         for char in prompt:
-            if (
-                random.random() < self._typo_probability
-                and char.lower() in self._keyboard_neighbors
-            ):
+            if random.random() < self._typo_probability and char.lower() in self._keyboard_neighbors:
                 # Replace the character with a random neighboring key
                 neighbor_keys = self._keyboard_neighbors[char.lower()]
                 typo_char = random.choice(neighbor_keys)

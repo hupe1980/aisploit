@@ -1,6 +1,8 @@
-from typing import Union
 from abc import ABC, abstractmethod
+from typing import Union
+
 from langchain_core.prompt_values import StringPromptValue
+
 from .model import BaseChatModel
 from .prompt import BasePromptValue
 

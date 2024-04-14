@@ -1,13 +1,14 @@
-from typing import Sequence, List, Dict
 import random
-from langchain_core.prompts import FewShotChatMessagePromptTemplate, ChatPromptTemplate
+from typing import Dict, List, Sequence
 
-from ...core import BaseTarget, BaseConverter, BaseTextClassifier
-from ...sender import SenderJob
-from ...converters import NoOpConverter
-from ...datasets import SampleDataset
+from langchain_core.prompts import ChatPromptTemplate, FewShotChatMessagePromptTemplate
+
 from ..plugin import Plugin
 from ..report import Issue, IssueCategory
+from ...converters import NoOpConverter
+from ...core import BaseConverter, BaseTarget, BaseTextClassifier
+from ...datasets import SampleDataset
+from ...sender import SenderJob
 
 
 class ManyShotPlugin(Plugin):
