@@ -19,4 +19,4 @@ class LangchainTarget(BaseTarget):
             parser = StrOutputParser()
             return Response(content=parser.invoke(response))
 
-        raise ValueError(f"Unsupported cache value {type(response)}")
+        raise ValueError(f"Unsupported response value {type(response)}")

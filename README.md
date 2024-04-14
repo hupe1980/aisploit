@@ -23,7 +23,7 @@ from typing import Any
 import textwrap
 from aisploit.core import BaseCallbackHandler, BasePromptValue, Score, Response
 from aisploit.model import ChatOpenAI
-from aisploit.redteam import RedTeamJob, RedTeamClassifierTask
+from aisploit.red_team import RedTeamJob, RedTeamClassifierTask
 from aisploit.target import target
 from aisploit.demo import GandalfBot, GandalfLevel, GandalfScorer
 

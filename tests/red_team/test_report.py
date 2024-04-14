@@ -1,7 +1,7 @@
 import pytest
 
 from aisploit.core import BaseReport, Score
-from aisploit.redteam import RedTeamReport, RedTeamReportEntry
+from aisploit.red_team import RedTeamReport, RedTeamReportEntry
 
 
 @pytest.fixture
