@@ -1,18 +1,17 @@
+from typing import Dict, Any
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .prompt import BasePromptValue
 
 
-@dataclass(frozen=True)
+@dataclass
 class Response:
-    """A class representing a response from a target.
-
-    Attributes:
-        content (str): The content of the response.
-    """
+    """A class representing a response from the target."""
 
     content: str
+
+    metadata: Dict[str, Any] = field(default_factory=dict)
 
     def __repr__(self) -> str:
         """Return a string representation of the Response."""
