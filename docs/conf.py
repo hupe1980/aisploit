@@ -18,7 +18,7 @@ author = 'hupe1980'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc'
+    'sphinx.ext.autodoc',
 ]
 
 templates_path = ['_templates']
@@ -31,3 +31,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
+html_theme_options = {
+    # Disable showing the sidebar. Defaults to 'false'
+    'nosidebar': True,
+}
+
