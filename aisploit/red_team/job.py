@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from typing import Optional
 
 from langchain_community.chat_message_histories import ChatMessageHistory
@@ -29,26 +30,14 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
     return store[session_id]
 
 
+@dataclass
 class RedTeamJob(BaseJob):
-    def __init__(
-        self,
-        *,
-        chat_model: BaseChatModel,
-        task: RedTeamTask,
-        target: BaseTarget,
-        get_session_history: GetSessionHistoryCallable = get_session_history,
-        converter: Optional[BaseConverter] = None,
-        callbacks: Callbacks = [],
-        verbose=False,
-    ) -> None:
-        super().__init__(verbose=verbose)
-
-        self._chat_model = chat_model
-        self._task = task
-        self._target = target
-        self._get_session_history = get_session_history
-        self._converter = converter
-        self._callbacks = callbacks
+    chat_model: BaseChatModel
+    task: RedTeamTask
+    target: BaseTarget
+    get_session_history: GetSessionHistoryCallable = get_session_history
+    converter: Optional[BaseConverter] = None
+    callbacks: Callbacks = field(default_factory=list)
 
     def execute(
         self,
@@ -61,16 +50,16 @@ class RedTeamJob(BaseJob):
 
         callback_manager = CallbackManager(
             run_id=run_id,
-            callbacks=self._callbacks,
+            callbacks=self.callbacks,
         )
 
-        runnable = self._task.prompt | self._chat_model | StrOutputParser()
+        runnable = self.task.prompt | self.chat_model | StrOutputParser()
 
         chain = RunnableWithMessageHistory(
             runnable,  # type: ignore[arg-type]
-            get_session_history=self._get_session_history,
-            input_messages_key=self._task.input_messages_key,
-            history_messages_key=self._task.history_messages_key,
+            get_session_history=self.get_session_history,
+            input_messages_key=self.task.input_messages_key,
+            history_messages_key=self.task.history_messages_key,
         )
 
         report = RedTeamReport(run_id=run_id)
@@ -79,21 +68,21 @@ class RedTeamJob(BaseJob):
 
         for attempt in range(1, max_attempt + 1):
             current_prompt_text = chain.invoke(
-                input={self._task.input_messages_key: current_prompt_text},
+                input={self.task.input_messages_key: current_prompt_text},
                 config={"configurable": {"session_id": run_id}},
             )
 
             current_prompt = (
-                self._converter.convert(current_prompt_text)
-                if self._converter
+                self.converter.convert(current_prompt_text)
+                if self.converter
                 else StringPromptValue(text=current_prompt_text)
             )
 
             callback_manager.on_redteam_attempt_start(attempt, current_prompt)
 
-            response = self._target.send_prompt(current_prompt)
+            response = self.target.send_prompt(current_prompt)
 
-            score = self._task.evaluate_task_completion(response, get_session_history(session_id=run_id))
+            score = self.task.evaluate_task_completion(response, get_session_history(session_id=run_id))
 
             callback_manager.on_redteam_attempt_end(attempt, response, score)
 

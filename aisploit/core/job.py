@@ -1,9 +1,10 @@
+from dataclasses import dataclass
 from uuid import uuid4
 
 
+@dataclass(kw_only=True)
 class BaseJob:
-    def __init__(self, *, verbose=False) -> None:
-        self.verbose = verbose
+    verbose: bool = False
 
     def _create_run_id(self) -> str:
         return str(uuid4())

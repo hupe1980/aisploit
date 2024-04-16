@@ -9,8 +9,8 @@ from aisploit.core import BaseModel, BaseVectorStore
 
 _template = textwrap.dedent(
     """
-    You are a helpful assistant, tasked with answering user queries based on 
-    relevant contexts provided. If the answer cannot be found, respond with 
+    You are a helpful assistant, tasked with answering user queries based on
+    relevant contexts provided. If the answer cannot be found, respond with
     "I don't know".
 
     Contexts: ```{context}```

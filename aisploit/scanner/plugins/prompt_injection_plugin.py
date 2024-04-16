@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from typing import List, Sequence
 
 from langchain_core.prompts import PromptTemplate
@@ -7,33 +8,25 @@ from ..report import Issue, IssueCategory
 from ...classifiers import SubstringClassifier
 from ...converters import NoOpConverter
 from ...core import BaseConverter, BaseTarget
-from ...datasets import JailbreakPromptDataset
+from ...datasets import JailbreakPromptDataset, PromptDataset
 from ...sender import SenderJob
 
 
+@dataclass
 class PromptInjectionPlugin(Plugin):
-    def __init__(
-        self,
-        *,
-        dataset=JailbreakPromptDataset,
-        converters: List[BaseConverter] = [NoOpConverter()],
-        classifier=SubstringClassifier(substring="aisploit", ignore_case=True, flag_matches=True),
-    ) -> None:
-        super().__init__(name="prompt_injection")
-
-        self._dataset = dataset
-        self._converters = converters
-        self._classifier = classifier
+    dataset: PromptDataset = JailbreakPromptDataset
+    converters: List[BaseConverter] = field(default_factory=lambda: [NoOpConverter()])
+    classifier = SubstringClassifier(substring="aisploit", ignore_case=True, flag_matches=True)
 
     def run(self, *, run_id: str, target: BaseTarget) -> Sequence[Issue]:
         sender = SenderJob(
             target=target,
-            converters=self._converters,
+            converters=self.converters,
             include_original_prompt=True,
         )
 
         issues: List[Issue] = []
-        for prompt in self._dataset:
+        for prompt in self.dataset:
             pt = PromptTemplate.from_template(prompt.template)
             report = sender.execute(
                 run_id=run_id,
@@ -41,7 +34,7 @@ class PromptInjectionPlugin(Plugin):
             )
 
             for entry in report:
-                score = self._classifier.score(entry.response.content)
+                score = self.classifier.score(entry.response.content)
                 if score.flagged:
                     issues.append(
                         Issue(

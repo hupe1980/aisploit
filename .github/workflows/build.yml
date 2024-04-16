@@ -18,6 +18,7 @@ jobs:
         python-version: '3.12'
         cache: 'poetry'
     - run: poetry install
+    - run: poetry run ruff check .
     - run: poetry run black aisploit --check
     - run: poetry run mypy aisploit
     - run: poetry run pytest

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, Optional
 
 from langchain_core.utils.utils import convert_to_secret_str
 from langchain_google_genai import (
@@ -10,6 +10,20 @@ from langchain_google_genai import (
 )
 
 from ..core import BaseChatModel
+
+block_none_harm_category = {
+    HarmCategory.HARM_CATEGORY_DANGEROUS: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_DEROGATORY: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_MEDICAL: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_SEXUAL: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_TOXICITY: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE,
+    HarmCategory.HARM_CATEGORY_VIOLENCE: HarmBlockThreshold.BLOCK_NONE,
+}
 
 
 class ChatGoogleGenerativeAI(LangchainChatGoogleGenerativeAI, BaseChatModel):
@@ -24,19 +38,7 @@ class ChatGoogleGenerativeAI(LangchainChatGoogleGenerativeAI, BaseChatModel):
         model: str = "gemini-pro",
         max_output_tokens: int = 1024,
         temperature: float = 1.0,
-        safety_settings={
-            HarmCategory.HARM_CATEGORY_DANGEROUS: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DEROGATORY: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_MEDICAL: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUAL: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_TOXICITY: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_VIOLENCE: HarmBlockThreshold.BLOCK_NONE,
-        },
+        safety_settings: Optional[Dict] = None,
         **kwargs
     ) -> None:
         """
@@ -55,7 +57,7 @@ class ChatGoogleGenerativeAI(LangchainChatGoogleGenerativeAI, BaseChatModel):
             model=model,
             max_output_tokens=max_output_tokens,
             temperature=temperature,
-            safety_settings=safety_settings,
+            safety_settings=safety_settings or block_none_harm_category,
             **kwargs,
         )
 

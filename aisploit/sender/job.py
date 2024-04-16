@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional, Sequence, Union
 
@@ -15,22 +16,12 @@ from ..core import (
 )
 
 
+@dataclass
 class SenderJob(BaseJob):
-    def __init__(
-        self,
-        *,
-        target: BaseTarget,
-        converters: List[BaseConverter] = [NoOpConverter()],
-        include_original_prompt=False,
-        callbacks: Callbacks = [],
-        verbose=False,
-    ) -> None:
-        super().__init__(verbose=verbose)
-
-        self._target = target
-        self._converters = converters
-        self._include_original_prompt = include_original_prompt
-        self._callbacks = callbacks
+    target: BaseTarget
+    converters: List[BaseConverter] = field(default_factory=lambda: [NoOpConverter()])
+    include_original_prompt: bool = False
+    callbacks: Callbacks = field(default_factory=list)
 
     def execute(
         self,
@@ -42,16 +33,16 @@ class SenderJob(BaseJob):
 
         callback_manager = CallbackManager(
             run_id=run_id,
-            callbacks=self._callbacks,
+            callbacks=self.callbacks,
         )
 
         report = SendReport(run_id=run_id)
 
         for prompt in prompts:
-            if self._include_original_prompt and not any(isinstance(c, NoOpConverter) for c in self._converters):
-                self._converters.append(NoOpConverter())
+            if self.include_original_prompt and not any(isinstance(c, NoOpConverter) for c in self.converters):
+                self.converters.append(NoOpConverter())
 
-            for converter in self._converters:
+            for converter in self.converters:
                 if isinstance(prompt, str):
                     prompt = StringPromptValue(text=prompt)
 
@@ -78,7 +69,7 @@ class SenderJob(BaseJob):
 
         callback_manager.on_sender_send_prompt_start()
 
-        response = self._target.send_prompt(prompt)
+        response = self.target.send_prompt(prompt)
 
         callback_manager.on_sender_send_prompt_end()
 
