@@ -45,6 +45,7 @@ langchain-anthropic = "^0.1.6"
 langchain-google-genai = "^1.0.1"
 nltk = "^3.8.1"
 confusables = "^1.2.0"
+python-docx = "^1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 chromadb = "^0.4.23"

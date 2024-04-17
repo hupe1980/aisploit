@@ -12,13 +12,13 @@ from ..core import BasePromptValue, BaseTarget, Response
 from ..utils import SMTPClient
 
 
-@dataclass(frozen=True)
+@dataclass
 class UserPasswordAuth:
     user: str
     password: str
 
 
-@dataclass(frozen=True)
+@dataclass
 class EmailSender:
     host: str
     auth: UserPasswordAuth
@@ -37,7 +37,7 @@ class EmailSender:
             client.sendmail(from_addr, to_addr, msg.as_string())
 
 
-@dataclass(frozen=True)
+@dataclass
 class EmailReceiver:
     host: str
     auth: UserPasswordAuth
@@ -92,30 +92,22 @@ class EmailReceiver:
             return emails
 
 
+@dataclass
 class EmailTarget(BaseTarget):
-    def __init__(
-        self,
-        *,
-        sender: EmailSender,
-        receiver: EmailReceiver,
-        subject: str,
-        from_addr: str,
-        to_addr: str,
-    ) -> None:
-        self._sender = sender
-        self._receiver = receiver
-        self._subject = subject
-        self._from_addr = from_addr
-        self._to_addr = to_addr
+    sender: EmailSender
+    receiver: EmailReceiver
+    subject: str
+    from_addr: str
+    to_addr: str
 
     def send_prompt(self, prompt: BasePromptValue) -> Response:
-        self._sender.send_email(
-            from_addr=self._from_addr,
-            to_addr=self._to_addr,
-            subject=self._subject,
+        self.sender.send_email(
+            from_addr=self.from_addr,
+            to_addr=self.to_addr,
+            subject=self.subject,
             body=prompt.to_string(),
         )
 
-        emails = self._receiver.listen_for_emails(from_addr=self._from_addr, timeout=120)
+        emails = self.receiver.listen_for_emails(from_addr=self.from_addr, timeout=120)
 
         return Response(content="\n".join(emails))

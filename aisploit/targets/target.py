@@ -1,14 +1,15 @@
+from dataclasses import dataclass
 from typing import Callable
 
 from ..core import BasePromptValue, BaseTarget, Response
 
 
+@dataclass
 class WrapperTarget(BaseTarget):
-    def __init__(self, func: Callable) -> None:
-        self._func = func
+    func: Callable
 
     def send_prompt(self, prompt: BasePromptValue) -> Response:
-        content = self._func(prompt)
+        content = self.func(prompt)
         return Response(content=content)
 
 

@@ -1,6 +1,6 @@
 import textwrap
 from dataclasses import dataclass
-from typing import List, Sequence
+from typing import Any, Generator, List, Sequence
 
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts.prompt import PromptTemplate
@@ -55,10 +55,8 @@ class PoisonGenerator(BaseGenerator[Poison]):
         self._max_words = max_words
         self._max_iterations = max_iterations
 
-    def generate_dataset(self) -> PoisonDataset:
+    def generate(self) -> Generator[Poison, Any, None]:
         question_embeddings = self._embeddings.embed_query(self._question)
-
-        poisons = []
         for _ in range(self._max_iterations):
             adversary_text = self._chain.invoke(
                 {
@@ -70,15 +68,14 @@ class PoisonGenerator(BaseGenerator[Poison]):
 
             adversary_text_embeddings = self._embeddings.embed_query(adversary_text)
 
-            poisons.append(
-                Poison(
-                    question=self._question,
-                    question_embeddings=question_embeddings,
-                    target_answer=self._answer,
-                    adversary_text=adversary_text,
-                    adversary_text_embeddings=adversary_text_embeddings,
-                    cosine_distance=cosine_distance(question_embeddings, adversary_text_embeddings),
-                )
+            yield Poison(
+                question=self._question,
+                question_embeddings=question_embeddings,
+                target_answer=self._answer,
+                adversary_text=adversary_text,
+                adversary_text_embeddings=adversary_text_embeddings,
+                cosine_distance=cosine_distance(question_embeddings, adversary_text_embeddings),
             )
 
-        return PoisonDataset(poisons)
+    def generate_dataset(self) -> PoisonDataset:
+        return PoisonDataset(list(self.generate()))
