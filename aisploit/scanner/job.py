@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Sequence
 
 from .plugin import Plugin
-from .plugins import PromptInjectionPlugin
+from .plugins import ImageMarkdownInjectionPlugin, PromptInjectionPlugin
 from .report import Issue, ScanReport
 from ..core import BaseJob, BaseTarget, CallbackManager, Callbacks
 
@@ -10,7 +10,14 @@ from ..core import BaseJob, BaseTarget, CallbackManager, Callbacks
 @dataclass
 class ScannerJob(BaseJob):
     target: BaseTarget
-    plugins: Sequence[Plugin] = field(default_factory=lambda: [PromptInjectionPlugin(name="prompt_injection")])
+    plugins: Sequence[Plugin] = field(
+        default_factory=lambda: [
+            PromptInjectionPlugin(name="prompt_injection"),
+            ImageMarkdownInjectionPlugin(
+                name="image_markdown_injection", domain="cxd47vgx2z2qyzr637trlgzogfm6ayyn.oastify.com"
+            ),
+        ]
+    )
     callbacks: Callbacks = field(default_factory=list)
 
     def execute(self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None) -> ScanReport:
