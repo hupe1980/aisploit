@@ -47,7 +47,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v4
       - name: Make sphinx html 
-        run: poetry run sphinx-build -b html . _build/html
+        run: poetry run sphinx-build -b html . _build/html && cp googled6201cf5c562ff98.html _build/html
         working-directory: docs          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
