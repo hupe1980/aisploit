@@ -1,4 +1,5 @@
 import re
+from dataclasses import dataclass
 
 from ..core import BaseTextClassifier, Score
 
@@ -54,3 +55,24 @@ class SubstringClassifier(RegexClassifier):
         """
         compiled_pattern = re.compile(substring, re.IGNORECASE) if ignore_case else re.compile(substring)
         super().__init__(pattern=compiled_pattern, flag_matches=flag_matches)
+
+
+@dataclass
+class TextTokenClassifier(BaseTextClassifier[bool]):
+    token: str
+
+    def score(self, input: str) -> Score[bool]:
+        if self.token in input:
+            return Score[bool](
+                flagged=True,
+                value=True,
+                description=f"Return True if the token {self.token} is found in the input",
+                explanation=f"Found token {self.token} in input",
+            )
+
+        return Score[bool](
+            flagged=False,
+            value=False,
+            description=f"Return True if the token {self.token} is found in the input",
+            explanation=f"Did not find token {self.token} in input",
+        )

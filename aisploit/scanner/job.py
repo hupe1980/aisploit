@@ -10,7 +10,7 @@ from ..core import BaseJob, BaseTarget, CallbackManager, Callbacks
 @dataclass
 class ScannerJob(BaseJob):
     target: BaseTarget
-    plugins: Sequence[Plugin] = field(default_factory=lambda: [PromptInjectionPlugin(name="prompt_injection")])
+    plugins: Sequence[Plugin] = field(default_factory=lambda: [PromptInjectionPlugin()])
     callbacks: Callbacks = field(default_factory=list)
 
     def execute(self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None) -> ScanReport:
