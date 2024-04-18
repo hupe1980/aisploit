@@ -1,4 +1,3 @@
-import base64
 
 from langchain_core.prompt_values import StringPromptValue
 
@@ -8,34 +7,33 @@ from aisploit.converters import Base64Converter
 def test_convert_single_prompt():
     converter = Base64Converter()
     prompt = "Test"
-    expected_output = base64.b64encode(prompt.encode("utf-8")).decode("utf-8")
-    assert converter.convert(StringPromptValue(text=prompt)) == StringPromptValue(
-        text=expected_output
-    )
+    expected = "The following instruction is base64 encoded: VGVzdA=="
+    assert converter.convert(StringPromptValue(text=prompt)).to_string() == expected
+
+
+def test_convert_single_prompt_no_prefix():
+    converter = Base64Converter(add_prefix=False)
+    prompt = "Test"
+    expected = "VGVzdA=="
+    assert converter.convert(StringPromptValue(text=prompt)).to_string() == expected
 
 
 def test_convert_multiple_prompts():
     converter = Base64Converter()
     prompt = "Test1"
-    expected_output = base64.b64encode(prompt.encode("utf-8")).decode("utf-8")
-    assert converter.convert(StringPromptValue(text=prompt)) == StringPromptValue(
-        text=expected_output
-    )
+    expected="The following instruction is base64 encoded: VGVzdDE="
+    assert converter.convert(StringPromptValue(text=prompt)).to_string() == expected
 
 
 def test_convert_empty_prompt():
     converter = Base64Converter()
     prompt = ""
-    expected_output = base64.b64encode(prompt.encode("utf-8")).decode("utf-8")
-    assert converter.convert(StringPromptValue(text=prompt)) == StringPromptValue(
-        text=expected_output
-    )
+    expected = ""
+    assert converter.convert(StringPromptValue(text=prompt)).to_string() == expected
 
 
 def test_convert_with_unicode_characters():
     converter = Base64Converter()
     prompt = "äöüß"
-    expected_output = base64.b64encode(prompt.encode("utf-8")).decode("utf-8")
-    assert converter.convert(StringPromptValue(text=prompt)) == StringPromptValue(
-        text=expected_output
-    )
+    expected = "The following instruction is base64 encoded: w6TDtsO8w58="
+    assert converter.convert(StringPromptValue(text=prompt)).to_string() == expected
