@@ -1,0 +1,24 @@
+div.aisploit {
+    margin-top: 24px;
+}
+
+div.aisploit-badges {
+    margin-top: 12px;
+    margin-bottom: 10px;
+}
+
+div.aisploit-badges a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 24px;
+    border: none;
+}
+
+div.aisploit-badges a:hover {
+    color: #777;
+    border: none;
+}
+
+dl.class, dl.function, dl.attribute, dl.data {
+    margin-bottom: 15px;
+}

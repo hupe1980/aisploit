@@ -1,0 +1,4 @@
+Core
+======
+
+.. automodule:: aisploit.core

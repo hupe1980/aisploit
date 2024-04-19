@@ -46,6 +46,8 @@ langchain-google-genai = "^1.0.1"
 nltk = "^3.8.1"
 confusables = "^1.2.0"
 python-docx = "^1.1.0"
+sphinx-mdinclude = "^0.5.4"
+brotli = "^1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 chromadb = "^0.4.23"

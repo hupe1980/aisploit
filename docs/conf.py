@@ -19,12 +19,19 @@ author = 'hupe1980'
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx_mdinclude',
 ]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
+autodoc_default_options = {
+    "show-inheritance": True,
+    "members": True,
+    "undoc-members": True,
+    "imported-members": True,
+    "no-value": True,
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -32,7 +39,25 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = 'alabaster'
 html_static_path = ['_static']
 html_theme_options = {
-    # Disable showing the sidebar. Defaults to 'false'
-    'nosidebar': True,
+    'description': 'Mastering the New Threatscape with AI-Driven Precision.',
+    'body_max_width': 'auto',
+    "fixed_sidebar": True,
+    "badge_branch": "main",
+    "github_button": False,
+    "github_user": "hupe1980",
+    "github_repo": "aisploit",
+    "show_powered_by": False,
+    "sidebar_collapse": False,
+}
+
+html_sidebars = {
+    "**": [
+        "about.html",
+        "badges.html",
+        "navigation.html",
+        "relations.html",
+        "searchbox.html",
+        "disclaimer.html",
+    ],
 }
 
