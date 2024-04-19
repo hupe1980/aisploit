@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aisploit"
-version = "0.0.18"
+version = "0.0.19"
 description = "Tiny package designed to support red teams and penetration testers in exploiting large language model AI solutions."
 authors = ["hupe1980"]
 repository = "https://github.com/hupe1980/aisploit"
