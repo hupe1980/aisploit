@@ -18,7 +18,7 @@ import zzz
 from foo import bar
 """
     score = classifier.score(input)
-    assert score.flagged == False
+    assert not score.flagged
     assert len(score.value) == 0
 
 @patch('requests.head')
@@ -37,5 +37,5 @@ from foo import bar
 """
     print(input)
     score = classifier.score(input)
-    assert score.flagged == True
+    assert score.flagged
     assert sorted(score.value) == sorted(["zzz", "foo"])
