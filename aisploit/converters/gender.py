@@ -1,9 +1,12 @@
 import textwrap
+from dataclasses import dataclass, field
+from typing import Dict
 
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnableSerializable
 
-from ..core import BaseChatModel, BaseChatModelConverter
+from ..core import BaseChatModelConverter
 
 _template = ChatPromptTemplate.from_template(
     textwrap.dedent(
@@ -24,10 +27,13 @@ _template = ChatPromptTemplate.from_template(
 )
 
 
+@dataclass
 class GenderConverter(BaseChatModelConverter):
-    def __init__(self, *, chat_model: BaseChatModel, prompt=_template) -> None:
-        super().__init__(chat_model)
-        self._chain = prompt | chat_model | StrOutputParser()
+    prompt: ChatPromptTemplate = field(default_factory=lambda: _template)
+    _chain: RunnableSerializable[Dict, str] = field(init=False)
+
+    def __post_init__(self) -> None:
+        self._chain = self.prompt | self.chat_model | StrOutputParser()
 
     def _convert(self, prompt: str) -> str:
         return self._chain.invoke({"input": prompt})

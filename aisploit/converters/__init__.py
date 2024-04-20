@@ -11,6 +11,7 @@ from .no_op import NoOpConverter
 from .remove_punctuation import RemovePunctuationConverter
 from .sequence import SequenceConverter
 from .stemming import StemmingConverter
+from .translation import TranslationConverter
 from .unicode_confusable import UnicodeConfusableConverter
 
 __all__ = [
@@ -27,5 +28,6 @@ __all__ = [
     "RemovePunctuationConverter",
     "SequenceConverter",
     "StemmingConverter",
+    "TranslationConverter",
     "UnicodeConfusableConverter",
 ]
