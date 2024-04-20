@@ -1,0 +1,4 @@
+Sender
+======
+
+.. automodule:: aisploit.sender

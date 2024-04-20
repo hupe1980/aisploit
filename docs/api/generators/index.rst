@@ -1,0 +1,4 @@
+Generators
+==========
+
+.. automodule:: aisploit.generators

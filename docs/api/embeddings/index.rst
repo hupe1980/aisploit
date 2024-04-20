@@ -1,0 +1,4 @@
+Embeddings
+==========
+
+.. automodule:: aisploit.embeddings
