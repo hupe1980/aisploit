@@ -40,7 +40,11 @@ class PythonPackageHallucinationClassifier(BaseTextClassifier[List[str]]):
             flagged=len(hallucinated_package) > 0,
             value=hallucinated_package,
             description="Return True if hallucinated packages are found in the input",
-            explanation="Did not find token in input",
+            explanation=(
+                f"Found {len(hallucinated_package)} packages in input"
+                if len(hallucinated_package) > 0
+                else "Did not find hallucinated packages in input"
+            ),
         )
 
     def _get_imported_packages(self, input: str) -> List[str]:
