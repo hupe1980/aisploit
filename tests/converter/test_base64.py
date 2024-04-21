@@ -1,4 +1,3 @@
-
 from langchain_core.prompt_values import StringPromptValue
 
 from aisploit.converters import Base64Converter
@@ -21,7 +20,7 @@ def test_convert_single_prompt_no_prefix():
 def test_convert_multiple_prompts():
     converter = Base64Converter()
     prompt = "Test1"
-    expected="The following instruction is base64 encoded: VGVzdDE="
+    expected = "The following instruction is base64 encoded: VGVzdDE="
     assert converter.convert(StringPromptValue(text=prompt)).to_string() == expected
 
 

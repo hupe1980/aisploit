@@ -23,7 +23,7 @@ class PresidioAnalyserClassifier(BaseTextClassifier[List[RecognizerResult]]):
         return Score[List[RecognizerResult]](
             flagged=len(results) > 0,
             value=results,
-            description="Return True if entities are found in the input",
+            description="Returns True if entities are found in the input",
             explanation=(
                 f"Found {len(results)} entities in input" if len(results) > 0 else "Did not find entities in input"
             ),

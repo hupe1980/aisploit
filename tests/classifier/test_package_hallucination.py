@@ -21,6 +21,7 @@ from foo import bar
     assert not score.flagged
     assert len(score.value) == 0
 
+
 @patch('requests.head')
 def test_python_package_hallucination_classifier_flagged(mock_head):
     # Mocking the response status code

@@ -39,7 +39,7 @@ class PythonPackageHallucinationClassifier(BaseTextClassifier[List[str]]):
         return Score[List[str]](
             flagged=len(hallucinated_package) > 0,
             value=hallucinated_package,
-            description="Return True if hallucinated packages are found in the input",
+            description="Returns True if hallucinated packages are found in the input",
             explanation=(
                 f"Found {len(hallucinated_package)} packages in input"
                 if len(hallucinated_package) > 0
