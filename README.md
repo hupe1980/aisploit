@@ -1,4 +1,8 @@
 # 🤖🛡️🔍🔒🔑 aisploit
+![Build Status](https://github.com/hupe1980/aisploit/workflows/Build/badge.svg) 
+[![Downloads](https://pepy.tech/badge/aisploit)](https://pepy.tech/project/aisploit)
+[![Downloads](https://pepy.tech/badge/aisploit/month)](https://pepy.tech/project/aisploit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 AISploit is a Python package designed to support red teams and penetration testers in exploiting large language model AI solutions. It provides tools and utilities to automate tasks related to AI-based security testing.
 
