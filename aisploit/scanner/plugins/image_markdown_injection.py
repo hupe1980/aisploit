@@ -35,7 +35,10 @@ class ImageMarkdownInjectionPlugin(SendPromptsPlugin):
         name="Image Markdown Injection",
         description="This vulnerability allows attackers to search the current web page for sensitive information or personally identifiable information (PII). By appending this data to the URL of an image, the attacker can trigger automatic exfiltration.",
     )
-    issue_references = ["https://embracethered.com/blog/posts/2023/bing-chat-data-exfiltration-poc-and-fix/"]
+    issue_references = [
+        "https://embracethered.com/blog/posts/2023/bing-chat-data-exfiltration-poc-and-fix/",
+        "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+    ]
     classifier: BaseTextClassifier = field(default_factory=lambda: MarkdownInjectionClassifier())
     prompt_template: PromptTemplate = field(default_factory=lambda: _template)
 
