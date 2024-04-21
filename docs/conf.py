@@ -20,6 +20,7 @@ author = 'hupe1980'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx_mdinclude',
+    'nbsphinx',
 ]
 
 templates_path = ['_templates']
