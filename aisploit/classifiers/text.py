@@ -62,17 +62,13 @@ class TextTokenClassifier(BaseTextClassifier[bool]):
     token: str
 
     def score(self, input: str) -> Score[bool]:
-        if self.token in input:
-            return Score[bool](
-                flagged=True,
-                value=True,
-                description=f"Return True if the token {self.token} is found in the input",
-                explanation=f"Found token {self.token} in input",
-            )
-
         return Score[bool](
-            flagged=False,
-            value=False,
+            flagged=self.token in input,
+            value=self.token in input,
             description=f"Return True if the token {self.token} is found in the input",
-            explanation=f"Did not find token {self.token} in input",
+            explanation=(
+                f"Found token {self.token} in input"
+                if self.token in input
+                else f"Did not find token {self.token} in input"
+            ),
         )
