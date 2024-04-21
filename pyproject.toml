@@ -49,6 +49,7 @@ python-docx = "^1.1.0"
 brotli = "^1.1.0"
 stdlib-list = "^0.10.0"
 presidio-analyzer = "^2.2.354"
+boto3 = "^1.34.88"
 
 [tool.poetry.group.dev.dependencies]
 chromadb = "^0.4.23"

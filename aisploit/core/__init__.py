@@ -7,7 +7,7 @@ from .job import BaseJob
 from .model import BaseChatModel, BaseEmbeddings, BaseLLM, BaseModel
 from .prompt import BasePromptValue
 from .report import BaseReport
-from .target import BaseTarget, Response
+from .target import BaseImageTarget, BaseTarget, ContentFilteredException, Response
 from .vectorstore import BaseVectorStore
 
 __all__ = [
@@ -30,6 +30,8 @@ __all__ = [
     "BasePromptValue",
     "BaseReport",
     "BaseTarget",
+    "BaseImageTarget",
     "Response",
+    "ContentFilteredException",
     "BaseVectorStore",
 ]
