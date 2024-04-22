@@ -53,6 +53,7 @@ pillow = "^10.3.0"
 tqdm = "^4.66.2"
 evaluate = "^0.4.1"
 bert-score = "^0.3.13"
+sentence-transformers = "^2.7.0"
 
 [tool.poetry.group.dev.dependencies]
 chromadb = "^0.4.23"
