@@ -9,6 +9,7 @@ from langchain_core.runnables.history import (
     GetSessionHistoryCallable,
     RunnableWithMessageHistory,
 )
+from tqdm.auto import tqdm
 
 from .report import RedTeamReport, RedTeamReportEntry
 from .task import RedTeamTask
@@ -66,7 +67,7 @@ class RedTeamJob(BaseJob):
 
         current_prompt_text = initial_prompt_text
 
-        for attempt in range(1, max_attempt + 1):
+        for attempt in tqdm(range(1, max_attempt + 1), desc="Attacking", disable=self.disable_progressbar):
             current_prompt_text = chain.invoke(
                 input={self.task.input_messages_key: current_prompt_text},
                 config={"configurable": {"session_id": run_id}},

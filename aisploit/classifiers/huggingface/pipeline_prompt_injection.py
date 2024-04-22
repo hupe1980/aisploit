@@ -1,3 +1,5 @@
+from typing import List
+
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -7,7 +9,7 @@ from transformers import (
 from ...core import BaseTextClassifier, Score
 
 
-class PipelinePromptInjectionIdentifier(BaseTextClassifier[float]):
+class PipelinePromptInjectionClassifier(BaseTextClassifier[float]):
     def __init__(
         self,
         *,
@@ -29,7 +31,7 @@ class PipelinePromptInjectionIdentifier(BaseTextClassifier[float]):
         self._injection_label = injection_label
         self._threshold = threshold
 
-    def score(self, input: str) -> Score[float]:
+    def score(self, input: str, references: List[str] | None = None) -> Score[float]:
         result = self._model(input)
 
         score = result[0]["score"] if result[0]["label"] == self._injection_label else 1 - result[0]["score"]

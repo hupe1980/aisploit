@@ -1,5 +1,6 @@
 import re
 from dataclasses import dataclass
+from typing import List
 
 from ..core import BaseTextClassifier, Score
 
@@ -17,7 +18,7 @@ class RegexClassifier(BaseTextClassifier[bool]):
         self._pattern = pattern
         self._flag_matches = flag_matches
 
-    def score(self, input: str) -> Score[bool]:
+    def score(self, input: str, references: List[str] | None = None) -> Score[bool]:
         """Score the input based on the regular expression pattern.
 
         Args:
@@ -61,7 +62,7 @@ class SubstringClassifier(RegexClassifier):
 class TextTokenClassifier(BaseTextClassifier[bool]):
     token: str
 
-    def score(self, input: str) -> Score[bool]:
+    def score(self, input: str, references: List[str] | None = None) -> Score[bool]:
         return Score[bool](
             flagged=self.token in input,
             value=self.token in input,

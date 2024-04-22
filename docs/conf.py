@@ -10,21 +10,23 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../"))
 
-project = 'AISploit'
-copyright = '2024, hupe1980'
-author = 'hupe1980'
+project = "AISploit"
+copyright = "2024, hupe1980"
+author = "hupe1980"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx_mdinclude',
-    'nbsphinx',
+    "sphinx.ext.autodoc",
+    "sphinx_mdinclude",
+    "nbsphinx",
+    "sphinx_sitemap",
 ]
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 autodoc_default_options = {
     "show-inheritance": True,
@@ -34,14 +36,17 @@ autodoc_default_options = {
     "no-value": True,
 }
 
+sitemap_url_scheme = "{link}"
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+html_theme = "alabaster"
+html_baseurl = "https://hupe1980.github.io/aisploit/"
+html_static_path = ["_static"]
 html_theme_options = {
-    'description': 'Mastering the New Threatscape with AI-Driven Precision.',
-    'body_max_width': 'auto',
+    "description": "Mastering the New Threatscape with AI-Driven Precision.",
+    "body_max_width": "auto",
     "fixed_sidebar": True,
     "badge_branch": "main",
     "github_button": False,
@@ -61,4 +66,3 @@ html_sidebars = {
         "disclaimer.html",
     ],
 }
-

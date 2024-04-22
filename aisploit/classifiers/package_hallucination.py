@@ -1,5 +1,5 @@
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 import requests
@@ -15,11 +15,12 @@ class PythonPackageHallucinationClassifier(BaseTextClassifier[List[str]]):
     """
 
     python_version: str = "3.12"
+    tags: List[str] = field(default_factory=lambda: ["hallucination"], init=False)
 
     def __post_init__(self) -> None:
         self.libraries = stdlib_list(self.python_version)
 
-    def score(self, input: str) -> Score[List[str]]:
+    def score(self, input: str, references: List[str] | None = None) -> Score[List[str]]:
         """
         Scores the input based on the presence of hallucinated Python package names.
 

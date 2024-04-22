@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List, Optional, Sequence, Union
 
 from langchain_core.prompt_values import StringPromptValue
+from tqdm.auto import tqdm
 
 from .report import SendReport, SendReportEntry
 from ..converters import NoOpConverter
@@ -38,7 +39,7 @@ class SenderJob(BaseJob):
 
         report = SendReport(run_id=run_id)
 
-        for prompt in prompts:
+        for prompt in tqdm(prompts, desc="Sending", disable=self.disable_progressbar):
             if self.include_original_prompt and not any(isinstance(c, NoOpConverter) for c in self.converters):
                 self.converters.append(NoOpConverter())
 

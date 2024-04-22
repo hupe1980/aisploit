@@ -33,6 +33,7 @@ class SendPromptsPlugin(Plugin, ABC):
             target=target,
             converters=self.converters,
             include_original_prompt=True,
+            disable_progressbar=True,
         )
 
         report = sender.execute(

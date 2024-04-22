@@ -3,8 +3,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional, Sequence
 
-from IPython.display import display_markdown
-
 from ..core import BaseReport, Score
 from ..sender import SendReportEntry
 
@@ -51,5 +49,7 @@ class ScanReport(BaseReport[Issue]):
         )
 
     def _ipython_display_(self):
+        from IPython.display import display_markdown
+
         markdown = self.to_markdown()
         display_markdown(markdown, raw=True)

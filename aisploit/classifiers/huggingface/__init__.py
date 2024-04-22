@@ -1,3 +1,9 @@
-from .pipeline_prompt_injection_identifier import PipelinePromptInjectionIdentifier
+from .bert_score import BertScoreClassifier
+from .bleu import BleuClassifier
+from .pipeline_prompt_injection import PipelinePromptInjectionClassifier
 
-__all__ = ["PipelinePromptInjectionIdentifier"]
+__all__ = [
+    "BertScoreClassifier",
+    "BleuClassifier",
+    "PipelinePromptInjectionClassifier",
+]

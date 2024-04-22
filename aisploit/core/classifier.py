@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Generic, TypeVar
+from dataclasses import dataclass, field
+from typing import Generic, List, TypeVar
 
 T = TypeVar("T")
 Input = TypeVar("Input")
@@ -23,15 +23,19 @@ class Score(Generic[T]):
     explanation: str = ""
 
 
+@dataclass
 class BaseClassifier(ABC, Generic[T, Input]):
     """An abstract base class for classifiers."""
 
+    tags: List[str] = field(default_factory=list, init=False)
+
     @abstractmethod
-    def score(self, input: Input) -> Score[T]:
+    def score(self, input: Input, references: List[Input] | None = None) -> Score[T]:
         """Score the input and return a Score object.
 
         Args:
             input (Input): The input to be scored.
+            references (List[Input], optional): List of reference inputs. Defaults to None.
 
         Returns:
             Score[T]: A Score object representing the score of the input.
