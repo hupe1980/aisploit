@@ -1,4 +1,4 @@
-# 🤖🛡️🔍🔒🔑 aisploit
+# 🤖🛡️🔍🔒🔑 AISploit
 ![Build Status](https://github.com/hupe1980/aisploit/workflows/Build/badge.svg) 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/aisploit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -27,15 +27,13 @@ import textwrap
 from aisploit.core import BaseCallbackHandler, BasePromptValue, Score, Response
 from aisploit.models import ChatOpenAI
 from aisploit.red_team import RedTeamJob, RedTeamClassifierTask
-from aisploit.targets import target
-from aisploit.demo import GandalfBot, GandalfLevel, GandalfScorer
+from aisploit.demo import GandalfLevel, GandalfScorer, GandalfTarget
 
 def play_game(level: GandalfLevel, max_attempt=5) -> None:
     print(f"Starting Level {level.value} - {level.description}\n")
 
     chat_model = ChatOpenAI()
 
-    gandalf_bot = GandalfBot(level=level)
     gandalf_scorer = GandalfScorer(level=level, chat_model=chat_model)
 
     class GandalfHandler(BaseCallbackHandler):
@@ -66,18 +64,19 @@ def play_game(level: GandalfLevel, max_attempt=5) -> None:
         classifier=gandalf_scorer,
     )
 
-    @target
-    def send_prompt(prompt: str):
-        return gandalf_bot.invoke(prompt)
-
     job = RedTeamJob(
         chat_model=chat_model,
         task=task,
-        target=send_prompt,
+        target=GandalfTarget(level=level),
         callbacks=[GandalfHandler()],
+        disable_progressbar=True,
     )
 
-    report = job.execute(initial_prompt_text=level.description, max_attempt=max_attempt)
+    report = job.execute(
+        initial_prompt_text=level.description,
+        max_attempt=max_attempt,
+    )
+    
     if report.final_score.flagged:
         print(f"✅ Password: {report.final_score.value}")
     else:

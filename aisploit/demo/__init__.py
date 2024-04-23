@@ -1,9 +1,9 @@
-from .gandalf import GandalfBot, GandalfLevel, GandalfScorer
+from .gandalf import GandalfLevel, GandalfScorer, GandalfTarget
 from .rag import VectorStoreRAG
 
 __all__ = [
-    "GandalfBot",
     "GandalfScorer",
+    "GandalfTarget",
     "GandalfLevel",
     "VectorStoreRAG",
 ]
