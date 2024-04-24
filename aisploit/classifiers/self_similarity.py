@@ -47,6 +47,7 @@ class SelfSimilarityClassifier(BaseTextClassifier[Dict[str, Any]]):
             value={
                 "aggregated_score": score.item(),
                 "scores": cos_scores.tolist(),
+                "aggregation": self.aggregation,
             },
             description="Returns True if the aggregated cosine similarity score is less than the threshold",
             explanation=f"The aggregated cosine similarity score for the input is {score}",
