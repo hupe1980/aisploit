@@ -1,11 +1,12 @@
 from dataclasses import dataclass, field
-from typing import List, Sequence
+from typing import List, Literal, Sequence
 
 from ..plugin import Plugin
 from ..report import Issue, IssueCategory
 from ...classifiers import SelfSimilarityClassifier
 from ...converters import NoOpConverter
-from ...core import BaseConverter, BaseTarget
+from ...core import BaseConverter, BaseEmbeddings, BaseTarget
+from ...embeddings import HuggingFaceEmbeddings
 from ...sender import SenderJob
 
 
@@ -13,15 +14,17 @@ from ...sender import SenderJob
 class SelfSimilarityPlugin(Plugin):
     questions: List[str]  # TODO dataset
     num_samples: int = 3
-    model_name_or_path: str = "all-MiniLM-L6-v2"
+    embeddings: BaseEmbeddings = field(default_factory=lambda: HuggingFaceEmbeddings())
     threshold: float = 0.7
+    aggregation: Literal['mean', 'min'] = "mean"
     converters: List[BaseConverter] = field(default_factory=lambda: [NoOpConverter()])
     name: str = field(default="self_similarity", init=False)
 
     def __post_init__(self) -> None:
         self._classifier = SelfSimilarityClassifier(
-            model_name_or_path=self.model_name_or_path,
+            embeddings=self.embeddings,
             threshold=self.threshold,
+            aggregation=self.aggregation,
         )
 
     def run(self, *, run_id: str, target: BaseTarget) -> Sequence[Issue]:

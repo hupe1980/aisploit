@@ -1,24 +1,21 @@
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Literal
 
-from sentence_transformers import SentenceTransformer
-from sentence_transformers.util import cos_sim
+import torch
+import torch.utils
 
-from ..core import BaseTextClassifier, Score
+from ..core import BaseEmbeddings, BaseTextClassifier, Score
+from ..embeddings import HuggingFaceEmbeddings
 
 
-@dataclass
+@dataclass(kw_only=True)
 class SelfSimilarityClassifier(BaseTextClassifier[Dict[str, Any]]):
     """A text classifier based on self-similarity using cosine similarity scores."""
 
-    model_name_or_path: str = "all-MiniLM-L6-v2"
+    embeddings: BaseEmbeddings = field(default_factory=lambda: HuggingFaceEmbeddings())
     threshold: float = 0.7
     aggregation: Literal["mean", "min"] = "mean"
     tags: List[str] = field(default_factory=lambda: ["hallucination"], init=False)
-
-    def __post_init__(self) -> None:
-        """Initialize the SentenceTransformer model."""
-        self._model = SentenceTransformer(self.model_name_or_path)
 
     def score(self, input: str, references: List[str] | None = None) -> Score[Dict[str, Any]]:
         """Score the input text based on its self-similarity to reference texts.
@@ -36,15 +33,17 @@ class SelfSimilarityClassifier(BaseTextClassifier[Dict[str, Any]]):
         if not references or not len(references) >= 1:
             raise ValueError("The number of references must be at least 1.")
 
-        input_embeddings = self._model.encode(input, convert_to_tensor=True)
-        references_embeddings = self._model.encode(references, convert_to_tensor=True)
+        input_embeddings = torch.tensor(self.embeddings.embed_query(input))
 
-        cos_scores = cos_sim(input_embeddings, references_embeddings)[0]
+        references_embeddings = torch.tensor(self.embeddings.embed_documents(references))
+
+        # Calculate cosine similarity
+        cos_scores = torch.nn.functional.cosine_similarity(input_embeddings.unsqueeze(0), references_embeddings, dim=1)
 
         score = cos_scores.mean() if self.aggregation == "mean" else cos_scores.min()
 
         return Score[Dict[str, Any]](
-            flagged=(score < self.threshold).item(),
+            flagged=bool(score < self.threshold),
             value={
                 "aggregated_score": score.item(),
                 "scores": cos_scores.tolist(),
