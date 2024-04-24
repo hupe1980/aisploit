@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generic, List, TypeVar
+from typing import Any, Dict, Generic, List, TypeVar, Optional, Callable
 
 import boto3
 
@@ -20,12 +20,13 @@ class BaseComprehendClassifier(BaseTextClassifier[T], Generic[T]):
         self._client = self.session.client("comprehend", region_name=self.region_name)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class ComprehendPIIClassifier(BaseComprehendClassifier[List[Any]]):
     """A classifier that uses Amazon Comprehend to detect personally identifiable information (PII)."""
 
     language: str = "en"
     threshold: float = 0.7
+    filter_func: Optional[Callable[[str, dict], bool]] = None
     tags: List[str] = field(default_factory=lambda: ["leakage"], init=False)
 
     def score(self, input: str, _: List[str] | None = None) -> Score[List[Any]]:
@@ -41,6 +42,9 @@ class ComprehendPIIClassifier(BaseComprehendClassifier[List[Any]]):
         response = self._client.detect_pii_entities(Text=input, LanguageCode=self.language)
 
         entities = [entity for entity in response["Entities"] if entity["Score"] >= self.threshold]
+
+        if self.filter_func:
+            entities = [entity for entity in entities if self.filter_func(input, entity)]
 
         return Score[List[Any]](
             flagged=len(entities) > 0,
