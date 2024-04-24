@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import Callable, List, Optional
 
 from presidio_analyzer import AnalyzerEngine, EntityRecognizer, RecognizerResult
 
 from ...core import BaseTextClassifier, Score
 
 
-@dataclass
+@dataclass(kw_only=True)
 class PresidioAnalyserClassifier(BaseTextClassifier[List[RecognizerResult]]):
     """A text classifier using the Presidio Analyzer for detecting Personally Identifiable Information (PII)."""
 
@@ -14,6 +14,7 @@ class PresidioAnalyserClassifier(BaseTextClassifier[List[RecognizerResult]]):
     entities: List[str] | None = None
     threshold: float = 0.7
     additional_recognizers: List[EntityRecognizer] = field(default_factory=list)
+    filter_func: Optional[Callable[[str, RecognizerResult], bool]] = None
     tags: List[str] = field(default_factory=lambda: ["leakage"], init=False)
 
     def __post_init__(self) -> None:
@@ -35,6 +36,9 @@ class PresidioAnalyserClassifier(BaseTextClassifier[List[RecognizerResult]]):
             Score[List[RecognizerResult]]: A Score object representing the results of PII detection.
         """
         results = self._analyzer.analyze(text=input, entities=self.entities, language=self.language)
+
+        if self.filter_func:
+            results = [result for result in results if self.filter_func(input, result)]
 
         return Score[List[RecognizerResult]](
             flagged=len(results) > 0,
