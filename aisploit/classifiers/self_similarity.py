@@ -17,7 +17,9 @@ class SelfSimilarityClassifier(BaseTextClassifier[Dict[str, Any]]):
     aggregation: Literal["mean", "min"] = "mean"
     tags: List[str] = field(default_factory=lambda: ["hallucination"], init=False)
 
-    def score(self, input: str, references: List[str] | None = None) -> Score[Dict[str, Any]]:
+    def score(
+        self, input: str, references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[Dict[str, Any]]:
         """Score the input text based on its self-similarity to reference texts.
 
         Args:

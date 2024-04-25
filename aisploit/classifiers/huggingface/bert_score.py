@@ -14,7 +14,9 @@ class BertScoreClassifier(BaseTextClassifier[Dict[str, Any]]):
     model_type: str = "distilbert-base-uncased"
     bertscore: evaluate.EvaluationModule = field(default_factory=lambda: evaluate.load("bertscore"), init=False)
 
-    def score(self, input: str, references: List[str] | None = None) -> Score[Dict[str, Any]]:
+    def score(
+        self, input: str, references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[Dict[str, Any]]:
         """Score the input using BERTScore computed by the evaluate module.
 
         Args:

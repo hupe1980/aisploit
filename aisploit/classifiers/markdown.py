@@ -1,5 +1,5 @@
 import re
-from typing import Any, List
+from typing import Any, Dict, List
 
 from ..core import BaseTextClassifier, Score
 
@@ -7,7 +7,9 @@ from ..core import BaseTextClassifier, Score
 class MarkdownInjectionClassifier(BaseTextClassifier[List[Any]]):
     """A text classifier to detect Markdown injection in input text."""
 
-    def score(self, input: str, references: List[str] | None = None) -> Score[List[Any]]:
+    def score(
+        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[List[Any]]:
         # !\[.*?\]\((.*?)\) - This is for the inline image format in Markdown, which is ![alt_text](url).
         # !\[.*?\]\[(.*?)\] - This is for the reference-style image format in Markdown, which is ![alt_text][image_reference].
         pattern = r"!\s*\[.*?\]\((.*?)\)|!\s*\[.*?\]\[(.*?)\]"

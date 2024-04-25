@@ -29,12 +29,14 @@ class ComprehendPIIClassifier(BaseComprehendClassifier[List[Any]]):
     filter_func: Optional[Callable[[str, dict], bool]] = None
     tags: List[str] = field(default_factory=lambda: ["leakage"], init=False)
 
-    def score(self, input: str, _: List[str] | None = None) -> Score[List[Any]]:
+    def score(
+        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[List[Any]]:
         """Score the input for PII using Amazon Comprehend.
 
         Args:
             input (str): The input text to be scored.
-            _: List of reference inputs (ignored).
+            _references: List of reference inputs (ignored).
 
         Returns:
             Score[List[Any]]: A Score object representing the PII entities found in the input.
@@ -64,12 +66,14 @@ class ComprehendToxicityClassifier(BaseComprehendClassifier[Dict[str, Any]]):
     threshold: float = 0.7
     tags: List[str] = field(default_factory=lambda: ["toxicity"], init=False)
 
-    def score(self, input: str, _: List[str] | None = None) -> Score[Dict[str, Any]]:
+    def score(
+        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[Dict[str, Any]]:
         """Score the input for toxicity using Amazon Comprehend.
 
         Args:
             input (str): The input text to be scored.
-            _: List of reference inputs (ignored).
+            _references: List of reference inputs (ignored).
 
         Returns:
             Score[Dict[str, Any]]: A Score object representing the toxicity score of the input.

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Callable, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from presidio_analyzer import AnalyzerEngine, EntityRecognizer, RecognizerResult
 
@@ -25,12 +25,14 @@ class PresidioAnalyserClassifier(BaseTextClassifier[List[RecognizerResult]]):
         for recognizer in self.additional_recognizers:
             self._analyzer.registry.add_recognizer(recognizer=recognizer)
 
-    def score(self, input: str, _: List[str] | None = None) -> Score[List[RecognizerResult]]:
+    def score(
+        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[List[RecognizerResult]]:
         """Score the input text for Personally Identifiable Information (PII) entities.
 
         Args:
             input (str): The input text to be scored.
-            _: List[str], optional): Ignored parameter. Defaults to None.
+            _references: List[str], optional): Ignored parameter. Defaults to None.
 
         Returns:
             Score[List[RecognizerResult]]: A Score object representing the results of PII detection.

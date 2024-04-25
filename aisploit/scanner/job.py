@@ -3,7 +3,7 @@ from typing import List, Optional, Sequence
 
 from tqdm.auto import tqdm
 
-from .plugin import Plugin
+from .plugin import BasePlugin
 from .report import Issue, ScanReport
 from ..core import BaseJob, BaseTarget, CallbackManager, Callbacks
 
@@ -11,7 +11,7 @@ from ..core import BaseJob, BaseTarget, CallbackManager, Callbacks
 @dataclass
 class ScannerJob(BaseJob):
     target: BaseTarget
-    plugins: Sequence[Plugin]
+    plugins: Sequence[BasePlugin]
     callbacks: Callbacks = field(default_factory=list)
 
     def execute(self, *, run_id: Optional[str] = None, tags: Optional[Sequence[str]] = None) -> ScanReport:

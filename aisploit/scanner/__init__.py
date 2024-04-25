@@ -1,10 +1,10 @@
 from .job import ScannerJob
-from .plugin import Plugin, SendPromptsPlugin
+from .plugin import BasePlugin, SendPromptsPlugin
 from .report import Issue, IssueCategory
 
 __all__ = [
     "ScannerJob",
-    "Plugin",
+    "BasePlugin",
     "SendPromptsPlugin",
     "Issue",
     "IssueCategory",

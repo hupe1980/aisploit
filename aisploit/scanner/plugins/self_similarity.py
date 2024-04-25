@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Literal, Sequence
 
-from ..plugin import Plugin
+from ..plugin import BasePlugin
 from ..report import Issue, IssueCategory
 from ...classifiers import SelfSimilarityClassifier
 from ...converters import NoOpConverter
@@ -11,14 +11,18 @@ from ...sender import SenderJob
 
 
 @dataclass(kw_only=True)
-class SelfSimilarityPlugin(Plugin):
+class SelfSimilarityPlugin(BasePlugin):
+    name: str = "self_similarity"
+    issue_category: IssueCategory = IssueCategory(
+        name="Halluzination",
+        description="TODO",
+    )
     questions: List[str]  # TODO dataset
     num_samples: int = 3
     embeddings: BaseEmbeddings = field(default_factory=lambda: HuggingFaceEmbeddings())
     threshold: float = 0.7
     aggregation: Literal['mean', 'min'] = "mean"
     converters: List[BaseConverter] = field(default_factory=lambda: [NoOpConverter()])
-    name: str = field(default="self_similarity", init=False)
 
     def __post_init__(self) -> None:
         self._classifier = SelfSimilarityClassifier(
@@ -61,11 +65,8 @@ class SelfSimilarityPlugin(Plugin):
             if score.flagged:
                 issues.append(
                     Issue(
-                        category=IssueCategory(
-                            name="Halluzination",
-                            description="TODO",
-                        ),
-                        references=[],
+                        category=self.issue_category,
+                        references=self.issue_references,
                         send_report_entry=report[0],
                         score=score,
                     )

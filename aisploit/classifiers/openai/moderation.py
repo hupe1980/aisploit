@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
 from openai.types.moderation import Moderation
@@ -20,7 +20,9 @@ class ModerationClassifier(BaseTextClassifier[Moderation]):
 
         self._client = OpenAI(api_key=api_key)
 
-    def score(self, input: str, _: List[str] | None = None) -> Score[Moderation]:
+    def score(
+        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+    ) -> Score[Moderation]:
         """Score the input using the OpenAI Moderations API.
 
         Args:
