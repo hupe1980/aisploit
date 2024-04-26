@@ -4,7 +4,6 @@ from typing import Optional
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompt_values import StringPromptValue
 from langchain_core.runnables.history import (
     GetSessionHistoryCallable,
     RunnableWithMessageHistory,
@@ -20,6 +19,7 @@ from ..core import (
     BaseTarget,
     CallbackManager,
     Callbacks,
+    StringPromptValue,
 )
 
 store = {}

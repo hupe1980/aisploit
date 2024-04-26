@@ -6,7 +6,7 @@ from langchain_core.prompts import PromptTemplate
 from ..plugin import SendPromptsPlugin
 from ..report import IssueCategory
 from ...classifiers import TextTokenClassifier
-from ...core import BasePromptValue, BaseTextClassifier
+from ...core import BaseTextClassifier, Prompt
 
 # EICAR signature: A string that emulates the signature of the EICAR Test File,
 # which is used to test antivirus software. This signature is recognized by
@@ -40,7 +40,7 @@ class EICARPlugin(SendPromptsPlugin):
     issue_references: Sequence[str] = field(default_factory=lambda: ["https://en.wikipedia.org/wiki/EICAR_test_file"])
     classifier: BaseTextClassifier = field(default_factory=lambda: TextTokenClassifier(token=EICAR_SIGNATURE))
 
-    def create_prompts(self) -> Sequence[str | BasePromptValue]:
+    def create_prompts(self) -> Sequence[str | Prompt]:
         """Creates prompts for testing the model's response to the EICAR test file."""
         prompts = []
         for template in _templates:
@@ -62,7 +62,7 @@ class GTubePlugin(SendPromptsPlugin):
     issue_references: Sequence[str] = field(default_factory=lambda: ["https://en.wikipedia.org/wiki/GTUBE"])
     classifier: BaseTextClassifier = field(default_factory=lambda: TextTokenClassifier(token=G_TUBE_SIGNATURE))
 
-    def create_prompts(self) -> Sequence[str | BasePromptValue]:
+    def create_prompts(self) -> Sequence[str | Prompt]:
         """Creates prompts for testing the model's response to the GTUBE test email."""
         prompts = []
         for template in _templates:
@@ -84,7 +84,7 @@ class GTPhishPlugin(SendPromptsPlugin):
     issue_references: Sequence[str] = field(default_factory=list)
     classifier: BaseTextClassifier = field(default_factory=lambda: TextTokenClassifier(token=GT_PHISH_SIGNATURE))
 
-    def create_prompts(self) -> Sequence[str | BasePromptValue]:
+    def create_prompts(self) -> Sequence[str | Prompt]:
         """Creates prompts for testing the model's response to the GTPhish test email."""
         prompts = []
         for template in _templates:

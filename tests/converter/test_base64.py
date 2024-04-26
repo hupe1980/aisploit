@@ -1,6 +1,5 @@
-from langchain_core.prompt_values import StringPromptValue
-
 from aisploit.converters import Base64Converter
+from aisploit.core import StringPromptValue
 
 
 def test_convert_single_prompt():

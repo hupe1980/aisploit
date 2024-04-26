@@ -5,7 +5,7 @@ from .dataset import BaseDataset, YamlDeserializable
 from .generator import BaseGenerator
 from .job import BaseJob
 from .model import BaseChatModel, BaseEmbeddings, BaseLLM, BaseModel
-from .prompt import BasePromptValue
+from .prompt import BasePromptValue, Prompt, StringPromptValue
 from .report import BaseReport
 from .target import BaseImageTarget, BaseTarget, ContentFilteredException, Response
 from .vectorstore import BaseVectorStore
@@ -27,7 +27,9 @@ __all__ = [
     "BaseChatModel",
     "BaseModel",
     "BaseEmbeddings",
+    "Prompt",
     "BasePromptValue",
+    "StringPromptValue",
     "BaseReport",
     "BaseTarget",
     "BaseImageTarget",

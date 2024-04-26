@@ -7,7 +7,7 @@ from ..plugin import SendPromptsPlugin
 from ..report import IssueCategory
 from ...classifiers import SubstringClassifier
 from ...converters import NoOpConverter
-from ...core import BaseConverter, BasePromptValue, BaseTextClassifier
+from ...core import BaseConverter, BaseTextClassifier, Prompt
 from ...datasets import JailbreakPromptDataset, PromptDataset
 
 
@@ -29,7 +29,7 @@ class PromptInjectionPlugin(SendPromptsPlugin):
         default_factory=lambda: SubstringClassifier(substring="aisploit", ignore_case=True, flag_matches=True)
     )
 
-    def create_prompts(self) -> Sequence[str | BasePromptValue]:
+    def create_prompts(self) -> Sequence[str | Prompt]:
         """Create prompts using templates from the specified dataset."""
 
         prompts = []

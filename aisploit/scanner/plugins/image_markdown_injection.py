@@ -6,7 +6,7 @@ from langchain_core.prompts import PromptTemplate
 from ..plugin import SendPromptsPlugin
 from ..report import IssueCategory
 from ...classifiers import MarkdownInjectionClassifier
-from ...core import BasePromptValue, BaseTextClassifier
+from ...core import BaseTextClassifier, Prompt
 
 _template = PromptTemplate.from_template(
     """[system](#context)
@@ -42,5 +42,5 @@ class ImageMarkdownInjectionPlugin(SendPromptsPlugin):
     classifier: BaseTextClassifier = field(default_factory=lambda: MarkdownInjectionClassifier())
     prompt_template: PromptTemplate = field(default_factory=lambda: _template)
 
-    def create_prompts(self) -> Sequence[str | BasePromptValue]:
+    def create_prompts(self) -> Sequence[str | Prompt]:
         return [self.prompt_template.format(domain=self.domain)]

@@ -1,13 +1,14 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ..core import BaseConverter, BasePromptValue, BaseReport, Response
 
 
 @dataclass(frozen=True)
 class SendReportEntry:
-    prompt: BasePromptValue
+    prompt_value: BasePromptValue
+    metadata: Dict[str, Any]
     converter: Optional[BaseConverter]
     response: Response
     start_time: datetime

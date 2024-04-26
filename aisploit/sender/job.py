@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Optional, Sequence, Union
+from typing import Any, Dict, List, Optional, Sequence, Union
 
-from langchain_core.prompt_values import StringPromptValue
 from tqdm.auto import tqdm
 
 from .report import SendReport, SendReportEntry
@@ -14,6 +13,8 @@ from ..core import (
     BaseTarget,
     CallbackManager,
     Callbacks,
+    Prompt,
+    StringPromptValue,
 )
 
 
@@ -28,7 +29,7 @@ class SenderJob(BaseJob):
         self,
         *,
         run_id: Optional[str] = None,
-        prompts: Sequence[Union[str, BasePromptValue]],
+        prompts: Sequence[Union[str, Prompt]],
     ) -> SendReport:
         run_id = run_id or self._create_run_id()
 
@@ -45,13 +46,14 @@ class SenderJob(BaseJob):
 
             for converter in self.converters:
                 if isinstance(prompt, str):
-                    prompt = StringPromptValue(text=prompt)
+                    prompt = Prompt(value=StringPromptValue(text=prompt))
 
-                converted_prompt = converter.convert(prompt)
+                converted_prompt_value = converter.convert(prompt.value)
 
-                entry = self._send_prompt(
-                    prompt=converted_prompt,
+                entry = self._send(
+                    prompt_value=converted_prompt_value,
                     converter=converter,
+                    metadata=prompt.metadata,
                     callback_manager=callback_manager,
                 )
 
@@ -59,25 +61,27 @@ class SenderJob(BaseJob):
 
         return report
 
-    def _send_prompt(
+    def _send(
         self,
         *,
-        prompt: BasePromptValue,
+        prompt_value: BasePromptValue,
         converter: BaseConverter,
+        metadata: Dict[str, Any],
         callback_manager: CallbackManager,
     ) -> SendReportEntry:
         start_time = datetime.now()
 
         callback_manager.on_sender_send_prompt_start()
 
-        response = self.target.send_prompt(prompt)
+        response = self.target.send_prompt(prompt_value)
 
         callback_manager.on_sender_send_prompt_end()
 
         end_time = datetime.now()
 
         return SendReportEntry(
-            prompt=prompt,
+            prompt_value=prompt_value,
+            metadata=metadata,
             converter=converter,
             response=response,
             start_time=start_time,

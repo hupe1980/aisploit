@@ -2,10 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Union
 
-from langchain_core.prompt_values import StringPromptValue
-
 from .model import BaseChatModel
-from .prompt import BasePromptValue
+from .prompt import BasePromptValue, StringPromptValue
 
 
 class BaseConverter(ABC):
