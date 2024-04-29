@@ -13,6 +13,7 @@ from .sequence import SequenceConverter
 from .stemming import StemmingConverter
 from .translation import TranslationConverter
 from .unicode_confusable import UnicodeConfusableConverter
+from .unicode_tags import UnicodeTagsConverter
 
 __all__ = [
     "Base64Converter",
@@ -30,4 +31,5 @@ __all__ = [
     "StemmingConverter",
     "TranslationConverter",
     "UnicodeConfusableConverter",
+    "UnicodeTagsConverter",
 ]

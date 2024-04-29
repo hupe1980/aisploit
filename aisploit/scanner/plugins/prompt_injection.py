@@ -31,7 +31,6 @@ class PromptInjectionPlugin(SendPromptsPlugin):
 
     def create_prompts(self) -> Sequence[str | Prompt]:
         """Create prompts using templates from the specified dataset."""
-
         prompts = []
         for data in self.dataset:
             prompt_template = PromptTemplate.from_template(data.template)
