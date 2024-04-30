@@ -32,7 +32,7 @@ class PipelinePromptInjectionClassifier(BaseTextClassifier[float]):
         self._threshold = threshold
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[float]:
         result = self._model(input)
 

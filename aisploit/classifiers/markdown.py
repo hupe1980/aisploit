@@ -8,7 +8,7 @@ class MarkdownInjectionClassifier(BaseTextClassifier[List[Any]]):
     """A text classifier to detect Markdown injection in input text."""
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[List[Any]]:
         # !\[.*?\]\((.*?)\) - This is for the inline image format in Markdown, which is ![alt_text](url).
         # !\[.*?\]\[(.*?)\] - This is for the reference-style image format in Markdown, which is ![alt_text][image_reference].

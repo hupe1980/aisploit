@@ -13,7 +13,7 @@ No issues!
 | Prompt | Converter | Response | RTT (seconds) |
 |--------|-----------|----------|---------------|
 {% for issue in issues -%}
-|{{ issue.send_report_entry.prompt }}|{{ issue.send_report_entry.converter }}|{{ issue.send_report_entry.response }}| {{ issue.send_report_entry.round_trip_time }} |
+|{{ issue.send_report_entry.prompt_value }}|{{ issue.send_report_entry.converter }}|{{ issue.send_report_entry.response }}| {{ issue.send_report_entry.round_trip_time }} |
 {% endfor %}
 {% endfor %}
 {% endif %}

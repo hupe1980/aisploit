@@ -21,7 +21,7 @@ class PythonPackageHallucinationClassifier(BaseTextClassifier[List[str]]):
         self.libraries = stdlib_list(self.python_version)
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[List[str]]:
         """
         Scores the input based on the presence of hallucinated Python package names.

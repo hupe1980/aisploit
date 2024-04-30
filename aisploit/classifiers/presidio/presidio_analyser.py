@@ -26,7 +26,7 @@ class PresidioAnalyserClassifier(BaseTextClassifier[List[RecognizerResult]]):
             self._analyzer.registry.add_recognizer(recognizer=recognizer)
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[List[RecognizerResult]]:
         """Score the input text for Personally Identifiable Information (PII) entities.
 

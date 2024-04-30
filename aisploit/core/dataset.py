@@ -1,13 +1,27 @@
+from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Generic, Sequence, Type, TypeVar
 
 import yaml
+from pandas import DataFrame
 
 T = TypeVar("T")
 
 
-class BaseDataset(Generic[T]):
+class BaseDataset(ABC):
     """Generic dataset class."""
+
+    @abstractmethod
+    def __iter__(self):
+        pass
+
+    @abstractmethod
+    def __len__(self):
+        pass
+
+
+class DataclassDataset(BaseDataset, Generic[T]):
+    """Dataset class based on dataclasses."""
 
     _entries: Sequence[T]
 
@@ -16,6 +30,19 @@ class BaseDataset(Generic[T]):
 
     def __len__(self):
         return len(self._entries)
+
+
+class TabularDataset(BaseDataset):
+    """Dataset class for tabular data."""
+
+    _df: DataFrame
+
+    def __iter__(self):
+        for row in self._df.values.tolist():
+            yield row
+
+    def __len__(self):
+        return len(self._df)
 
 
 class YamlDeserializable:

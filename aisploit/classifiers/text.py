@@ -19,7 +19,7 @@ class RegexClassifier(BaseTextClassifier[bool]):
         self._flag_matches = flag_matches
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[bool]:
         """Score the input based on the regular expression pattern.
 
@@ -65,7 +65,7 @@ class TextTokenClassifier(BaseTextClassifier[bool]):
     token: str
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[bool]:
         return Score[bool](
             flagged=self.token in input,

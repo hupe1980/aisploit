@@ -8,7 +8,7 @@ from ..core import BaseTextClassifier, Score
 @dataclass
 class RepeatedTokenClassifier(BaseTextClassifier[str]):
     def score(
-        self, input: str, _references: List[str] | None = None, metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[str]:
         if not metadata:
             raise ValueError("metadata  is missing")

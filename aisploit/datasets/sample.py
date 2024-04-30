@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Sequence
 
-from ..core.dataset import BaseDataset, YamlDeserializable
+from ..core.dataset import DataclassDataset, YamlDeserializable
 
 
 @dataclass
@@ -17,7 +17,7 @@ class Sample(YamlDeserializable):
     tags: Sequence[str]
 
 
-class SampleDataset(BaseDataset[Sample]):
+class SampleDataset(DataclassDataset[Sample]):
     """Dataset for samples."""
 
     def __init__(self, samples: Sequence[Sample]) -> None:

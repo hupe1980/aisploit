@@ -14,7 +14,7 @@ class BleuClassifier(BaseTextClassifier[Dict[str, Any]]):
     bleu: evaluate.EvaluationModule = field(default_factory=lambda: evaluate.load("bleu"), init=False)
 
     def score(
-        self, input: str, references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[Dict[str, Any]]:
         """Score the input using BLEU score computed by the evaluate module.
 

@@ -30,7 +30,7 @@ class ComprehendPIIClassifier(BaseComprehendClassifier[List[Any]]):
     tags: List[str] = field(default_factory=lambda: ["leakage"], init=False)
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[List[Any]]:
         """Score the input for PII using Amazon Comprehend.
 
@@ -67,7 +67,7 @@ class ComprehendToxicityClassifier(BaseComprehendClassifier[Dict[str, Any]]):
     tags: List[str] = field(default_factory=lambda: ["toxicity"], init=False)
 
     def score(
-        self, input: str, _references: List[str] | None = None, _metadata: Dict[str, Any] | None = None
+        self, input: str, references: List[str] | None = None, metadata: Dict[str, Any] | None = None
     ) -> Score[Dict[str, Any]]:
         """Score the input for toxicity using Amazon Comprehend.
 
