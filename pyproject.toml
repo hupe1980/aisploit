@@ -54,6 +54,7 @@ tqdm = "^4.66.2"
 evaluate = "^0.4.1"
 bert-score = "^0.3.13"
 sentence-transformers = "^2.7.0"
+opencv-python = "^4.9.0.80"
 
 [tool.poetry.group.dev.dependencies]
 chromadb = "^0.4.23"
