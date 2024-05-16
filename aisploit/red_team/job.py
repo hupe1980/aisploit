@@ -8,6 +8,7 @@ from langchain_core.runnables.history import (
     GetSessionHistoryCallable,
     RunnableWithMessageHistory,
 )
+from langchain_core.runnables import Runnable
 from tqdm.auto import tqdm
 
 from .report import RedTeamReport, RedTeamReportEntry
@@ -54,10 +55,10 @@ class RedTeamJob(BaseJob):
             callbacks=self.callbacks,
         )
 
-        runnable = self.task.prompt | self.chat_model | StrOutputParser()
+        runnable: Runnable = self.task.prompt | self.chat_model | StrOutputParser()
 
         chain = RunnableWithMessageHistory(
-            runnable,  # type: ignore[arg-type]
+            runnable,
             get_session_history=self.get_session_history,
             input_messages_key=self.task.input_messages_key,
             history_messages_key=self.task.history_messages_key,
@@ -70,7 +71,7 @@ class RedTeamJob(BaseJob):
         for attempt in tqdm(range(1, max_attempt + 1), desc="Attacking", disable=self.disable_progressbar):
             current_prompt_text = chain.invoke(
                 input={self.task.input_messages_key: current_prompt_text},
-                config={"configurable": {"session_id": run_id}},
+                config={"configurable": {"session_id": run_id }},
             )
 
             current_prompt = (

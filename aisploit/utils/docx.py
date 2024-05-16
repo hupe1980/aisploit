@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import IO, Union
 
 from docx import Document
+from docx.document import Document as DocumentObject
 from docx.oxml import OxmlElement
 from docx.shared import Pt
 
@@ -27,7 +28,7 @@ class Docx:
         alignment: str | None = None,
         hidden: bool = False,
         font_size: float | None = None
-    ) -> Document:
+    ) -> DocumentObject:
         paragraph = self.document.add_paragraph()
         run = paragraph.add_run(text)
         if style:
@@ -49,7 +50,7 @@ class Docx:
         alignment: str | None = None,
         hidden: bool = False,
         font_size: float | None = None
-    ) -> Document:
+    ) -> DocumentObject:
         heading = self.document.add_heading(level)
         run = heading.add_run(text)
         if alignment:

@@ -38,7 +38,7 @@ class ChatGoogleGenerativeAI(LangchainChatGoogleGenerativeAI, BaseChatModel):
         model: str = "gemini-pro",
         max_output_tokens: int = 1024,
         temperature: float = 1.0,
-        safety_settings: Optional[Dict] = None,
+        safety_settings: Dict[HarmCategory, HarmBlockThreshold] | None = None,
         **kwargs
     ) -> None:
         """
@@ -57,7 +57,7 @@ class ChatGoogleGenerativeAI(LangchainChatGoogleGenerativeAI, BaseChatModel):
             model=model,
             max_output_tokens=max_output_tokens,
             temperature=temperature,
-            safety_settings=safety_settings or block_none_harm_category,
+            safety_settings=safety_settings if safety_settings else block_none_harm_category, # type: ignore
             **kwargs,
         )
 
